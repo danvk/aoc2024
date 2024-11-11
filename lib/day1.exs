@@ -53,7 +53,7 @@ defmodule Day1 do
     end
 end
 
-contents = File.read!("day1/sample3.txt")
+contents = File.read!("day1/input.txt")
 IO.puts(contents)
 
 steps_str = String.split(contents, ", ")
@@ -68,9 +68,20 @@ IO.puts("Part 1: #{Day1.norm1(pos)}")
 
 IO.puts(Day1.first_duplicate([1, 2, 1, 3, 4, 2]))
 
-pos_dirs = List.foldr(moves, {{{0, 0}, :N}, [{{0, 0}, :N}]}, fn (pd, {cur, acc}) ->
-    next = Day1.apply_instr(pd, cur)
-    {next, [next | acc]}
-end) |> elem(1) |> Enum.map(fn x -> elem(x, 0) end) |> Enum.reverse |> Day1.first_duplicate
+result = Enum.reduce_while(moves, {{{0, 0}, :N}, %{}}, fn ({turn, d}, {{pos, dir}, visited}) ->
+    new_dir = Day1.turn(dir, turn)
+    state = Enum.reduce_while(1..d, {pos, visited}, fn _, {pos, visited} ->
+        new_pos = Day1.move(pos, {new_dir, 1})
+        case Map.has_key?(visited, new_pos) do
+            true -> {:halt, {:halt, new_pos}}
+            false -> {:cont, {new_pos, Map.put(visited, new_pos, true)}}
+        end
+    end)
+    case state do
+        {:halt, pos} -> {:halt, pos}
+        {pos, visited} -> {:cont, {{pos, new_dir}, visited}}
+    end
+end)
 
-IO.inspect(pos_dirs)
+IO.inspect(result)
+IO.puts("Part 2: #{Day1.norm1(result)}")
