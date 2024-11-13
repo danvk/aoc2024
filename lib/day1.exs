@@ -53,7 +53,9 @@ defmodule Day1 do
     end
 end
 
-contents = File.read!("day1/input.txt")
+input_file = hd(System.argv())
+
+contents = File.read!(input_file)
 IO.puts(contents)
 
 steps_str = String.split(contents, ", ")
