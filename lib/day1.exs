@@ -56,7 +56,7 @@ end
 input_file = hd(System.argv())
 
 contents = File.read!(input_file)
-IO.puts(contents)
+# IO.puts(contents)
 
 steps_str = String.split(contents, ", ")
 IO.inspect(steps_str)

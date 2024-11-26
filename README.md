@@ -25,3 +25,7 @@ iex(7)> "hello #{tup}"
 This is especially annoying since the syntax for indexing into tuples is so verbose (`elem(tup, 1)`).
 
 All the pairs and triples you wind up forming for calls to reduce make me want a type system.
+
+## Day 2
+
+972899 is too high.
