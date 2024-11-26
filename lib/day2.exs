@@ -21,11 +21,7 @@ defmodule Day2 do
 
   def move2(dir, {x, y}) do
     new_pos = move(dir, {x, y})
-    # IO.inspect({x, y})
-    # IO.inspect(dir)
-    # IO.inspect(new_pos)
     code = code_at(new_pos)
-    # IO.inspect(code)
     case code do
       " " -> {x, y}
       _ -> new_pos

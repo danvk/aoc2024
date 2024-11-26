@@ -31,4 +31,16 @@ All the pairs and triples you wind up forming for calls to reduce make me want a
 972899 is too high.
 Problem was a trailing newline, which made me repeat the last entry.
 
+TODO:
 
+- [ ] Fix the trailing newline bug
+- [ ] Make accumulate more efficient
+- [ ] Make it work for both parts
+
+I noticed `itertools.accumulate` recently and decided that was the function I wanted on day 1. Easy enough to implement.
+
+Module constants in Elixir seem pretty weird. They're prefixed with `@`.
+
+You match a character with `?A`, `?B`, etc.
+
+I think GitHub copilot is familiar with previous year's Advent of Code, the autocomplete is rather surprisingly good.
