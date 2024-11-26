@@ -29,3 +29,6 @@ All the pairs and triples you wind up forming for calls to reduce make me want a
 ## Day 2
 
 972899 is too high.
+Problem was a trailing newline, which made me repeat the last entry.
+
+
