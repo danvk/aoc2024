@@ -1,29 +1,43 @@
 defmodule Day2 do
+
+  @size 4
+
+  @codes [
+    "  1  ",
+    " 234 ",
+    "56789",
+    " ABC ",
+    "  D  "
+  ]
+
   def move(dir, {x, y}) do
     case dir do
       ?U -> {x, max(0, y - 1)}
-      ?D -> {x, min(2, y + 1)}
+      ?D -> {x, min(@size, y + 1)}
       ?L -> {max(0, x - 1), y}
-      ?R -> {min(2, x + 1), y}
+      ?R -> {min(@size, x + 1), y}
+    end
+  end
+
+  def move2(dir, {x, y}) do
+    new_pos = move(dir, {x, y})
+    # IO.inspect({x, y})
+    # IO.inspect(dir)
+    # IO.inspect(new_pos)
+    code = code_at(new_pos)
+    # IO.inspect(code)
+    case code do
+      " " -> {x, y}
+      _ -> new_pos
     end
   end
 
   def code_at({x, y}) do
-    case {x, y} do
-      {0, 0} -> "1"
-      {1, 0} -> "2"
-      {2, 0} -> "3"
-      {0, 1} -> "4"
-      {1, 1} -> "5"
-      {2, 1} -> "6"
-      {0, 2} -> "7"
-      {1, 2} -> "8"
-      {2, 2} -> "9"
-    end
+    String.at(Enum.at(@codes, y), x)
   end
 
   def apply_instrs(instrs, pos) do
-    Enum.reduce(instrs, pos, &move/2)
+    Enum.reduce(instrs, pos, &move2/2)
   end
 
   def accumulate(xs, f, acc) do
@@ -44,11 +58,11 @@ instrs = Enum.map(instructions_txt, &String.to_charlist/1)
 IO.inspect(instrs)
 
 instr = hd(instrs)
-pos = Enum.reduce(instr, {1, 1}, &Day2.move/2)
+pos = Enum.reduce(instr, {0, 2}, &Day2.move2/2)
 IO.inspect(pos)
 IO.puts("Part 1: #{elem(pos, 0)},#{elem(pos, 1)} #{Day2.code_at(pos)}")
 
-poses = Day2.accumulate(instrs, &Day2.apply_instrs/2, {1, 1})
+poses = Day2.accumulate(instrs, &Day2.apply_instrs/2, {0, 2})
 IO.inspect(poses)
 codes = Enum.map(poses, &Day2.code_at/1)
 IO.inspect(codes)
