@@ -36,7 +36,7 @@ TODO:
 - [x] Fix the trailing newline bug
 - [x] Make accumulate more efficient
 - [ ] Move accumulate into a library file
-- [ ] Make it work for both parts
+- [x] Make it work for both parts
 
 I noticed `itertools.accumulate` recently and decided that was the function I wanted on day 1. Easy enough to implement.
 

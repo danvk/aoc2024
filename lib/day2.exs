@@ -1,8 +1,13 @@
 defmodule Day2 do
+  @size1 3
+  @codes1 [
+    "123",
+    "456",
+    "789"
+  ]
 
-  @size 4
-
-  @codes [
+  @size2 5
+  @codes2 [
     "  1  ",
     " 234 ",
     "56789",
@@ -10,34 +15,50 @@ defmodule Day2 do
     "  D  "
   ]
 
-  def move(dir, {x, y}) do
+  def move(dir, {x, y}, size) do
     case dir do
       ?U -> {x, max(0, y - 1)}
-      ?D -> {x, min(@size, y + 1)}
+      ?D -> {x, min(size - 1, y + 1)}
       ?L -> {max(0, x - 1), y}
-      ?R -> {min(@size, x + 1), y}
+      ?R -> {min(size - 1, x + 1), y}
     end
   end
 
-  def move2(dir, {x, y}) do
-    new_pos = move(dir, {x, y})
-    code = code_at(new_pos)
+  def move1(dir, {x, y}) do
+    new_pos = move(dir, {x, y}, @size1)
+    code = code_at1(new_pos)
     case code do
       " " -> {x, y}
       _ -> new_pos
     end
   end
 
-  def code_at({x, y}) do
-    String.at(Enum.at(@codes, y), x)
+  def move2(dir, {x, y}) do
+    new_pos = move(dir, {x, y}, @size2)
+    code = code_at2(new_pos)
+    case code do
+      " " -> {x, y}
+      _ -> new_pos
+    end
   end
 
-  def apply_instrs(instrs, pos) do
+  def code_at1({x, y}) do
+    String.at(Enum.at(@codes1, y), x)
+  end
+
+  def code_at2({x, y}) do
+    String.at(Enum.at(@codes2, y), x)
+  end
+
+  def apply_instrs1(instrs, pos) do
+    Enum.reduce(instrs, pos, &move1/2)
+  end
+
+  def apply_instrs2(instrs, pos) do
     Enum.reduce(instrs, pos, &move2/2)
   end
 
   def accumulate(xs, f, acc) do
-    # TODO: make this O(n) instead of O(n^2)
     {_, seq} = Enum.reduce(xs, {acc, []}, fn x, {acc, accs} ->
       new_acc = f.(x, acc)
       {new_acc, [new_acc | accs]}
@@ -48,6 +69,10 @@ defmodule Day2 do
   def read_lines(file) do
     File.read!(file) |> String.trim_trailing |> String.split("\n")
   end
+
+  def pos_str(pos) do
+    "#{elem(pos, 0)},#{elem(pos, 1)}"
+  end
 end
 
 input_file = hd(System.argv())
@@ -55,12 +80,11 @@ instrs = Day2.read_lines(input_file) |> Enum.map(&String.to_charlist/1)
 
 IO.inspect(instrs)
 
-instr = hd(instrs)
-pos = Enum.reduce(instr, {0, 2}, &Day2.move2/2)
-IO.inspect(pos)
-IO.puts("Part 1: #{elem(pos, 0)},#{elem(pos, 1)} #{Day2.code_at(pos)}")
+poses1 = Day2.accumulate(instrs, &Day2.apply_instrs1/2, {1, 1})
+codes1 = Enum.map(poses1, &Day2.code_at1/1)
+IO.puts("Part 1: #{Enum.join(codes1)}")
 
-poses = Day2.accumulate(instrs, &Day2.apply_instrs/2, {0, 2})
-IO.inspect(poses)
-codes = Enum.map(poses, &Day2.code_at/1)
-IO.inspect(codes)
+poses2 = Day2.accumulate(instrs, &Day2.apply_instrs2/2, {0, 2})
+IO.inspect(poses2)
+codes2 = Enum.map(poses2, &Day2.code_at2/1)
+IO.puts("Part 2: #{Enum.join(codes2)}")
