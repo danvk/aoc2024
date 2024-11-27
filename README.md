@@ -47,3 +47,5 @@ You match a character with `?A`, `?B`, etc.
 I think GitHub copilot is familiar with previous year's Advent of Code, the autocomplete is rather surprisingly good.
 
 I'm surprised how much ceremony there is to pass a function around in Elixir. `&Day2.apply_instrs/2` instead of just `apply_instrs`. I guess the `/2` helps with resolution, but why the `&`?
+
+`&Day2.apply_instrs(&1, &2, 2)`: Is there shorthand for binding just the first or last argument of a function?

@@ -24,38 +24,21 @@ defmodule Day2 do
     end
   end
 
-  def move1(dir, {x, y}) do
-    new_pos = move(dir, {x, y}, @size1)
-    code = code_at1(new_pos)
+  def move_n(dir, {x, y}, which) do
+    new_pos = move(dir, {x, y}, if which == 1 do @size1 else @size2 end)
+    code = code_at(new_pos, which)
     case code do
       " " -> {x, y}
       _ -> new_pos
     end
   end
 
-  def move2(dir, {x, y}) do
-    new_pos = move(dir, {x, y}, @size2)
-    code = code_at2(new_pos)
-    case code do
-      " " -> {x, y}
-      _ -> new_pos
-    end
+  def code_at({x, y}, which) do
+    String.at(Enum.at(if which == 1 do @codes1 else @codes2 end, y), x)
   end
 
-  def code_at1({x, y}) do
-    String.at(Enum.at(@codes1, y), x)
-  end
-
-  def code_at2({x, y}) do
-    String.at(Enum.at(@codes2, y), x)
-  end
-
-  def apply_instrs1(instrs, pos) do
-    Enum.reduce(instrs, pos, &move1/2)
-  end
-
-  def apply_instrs2(instrs, pos) do
-    Enum.reduce(instrs, pos, &move2/2)
+  def apply_instrs(instrs, pos, which) do
+    Enum.reduce(instrs, pos, &move_n(&1, &2, which))
   end
 
   def accumulate(xs, f, acc) do
@@ -80,11 +63,11 @@ instrs = Day2.read_lines(input_file) |> Enum.map(&String.to_charlist/1)
 
 IO.inspect(instrs)
 
-poses1 = Day2.accumulate(instrs, &Day2.apply_instrs1/2, {1, 1})
-codes1 = Enum.map(poses1, &Day2.code_at1/1)
+poses1 = Day2.accumulate(instrs, &Day2.apply_instrs(&1, &2, 1), {1, 1})
+codes1 = Enum.map(poses1, &Day2.code_at(&1, 1))
 IO.puts("Part 1: #{Enum.join(codes1)}")
 
-poses2 = Day2.accumulate(instrs, &Day2.apply_instrs2/2, {0, 2})
+poses2 = Day2.accumulate(instrs, &Day2.apply_instrs(&1, &2, 2), {0, 2})
 IO.inspect(poses2)
-codes2 = Enum.map(poses2, &Day2.code_at2/1)
+codes2 = Enum.map(poses2, &Day2.code_at(&1, 2))
 IO.puts("Part 2: #{Enum.join(codes2)}")
