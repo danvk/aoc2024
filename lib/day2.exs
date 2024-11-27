@@ -40,34 +40,18 @@ defmodule Day2 do
   def apply_instrs(instrs, pos, which) do
     Enum.reduce(instrs, pos, &move_n(&1, &2, which))
   end
-
-  def accumulate(xs, f, acc) do
-    {_, seq} = Enum.reduce(xs, {acc, []}, fn x, {acc, accs} ->
-      new_acc = f.(x, acc)
-      {new_acc, [new_acc | accs]}
-    end)
-    Enum.reverse(seq)
-  end
-
-  def read_lines(file) do
-    File.read!(file) |> String.trim_trailing |> String.split("\n")
-  end
-
-  def pos_str(pos) do
-    "#{elem(pos, 0)},#{elem(pos, 1)}"
-  end
 end
 
 input_file = hd(System.argv())
-instrs = Day2.read_lines(input_file) |> Enum.map(&String.to_charlist/1)
+instrs = Common.read_lines(input_file) |> Enum.map(&String.to_charlist/1)
 
 IO.inspect(instrs)
 
-poses1 = Day2.accumulate(instrs, &Day2.apply_instrs(&1, &2, 1), {1, 1})
+poses1 = Common.accumulate(instrs, &Day2.apply_instrs(&1, &2, 1), {1, 1})
 codes1 = Enum.map(poses1, &Day2.code_at(&1, 1))
 IO.puts("Part 1: #{Enum.join(codes1)}")
 
-poses2 = Day2.accumulate(instrs, &Day2.apply_instrs(&1, &2, 2), {0, 2})
+poses2 = Common.accumulate(instrs, &Day2.apply_instrs(&1, &2, 2), {0, 2})
 IO.inspect(poses2)
 codes2 = Enum.map(poses2, &Day2.code_at(&1, 2))
 IO.puts("Part 2: #{Enum.join(codes2)}")

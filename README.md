@@ -35,7 +35,7 @@ TODO:
 
 - [x] Fix the trailing newline bug
 - [x] Make accumulate more efficient
-- [ ] Move accumulate into a library file
+- [x] Move accumulate into a library file
 - [x] Make it work for both parts
 
 I noticed `itertools.accumulate` recently and decided that was the function I wanted on day 1. Easy enough to implement.
@@ -49,3 +49,11 @@ I think GitHub copilot is familiar with previous year's Advent of Code, the auto
 I'm surprised how much ceremony there is to pass a function around in Elixir. `&Day2.apply_instrs/2` instead of just `apply_instrs`. I guess the `/2` helps with resolution, but why the `&`?
 
 `&Day2.apply_instrs(&1, &2, 2)`: Is there shorthand for binding just the first or last argument of a function?
+
+To move code into a `Common` module, I had to put it in `lib/common.ex` (not `lib/common.exs`) and compile it with `elixirc`:
+
+    elixirc lib/common.ex
+
+So now I have a build step.
+
+It may be possible to use `Mix.install` instead: https://stackoverflow.com/a/75425548/388951
