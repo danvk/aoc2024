@@ -44,12 +44,14 @@ defmodule Day2 do
     end)
     seq
   end
+
+  def read_lines(file) do
+    File.read!(file) |> String.trim_trailing |> String.split("\n")
+  end
 end
 
 input_file = hd(System.argv())
-contents = File.read!(input_file)
-instructions_txt = String.split(contents, "\n")
-instrs = Enum.map(instructions_txt, &String.to_charlist/1)
+instrs = Day2.read_lines(input_file) |> Enum.map(&String.to_charlist/1)
 
 IO.inspect(instrs)
 

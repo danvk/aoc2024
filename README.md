@@ -33,8 +33,9 @@ Problem was a trailing newline, which made me repeat the last entry.
 
 TODO:
 
-- [ ] Fix the trailing newline bug
+- [x] Fix the trailing newline bug
 - [ ] Make accumulate more efficient
+- [ ] Move accumulate into a library file
 - [ ] Make it work for both parts
 
 I noticed `itertools.accumulate` recently and decided that was the function I wanted on day 1. Easy enough to implement.
@@ -44,3 +45,5 @@ Module constants in Elixir seem pretty weird. They're prefixed with `@`.
 You match a character with `?A`, `?B`, etc.
 
 I think GitHub copilot is familiar with previous year's Advent of Code, the autocomplete is rather surprisingly good.
+
+I'm surprised how much ceremony there is to pass a function around in Elixir. `&Day2.apply_instrs/2` instead of just `apply_instrs`. I guess the `/2` helps with resolution, but why the `&`?
