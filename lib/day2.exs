@@ -40,9 +40,9 @@ defmodule Day2 do
     # TODO: make this O(n) instead of O(n^2)
     {_, seq} = Enum.reduce(xs, {acc, []}, fn x, {acc, accs} ->
       new_acc = f.(x, acc)
-      {new_acc, accs ++ [new_acc]}
+      {new_acc, [new_acc | accs]}
     end)
-    seq
+    Enum.reverse(seq)
   end
 
   def read_lines(file) do

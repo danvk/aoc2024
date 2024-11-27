@@ -34,7 +34,7 @@ Problem was a trailing newline, which made me repeat the last entry.
 TODO:
 
 - [x] Fix the trailing newline bug
-- [ ] Make accumulate more efficient
+- [x] Make accumulate more efficient
 - [ ] Move accumulate into a library file
 - [ ] Make it work for both parts
 
