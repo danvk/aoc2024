@@ -3,10 +3,9 @@ defmodule Aoc2016.MixProject do
 
   def project do
     [
-      app: :aoc2016,
+      app: :day3,
       version: "0.1.0",
-      elixir: "~> 1.17",
-      start_permanent: Mix.env() == :prod,
+      escript: escript(),
       deps: deps()
     ]
   end
@@ -16,6 +15,10 @@ defmodule Aoc2016.MixProject do
     [
       extra_applications: [:logger]
     ]
+  end
+
+  defp escript do
+    [main_module: Day3]
   end
 
   # Run "mix help deps" to learn about dependencies.

@@ -27,3 +27,4 @@ aoc2016-*.tar
 input.txt
 
 scripts/setup-day.sh
+/day*

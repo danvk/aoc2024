@@ -66,6 +66,32 @@ Not too bad. Part 2 was an annoying rearrangement of the input that makes it not
 
 You write the identify function `&(&1)`.
 
-My `transpose` function is inefficient but simple. Generators are going to be handy.
+My `transpose` function is inefficient but simple. Generators are going to be handy. I thought I had a bug at first, but `IO.puts` renders `[100, 101, 102]` as a charlist, `~c"efg"`.
 
-I continue to be puzzled that I don't get any kind of syntax guidance in VS Code.
+I continue to be puzzled that I don't get any kind of syntax guidance in VS Code. Aha! It seems to be a `.ex` vs. `.exs` difference.
+
+https://elixirforum.com/t/vscode-elixirls-not-highlighting-exs-files/40239
+https://github.com/elixir-lsp/elixir-ls/issues/89
+
+Now I'm getting errors… but weird ones. It seems like the language service is actually running my code?
+
+```
+$ elixirc lib/day3.ex
+
+== Compilation error in file lib/day3.ex ==
+** (RuntimeError) Usage: day3.ex <input_file>
+    lib/day3.ex:21: Day3.get_arg1/0
+    lib/day3.ex:26: (file)
+    (elixir 1.17.3) lib/kernel/parallel_compiler.ex:429: anonymous fn/5 in Kernel.ParallelCompiler.spawn_workers/8
+```
+
+https://elixirschool.com/en/lessons/intermediate/escripts
+
+Aha again! All code must be inside `defmodule`. Now I get lots more information in my editor like `@spec` annotations on my functions. It looks like you can click these to fill in type annotations.
+
+I'm able to run my script wiht `escript` using this sequence:
+
+    mix escript.build
+    ./day3 input/day3/input.txt
+
+I don't love this, but I can work with it. It might be a good idea to look into how someone from r/adventofcode sets up their Elixir project.
