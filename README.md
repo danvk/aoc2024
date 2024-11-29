@@ -59,3 +59,13 @@ So now I have a build step.
 It may be possible to use `Mix.install` instead: https://stackoverflow.com/a/75425548/388951
 
 Language services are pretty crappy -- I'm not getting syntax errors, F2 rename variable or any type information. Unclear to me if this is expected or some kind of configuration error.
+
+## Day 3
+
+Not too bad. Part 2 was an annoying rearrangement of the input that makes it not purely line-oriented. Fortunately Elixir has `Enum.chunk` built-in.
+
+You write the identify function `&(&1)`.
+
+My `transpose` function is inefficient but simple. Generators are going to be handy.
+
+I continue to be puzzled that I don't get any kind of syntax guidance in VS Code.
