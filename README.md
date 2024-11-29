@@ -58,4 +58,4 @@ So now I have a build step.
 
 It may be possible to use `Mix.install` instead: https://stackoverflow.com/a/75425548/388951
 
-Language services are pretty crappy -- I'm not getting F2 rename variable or any type information. Unclear to me if this is expected or some kind of configuration error.
+Language services are pretty crappy -- I'm not getting syntax errors, F2 rename variable or any type information. Unclear to me if this is expected or some kind of configuration error.
