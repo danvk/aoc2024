@@ -95,3 +95,8 @@ I'm able to run my script wiht `escript` using this sequence:
     ./day3 input/day3/input.txt
 
 I don't love this, but I can work with it. It might be a good idea to look into how someone from r/adventofcode sets up their Elixir project.
+
+https://github.com/mathsaey/adventofcode
+https://github.com/mathsaey/advent_of_code_utils
+
+He runs his code through `iex`.
