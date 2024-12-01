@@ -100,3 +100,7 @@ https://github.com/mathsaey/adventofcode
 https://github.com/mathsaey/advent_of_code_utils
 
 He runs his code through `iex`.
+
+## Day 4
+
+Part 1: 254 is too low
