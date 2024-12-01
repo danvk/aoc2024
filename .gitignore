@@ -26,5 +26,5 @@ aoc2016-*.tar
 /tmp/
 input.txt
 
-scripts/setup-day.sh
-/day*
+scripts/cookie.sh
+main
