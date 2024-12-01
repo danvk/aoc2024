@@ -13,5 +13,9 @@ defmodule Day1 do
     IO.inspect(deltas)
     sum = Enum.sum(deltas)
     IO.inspect(sum)
+
+    freqs = Enum.frequencies(seconds)
+    part2 = firsts |> Enum.map(fn x -> x * Map.get(freqs, x, 0) end) |> Enum.sum()
+    IO.inspect(part2)
   end
 end
