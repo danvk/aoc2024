@@ -7,7 +7,7 @@ day=$1
 dir=input/day$day
 mkdir $dir
 ex_file=lib/day$day.ex
-url="https://adventofcode.com/2016/day/$day"
+url="https://adventofcode.com/2024/day/$day"
 cat <<END > $ex_file
 # $url
 defmodule Day$day do
