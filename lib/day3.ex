@@ -32,5 +32,31 @@ defmodule Day3 do
     #   |> Enum.sum()
 
     IO.inspect(part1)
+
+    matches = Regex.scan(~r/(mul)\((\d+),(\d+)\)|(don't)\(\)|(do)\(\)/, txt)
+    IO.inspect(matches)
+
+    cmds =
+      matches
+      |> Enum.map(fn x ->
+        case x do
+          ["don't()", _, _, _, _] -> :dont
+          ["do()", _, _, _, _, _] -> :do
+          [_, "mul", a, b] -> {:mul, String.to_integer(a) * String.to_integer(b)}
+        end
+      end)
+
+    part2 =
+      cmds
+      |> Enum.reduce({0, true}, fn cmd, {sum, is_on} ->
+        case {cmd, is_on} do
+          {:dont, _} -> {sum, false}
+          {:do, _} -> {sum, true}
+          {{:mul, n}, true} -> {sum + n, true}
+          {{:mul, _}, false} -> {sum, false}
+        end
+      end)
+
+    IO.inspect(part2)
   end
 end
