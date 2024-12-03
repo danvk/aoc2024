@@ -6,6 +6,7 @@ defmodule Main do
     case day do
       1 -> Day1.main(file)
       2 -> Day2.main(file)
+      3 -> Day3.main(file)
       # -- next day here --
       _ -> IO.puts("Unknown day: #{day}")
     end
