@@ -23,8 +23,8 @@ defmodule Day2 do
 
   def drop_n(xs, n) do
     Enum.zip(xs, 0..Enum.count(xs))
-    |> Enum.filter(fn {x, i} -> i != n end)
-    |> Enum.map(fn {x, i} -> x end)
+    |> Enum.filter(fn {_x, i} -> i != n end)
+    |> Enum.map(fn {x, _i} -> x end)
   end
 
   def valid2(xs) do
