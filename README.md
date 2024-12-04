@@ -34,3 +34,11 @@ list
 ```
 
 I assume this can be written more concisely (without all the `Enum.map` calls) using generators.
+
+## Day 4
+
+Totally missed that the XMAS could be _diagonal_ on part 1.
+This is the first day involving a grid, Again, storing grids as a map from `{x, y}` tuples to characters is usually the way to go.
+Elixir's way of representing strings (linked list of chars) worked well today since it was easy to throw `nil` into a string. `[?X, ?M, nil, nil]` works just fine and is not `== ?c"XMAS"`.
+
+I'm using more comprehensions and fewer pipeline operations. Comprehensions are a convenient way to flatten as well as map. I'm thinking that the angle for my eventual blog post will be "what Elixir can teach JS about the pipeline operator proposal." Pipelines make you want more compact ways to define functions, but maybe they really make you want comprehensions.
