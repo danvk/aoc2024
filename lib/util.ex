@@ -13,6 +13,10 @@ defmodule Util do
     File.read!(file) |> String.trim_trailing() |> String.split("\n")
   end
 
+  def enumerate(xs) do
+    Enum.zip(0..Enum.count(xs), xs)
+  end
+
   def pos_str(pos) do
     "#{elem(pos, 0)},#{elem(pos, 1)}"
   end
