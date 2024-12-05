@@ -1,5 +1,9 @@
 # Advent of Code 2024
 
+Compile and run code for a day with:
+
+    mix escript.build && ./main 4 input/day4/sample2.txt
+
 ## Day 1 (40886 / 37736)
 
 Quite easy, interesting that the problem isn't entirely line-oriented. I can't imagine an LLM would have any trouble with the problem today.
@@ -42,3 +46,7 @@ This is the first day involving a grid, Again, storing grids as a map from `{x, 
 Elixir's way of representing strings (linked list of chars) worked well today since it was easy to throw `nil` into a string. `[?X, ?M, nil, nil]` works just fine and is not `== ?c"XMAS"`.
 
 I'm using more comprehensions and fewer pipeline operations. Comprehensions are a convenient way to flatten as well as map. I'm thinking that the angle for my eventual blog post will be "what Elixir can teach JS about the pipeline operator proposal." Pipelines make you want more compact ways to define functions, but maybe they really make you want comprehensions.
+
+Elixir ranges are inclusive on both ends: `x <- 0..w` will include `x=w`. This is pretty unusual!
+
+The Elixir docs say that charlists are rare and mostly for Erlang compatibility, so maybe I'm overusing them.
