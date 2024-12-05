@@ -47,6 +47,13 @@ defmodule Day5 do
     xs |> Enum.at(floor(((xs |> Enum.count()) - 1) / 2))
   end
 
+  def fix_input(rule_pairs, input) do
+    filtered = filter_rules(rule_pairs, input)
+
+    input
+    |> Enum.sort_by(fn v -> Map.get(filtered, v, []) |> Enum.count() end)
+  end
+
   def main(input_file) do
     {rules, inputs_txt} = Util.read_lines(input_file) |> split_on_blank()
 
@@ -61,9 +68,14 @@ defmodule Day5 do
       for input <- inputs_txt, do: input |> String.split(",") |> Enum.map(&String.to_integer/1)
 
     IO.inspect(inputs, charlists: false)
-    valids = inputs |> Enum.filter(&is_valid(&1, rule_pairs))
+    {valids, invalids} = Enum.split_with(inputs, &is_valid(&1, rule_pairs))
+    # valids = inputs |> Enum.filter(&is_valid(&1, rule_pairs))
     IO.inspect(valids, charlists: false)
     part1 = valids |> Enum.map(&get_middle/1) |> Enum.sum()
     IO.puts(part1)
+
+    fixed = invalids |> Enum.map(&fix_input(rule_pairs, &1)) |> IO.inspect(charlists: false)
+    part2 = fixed |> Enum.map(&get_middle/1) |> Enum.sum()
+    IO.puts(part2)
   end
 end
