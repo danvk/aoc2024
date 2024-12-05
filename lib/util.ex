@@ -35,4 +35,20 @@ defmodule Util do
   def pos_str(pos) do
     "#{elem(pos, 0)},#{elem(pos, 1)}"
   end
+
+  def first({a, _b}) do
+    a
+  end
+
+  def first([a, _b]) do
+    a
+  end
+
+  def second({_a, b}) do
+    b
+  end
+
+  def second([_a, b]) do
+    b
+  end
 end
