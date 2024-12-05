@@ -13,6 +13,12 @@ defmodule Util do
     File.read!(file) |> String.trim_trailing() |> String.split("\n")
   end
 
+  # Split a list of lines on the first blank line, returning a tuple.
+  def split_on_blank(lines) do
+    {a, ["" | b]} = lines |> Enum.split_while(&(&1 != ""))
+    {a, b}
+  end
+
   def enumerate(xs) do
     Enum.zip(0..Enum.count(xs), xs)
   end

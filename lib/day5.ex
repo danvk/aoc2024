@@ -1,10 +1,5 @@
 # https://adventofcode.com/2024/day/5
 defmodule Day5 do
-  def split_on_blank(lines) do
-    {a, ["" | b]} = lines |> Enum.split_while(&(&1 != ""))
-    {a, b}
-  end
-
   def is_valid(input, rule_pairs) do
     after_to_before = filter_rules(rule_pairs, input)
 
@@ -46,7 +41,7 @@ defmodule Day5 do
   end
 
   def main(input_file) do
-    {rules, inputs_txt} = Util.read_lines(input_file) |> split_on_blank()
+    {rules, inputs_txt} = Util.read_lines(input_file) |> Util.split_on_blank()
 
     rule_pairs = for rule <- rules, do: Util.read_ints(rule, "|")
     inputs = for input <- inputs_txt, do: Util.read_ints(input, ",")
