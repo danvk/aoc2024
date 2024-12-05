@@ -50,3 +50,7 @@ I'm using more comprehensions and fewer pipeline operations. Comprehensions are 
 Elixir ranges are inclusive on both ends: `x <- 0..w` will include `x=w`. This is pretty unusual!
 
 The Elixir docs say that charlists are rare and mostly for Erlang compatibility, so maybe I'm overusing them.
+
+## Day 5
+
+Part 1 was fiddly and annoying. I missed the "ignore all rules mentioning a number not in the input." Part 2 was a head scratcher for a moment, until I realized you could sort by the number of required predecessors. I guess there's no transitivity in these rules? This could have been harder!
