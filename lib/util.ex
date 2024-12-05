@@ -51,4 +51,16 @@ defmodule Util do
   def second([_a, b]) do
     b
   end
+
+  def inspect(x) do
+    IO.inspect(x, charlists: false)
+  end
+
+  def inspect(a, b) do
+    IO.inspect({a, b}, charlists: false)
+  end
+
+  def read_ints(txt, delim) do
+    txt |> String.split(delim) |> Enum.map(&String.to_integer/1)
+  end
 end
