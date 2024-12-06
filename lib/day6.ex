@@ -89,9 +89,9 @@ defmodule Day6 do
     # r
   end
 
-  def part2(grid, start_pos, {w, h}) do
+  def part2(grid, start_pos, candidates) do
     results =
-      for y <- 0..h, x <- 0..w do
+      for {x, y} <- candidates do
         cond do
           {x, y} == start_pos ->
             false
@@ -109,18 +109,12 @@ defmodule Day6 do
         end
       end
 
-    Util.inspect(results)
+    # Util.inspect(results)
 
     results |> Enum.filter(& &1)
   end
 
-  def main(input_file) do
-    {grid, wh} = Util.read_grid(input_file)
-    {grid, pos} = find_and_remove_caret(grid)
-    # Util.inspect(grid)
-    print_grid(grid, wh)
-    # Util.inspect(pos)
-
+  def part1(grid, start_pos) do
     dir = :N
     prev = %{}
 
@@ -132,10 +126,20 @@ defmodule Day6 do
         fun.(move_one(grid, pos, dir, prev), fun)
     end
 
-    visited = loop.({pos, dir, prev}, loop)
+    loop.({start_pos, dir, prev}, loop)
+  end
+
+  def main(input_file) do
+    {grid, _wh} = Util.read_grid(input_file)
+    {grid, pos} = find_and_remove_caret(grid)
+    # Util.inspect(grid)
+    # print_grid(grid, wh)
+    # Util.inspect(pos)
+
+    visited = part1(grid, pos)
     # IO.inspect(visited)
     IO.puts(visited |> Enum.count())
-    IO.puts(part2(grid, pos, wh) |> Enum.count())
+    IO.puts(part2(grid, pos, Map.keys(visited)) |> Enum.count())
     # modgrid = Map.put(grid, {3, 6}, ?#)
     # print_grid(modgrid, wh)
     # Util.inspect(try_part2(modgrid, pos))

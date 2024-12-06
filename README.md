@@ -66,3 +66,7 @@ GitHub copilot is mega-unhelpful here, giving me recursive `loop` constructs tha
 I could have really used some type help to keep positions and values distinct.
 
 I keep finding it annoying that you can't put multiple statements inside a comprehension.
+
+Jeremy reported having to do some optimizations to make part 2 finish in a reasonable amount of time. I did run in optimized mode, and it took ~20s to complete. So I guess I am benefiting from Elixir/Erlang's speed, at least relative to Python.
+
+Jeremy also pointed out that I only needed to consider the locations visited in part 1 when solving part 2. Of course! After implementing that optimization, my code only takes ~4s to solve both parts.
