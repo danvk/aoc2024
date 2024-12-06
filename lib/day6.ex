@@ -98,7 +98,7 @@ defmodule Day6 do
 
           Map.get(grid, {x, y}) == ?. ->
             if try_part2(Map.put(grid, {x, y}, ?#), start_pos) do
-              Util.inspect({x, y})
+              # Util.inspect({x, y})
               {x, y}
             else
               nil
