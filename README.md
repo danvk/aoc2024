@@ -60,3 +60,9 @@ Part 1 was fiddly and annoying. I missed the "ignore all rules mentioning a numb
 How do you write one char to stdout?
 Does Elixir have a `Set` type?
 GitHub copilot is mega-unhelpful here, giving me recursive `loop` constructs that don't work.
+
+`Map.put(map, key, value)` is very different than `map.put(key, value)`.
+
+I could have really used some type help to keep positions and values distinct.
+
+I keep finding it annoying that you can't put multiple statements inside a comprehension.
