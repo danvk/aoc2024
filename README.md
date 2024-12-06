@@ -54,3 +54,9 @@ The Elixir docs say that charlists are rare and mostly for Erlang compatibility,
 ## Day 5
 
 Part 1 was fiddly and annoying. I missed the "ignore all rules mentioning a number not in the input." Part 2 was a head scratcher for a moment, until I realized you could sort by the number of required predecessors. I guess there's no transitivity in these rules? This could have been harder!
+
+## Day 6
+
+How do you write one char to stdout?
+Does Elixir have a `Set` type?
+GitHub copilot is mega-unhelpful here, giving me recursive `loop` constructs that don't work.
