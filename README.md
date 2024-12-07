@@ -103,3 +103,7 @@ Use can use `with` to do a series of pattern matches.
 Max of 12, not so bad.
 
 Part 1: Left to right, they said! I reversed all the inputs to get that to work.
+
+Part 2: Of course, after part 2, I had the `concat` call backwards.
+
+Today was pretty easy. I guess I could have sped it up by only considering the instructions that failed part 1 for part 2, but the whole thing ran in only 9s.
