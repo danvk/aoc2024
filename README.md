@@ -70,3 +70,30 @@ I keep finding it annoying that you can't put multiple statements inside a compr
 Jeremy reported having to do some optimizations to make part 2 finish in a reasonable amount of time. I did run in optimized mode, and it took ~20s to complete. So I guess I am benefiting from Elixir/Erlang's speed, at least relative to Python.
 
 Jeremy also pointed out that I only needed to consider the locations visited in part 1 when solving part 2. Of course! After implementing that optimization, my code only takes ~4s to solve both parts.
+
+This looks extremely helpful: https://hexdocs.pm/elixir/enum-cheat.html
+
+- There's a `:reduce` option with comprehensions.
+- Use `Enum.member?` to test for membership, or equivalently `item in enum`. (Presumably this is always O(N).)
+- `string =~ part` checks if `part` is part of `string`. (It also applies a regex, just like Perl.)
+- `Enum.map_reduce` lets you map and reduce simultaneously, resulting in a pair.
+- `Enum.scan` is equivalent to my `accumulate` helper: like `reduce`, but returns a list with the accumulator value at every item.
+- `Enum.frequencies` gives you a frequency Map.
+- `Enum.into` converts an enum into a "collectable."
+- `Enum.to_list` does what you'd expect.
+- `Enum.uniq` de-dupes an entire collection, while `Enum.dedupe` only dedupes contiguous elements.
+- `Enum.with_index` produces a `value -> index` Map.
+- `Enum.with_index` is like Python's `enumerate`. It's like `Enum.map` but with an index parameter.
+- `Enum.slide` moves an element or range to a new index.
+- `Enum.chunk_by` splits an enumerable every time a function returns a new value.
+- `Enum.unzip` converts a list of tuples to a tuple of lists.
+
+https://hexdocs.pm/elixir/gradual-set-theoretic-types.html#supported-types
+
+- Types are currently not very fine-grained (`tuple()` is an indivisible type) but they plan to change this after getting feedback on the quality of type errors.
+- Types are "set-theoretic" in that you can write `A or B` and `A and B`.
+- There's also a `not()` construct, which is unliked anything in TypeScript: `atom() and not (:foo or :bar)`.
+- The top type is `term()`. The bottom type is `none()`.
+- Typing is gradual via `dynamic()`. This is distinct from `any` in that you can write something like `dynamic(atom() or integer())` and you'll be allowed to call functions that accept `atom()` or `integer()` but not `string()`. I think Pyright does something like this, too.
+
+Use can use `with` to do a series of pattern matches.
