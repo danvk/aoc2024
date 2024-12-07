@@ -101,3 +101,5 @@ Use can use `with` to do a series of pattern matches.
 ## Day 7
 
 Max of 12, not so bad.
+
+Part 1: Left to right, they said! I reversed all the inputs to get that to work.
