@@ -97,3 +97,7 @@ https://hexdocs.pm/elixir/gradual-set-theoretic-types.html#supported-types
 - Typing is gradual via `dynamic()`. This is distinct from `any` in that you can write something like `dynamic(atom() or integer())` and you'll be allowed to call functions that accept `atom()` or `integer()` but not `string()`. I think Pyright does something like this, too.
 
 Use can use `with` to do a series of pattern matches.
+
+## Day 7
+
+Max of 12, not so bad.
