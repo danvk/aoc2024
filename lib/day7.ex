@@ -41,23 +41,36 @@ defmodule Day7 do
     Util.inspect(first)
     # Util.inspect(all_vals(first |> Enum.reverse()))
 
-    instrs
-    |> Enum.filter(fn {target, xs} -> Enum.member?(all_vals(Enum.reverse(xs)), target) end)
-    # |> Util.inspect()
-    |> Enum.map(&Util.first/1)
-    |> Enum.sum()
+    {valid1, invalid1} =
+      instrs
+      |> Enum.split_with(fn {target, xs} -> Enum.member?(all_vals(Enum.reverse(xs)), target) end)
+
+    part1 =
+      valid1
+      |> Enum.map(&Util.first/1)
+      |> Enum.sum()
+
+    IO.puts("part 1: #{part1}")
+
+    valid1
+    |> Enum.count()
     |> IO.puts()
 
-    instrs
-    |> Enum.filter(fn {target, xs} -> Enum.member?(all_vals2(Enum.reverse(xs)), target) end)
-    # |> Util.inspect()
-    |> Enum.map(&Util.first/1)
-    |> Enum.sum()
-    |> IO.puts()
+    IO.puts(instrs |> Enum.count())
 
-    Util.inspect(concat_int(12, 345))
-    t = instrs |> Enum.at(3) |> Util.second()
-    Util.inspect(t)
-    Util.inspect(all_vals2(t |> Enum.reverse()))
+    part2 =
+      part1 +
+        (invalid1
+         |> Enum.filter(fn {target, xs} -> Enum.member?(all_vals2(Enum.reverse(xs)), target) end)
+         # |> Util.inspect()
+         |> Enum.map(&Util.first/1)
+         |> Enum.sum())
+
+    IO.puts("part 2: #{part2}")
+
+    # Util.inspect(concat_int(12, 345))
+    # t = instrs |> Enum.at(3) |> Util.second()
+    # Util.inspect(t)
+    # Util.inspect(all_vals2(t |> Enum.reverse()))
   end
 end
