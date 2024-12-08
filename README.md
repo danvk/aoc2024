@@ -117,3 +117,7 @@ Running `mix dialyzer` I get:
     Total errors: 0, Skipped: 0, Unnecessary Skips: 0
 
 which seems wrong since I deliberately introduced a type error. If I make a very simple type error (returning string instead of integer) then I do get a warning in VS Code via Dialyzer. But I see no improvements in quickinfo. If this is true, I think it's something Elixir can learn from TS: types are about the full DX, not just catching errors. This was a mistake that Closure Compiler made.
+
+## Day 8
+
+Pretty easy today. My one hiccup was that I needed _two_ `flat_map`s, one to flatten across frequencies and one to flatten across pairs of spots. I thought about iterating until I was out-of-bounds on part 2, but didn't bother. I just construct `max(w, h)` points in either direction from each pair and filter to what's out of bounds. Very inefficient, but trivially correct and fast enough for today.

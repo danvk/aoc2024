@@ -1,9 +1,5 @@
 # https://adventofcode.com/2024/day/8
 defmodule Day8 do
-  def pairs(xs) do
-    for {x, i} <- Enum.with_index(xs), {y, j} <- Enum.with_index(xs), i < j, do: {x, y}
-  end
-
   def antinodes({ax, ay}, {bx, by}, {w, h}) do
     dx = bx - ax
     dy = by - ay
@@ -32,7 +28,7 @@ defmodule Day8 do
     part1 =
       antennae
       |> Enum.flat_map(fn {_freq, spots} ->
-        pairs(spots) |> Enum.flat_map(fn {a, b} -> antinodes(a, b, wh) end)
+        Util.pairs(spots) |> Enum.flat_map(fn {a, b} -> antinodes(a, b, wh) end)
       end)
       |> Enum.uniq()
 
@@ -42,7 +38,7 @@ defmodule Day8 do
     part2 =
       antennae
       |> Enum.flat_map(fn {_freq, spots} ->
-        pairs(spots) |> Enum.flat_map(fn {a, b} -> antinodes2(a, b, wh) end)
+        Util.pairs(spots) |> Enum.flat_map(fn {a, b} -> antinodes2(a, b, wh) end)
       end)
       |> Enum.uniq()
 
