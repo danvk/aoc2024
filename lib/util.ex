@@ -38,8 +38,15 @@ defmodule Util do
     {grid, {w, h}}
   end
 
-  def pos_str(pos) do
-    "#{elem(pos, 0)},#{elem(pos, 1)}"
+  def print_grid(grid, {w, h}) do
+    for y <- 0..h do
+      for x <- 0..w do
+        # XXX any simpler way to print a single char?
+        IO.write(List.to_string([Map.get(grid, {x, y}, ?.)]))
+      end
+
+      IO.puts("")
+    end
   end
 
   def first({a, _b}) do
