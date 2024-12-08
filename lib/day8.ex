@@ -22,9 +22,6 @@ defmodule Day8 do
 
     antennae = Map.to_list(grid) |> Enum.group_by(&Util.second/1, &Util.first/1)
 
-    # Util.print_grid(grid, wh)
-    # Util.inspect(antennae)
-
     part1 =
       antennae
       |> Enum.flat_map(fn {_freq, spots} ->
@@ -32,7 +29,6 @@ defmodule Day8 do
       end)
       |> Enum.uniq()
 
-    # Util.inspect(part1)
     Util.inspect(part1 |> Enum.count())
 
     part2 =
@@ -43,8 +39,5 @@ defmodule Day8 do
       |> Enum.uniq()
 
     Util.inspect(part2 |> Enum.count())
-
-    # Util.inspect(antinodes({4, 4}, {5, 2}, wh))
-    # Util.inspect(pairs(antennae[?0]))
   end
 end
