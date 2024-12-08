@@ -28,18 +28,15 @@ defmodule Day7 do
         [x]
 
       [x | xs] ->
-        # Or is it concat_int(&1, x)?
-        all_vals2(xs) |> Enum.flat_map(&[x + &1, x * &1, concat_int(&1, x)]) |> Enum.uniq()
+        all_vals2(xs) |> Enum.flat_map(&[x + &1, x * &1, concat_int(&1, x)])
     end
   end
 
   def main(input_file) do
     instrs = Util.read_lines(input_file) |> Enum.map(&parse_line/1)
-    # Util.inspect(instrs)
     Util.inspect(instrs |> Enum.map(&Enum.count(Util.second(&1))) |> Enum.max())
     first = instrs |> tl() |> hd() |> Util.second()
     Util.inspect(first)
-    # Util.inspect(all_vals(first |> Enum.reverse()))
 
     {valid1, invalid1} =
       instrs
@@ -52,12 +49,6 @@ defmodule Day7 do
 
     IO.puts("part 1: #{part1}")
 
-    valid1
-    |> Enum.count()
-    |> IO.puts()
-
-    IO.puts(instrs |> Enum.count())
-
     part2 =
       part1 +
         (invalid1
@@ -67,10 +58,5 @@ defmodule Day7 do
          |> Enum.sum())
 
     IO.puts("part 2: #{part2}")
-
-    # Util.inspect(concat_int(12, 345))
-    # t = instrs |> Enum.at(3) |> Util.second()
-    # Util.inspect(t)
-    # Util.inspect(all_vals2(t |> Enum.reverse()))
   end
 end

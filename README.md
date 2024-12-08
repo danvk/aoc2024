@@ -107,3 +107,13 @@ Part 1: Left to right, they said! I reversed all the inputs to get that to work.
 Part 2: Of course, after part 2, I had the `concat` call backwards.
 
 Today was pretty easy. I guess I could have sped it up by only considering the instructions that failed part 1 for part 2, but the whole thing ran in only 9s.
+
+I'm playing around with type hints for day 6 and am… disappointed. After writing a bunch of typespecs, I still get no quickinfo beyond "variable" when I inspect a function parameter. I'm also not getting type errors in the editor.
+
+I feel like I'm missing something. Are `@spec` and `@type` checked in any way? https://elixirschool.com/en/lessons/advanced/typespec indicates that they're mostly for documentation, but https://hexdocs.pm/elixir/typespecs.html#functions-which-raise-an-error indicates that Dialyzer can check them. This article has some advice: https://fly.io/phoenix-files/adding-dialyzer-without-the-pain/
+
+Running `mix dialyzer` I get:
+
+    Total errors: 0, Skipped: 0, Unnecessary Skips: 0
+
+which seems wrong since I deliberately introduced a type error. If I make a very simple type error (returning string instead of integer) then I do get a warning in VS Code via Dialyzer. But I see no improvements in quickinfo. If this is true, I think it's something Elixir can learn from TS: types are about the full DX, not just catching errors. This was a mistake that Closure Compiler made.

@@ -1,5 +1,9 @@
 # https://adventofcode.com/2024/day/6
 defmodule Day6 do
+  @type pos_type() :: {integer(), integer()}
+  @type grid_type() :: %{pos_type => char()}
+  @type dir_type() :: :E | :N | :S | :W
+
   def find_and_remove_caret(grid) do
     for(
       {p, v} <- grid,
@@ -26,6 +30,11 @@ defmodule Day6 do
   end
 
   # Move d units in the direction dir
+  @spec move(
+          pos_type(),
+          {dir_type(), number()}
+        ) ::
+          pos_type()
   def move({x, y}, {dir, d}) do
     case dir do
       :E -> {x + d, y}
@@ -35,6 +44,7 @@ defmodule Day6 do
     end
   end
 
+  @spec turn(dir_type, :L | :R) :: dir_type
   def turn(dir, turn) do
     case {dir, turn} do
       {:E, :R} -> :S
@@ -48,12 +58,21 @@ defmodule Day6 do
     end
   end
 
+  @spec move_one(
+          grid_type(),
+          pos_type(),
+          dir_type(),
+          grid_type()
+        ) ::
+          {nil | pos_type(), dir_type() | nil, grid_type()}
   def move_one(grid, pos, dir, prev) do
     next_pos = move(pos, {dir, 1})
     next = Map.get(grid, next_pos)
 
     case next do
-      ?. -> {next_pos, dir, Map.put(prev, next_pos, true)}
+      # Deliberate error in an attempt to trigger a type error
+      # First tuple element should be next_pos, not next.
+      ?. -> {next, dir, Map.put(prev, next_pos, true)}
       ?# -> {pos, turn(dir, :R), prev}
       nil -> {nil, nil, prev}
     end
