@@ -140,3 +140,13 @@ end
 Why isn't a `do..end` block allowed after a `->` in a `case`? I guess you don't need it, it's fine to put multiple statements in there.
 
 In Elixir, `None > 0`.
+
+Well that was brutal. I think today was uniquely poorly-suited to Elixir. It's way easier with an array and mutation. That being said, there were other problems, too. I got wrong answers for both parts. In part 1, the problem was Elixir's odd treatment of ranges: 1..0 is a non-empty range equal to [1, 0]. That is… strange. This wasn't a part of my code that I expected to break, so I didn't unit test it.
+
+My code worked on the sample input, so I was kind of at a loss. To debug, I implemented a solution in Python, confirmed that it was correct by getting my star, and then checked its output vs. my Elixir code on prefixes of the input. 20 chars was enough to get a difference.
+
+For part two, I switched to using a Map. I think I set this up backwards from what would be useful (range -> value) instead of (value -> range), but whatever. I got a correct answer on the sample input, but again, I got a wrong answer on my own input. I looked for off-by-one errors but didn't find any.
+
+So once again, I re-implemented a solution in Python. Part 2 was much more challenging and a lot slower, but a brute force solution still worked and showed the difference. I had a bug in my Python code: I'd find the lowest gap and swap into it, but you only want to do that if the gap is before the span that you're considering. It turned out that my Elixir code had the same bug (it must have been slightly more subtle since I got the right answer on the sample input). Fixing it got me the correct answer (and it's faster than Python!).
+
+So lesson: be really wary of Elixir ranges?
