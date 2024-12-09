@@ -139,3 +139,18 @@ end
 >>> repeat(nil, 0)
 [nil, nil]
 ```
+
+Why isn't a `do..end` block allowed after a `->` in a `case`? I guess you don't need it, it's fine to put multiple statements in there.
+
+```elixir
+    case xs do
+      [used | [free | rest]] ->
+        do
+          nil
+        end
+```
+
+part 2: 8546756871770 is too high.
+6373055193464
+
+In Elixir, `None > 0`.

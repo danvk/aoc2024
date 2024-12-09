@@ -41,14 +41,53 @@ def checksum(xs):
     return sum(x * i for i, x in enumerate(xs) if x is not None)
 
 
+def compact2(xs: list[int|None]):
+    m = max(x for x in xs if x is not None)
+    xs = [*xs]
+    print(m)
+    while m >= 0:
+        if m % 100 == 0:
+            print(m)
+        idxs = [i for i, x in enumerate(xs) if x == m]
+        if not idxs:
+            continue
+        a, b = min(idxs), max(idxs)
+        span = b - a + 1
+        # print(m, a, b)
+        for i, v in enumerate(xs[:a]):
+            if v is not None:
+                continue
+            if i + span >= len(xs):
+                break
+            is_ok = True
+            for j in range(i + 1, i + span):
+                if xs[j] is not None:
+                    is_ok = False
+                    break
+            if not is_ok:
+                continue
+
+            # print(m, a, b, '->', i, i+span)
+            for j in range(i, i + span):
+                xs[j] = m
+            for j in range(a, b + 1):
+                xs[j] = None
+            break
+        m -= 1
+    return xs
+
+
 def main():
     (input_file,) = sys.argv[1:]
     content = open(input_file).read().strip()
     nums = [int(x) for x in content]
     disk = expand(nums)
-    print(disk)
+    # print(disk)
     compacted = compact(disk)
-    print(compacted)
+    # print(compacted)
+    print(checksum(compacted))
+    compacted = compact2(disk)
+    # print(compacted)
     print(checksum(compacted))
 
 
