@@ -83,7 +83,7 @@ This looks extremely helpful: https://hexdocs.pm/elixir/enum-cheat.html
 - `Enum.to_list` does what you'd expect.
 - `Enum.uniq` de-dupes an entire collection, while `Enum.dedupe` only dedupes contiguous elements.
 - `Enum.with_index` produces a `value -> index` Map.
-- `Enum.with_index` is like Python's `enumerate`. It's like `Enum.map` but with an index parameter.
+- `Enum.with_index` is like Python's `enumerate`. It's like `Enum.map` but with an index parameter. Annoyingly, it keeps the index in the return type.
 - `Enum.slide` moves an element or range to a new index.
 - `Enum.chunk_by` splits an enumerable every time a function returns a new value.
 - `Enum.unzip` converts a list of tuples to a tuple of lists.
@@ -121,3 +121,21 @@ which seems wrong since I deliberately introduced a type error. If I make a very
 ## Day 8
 
 Pretty easy today. My one hiccup was that I needed _two_ `flat_map`s, one to flatten across frequencies and one to flatten across pairs of spots. I thought about iterating until I was out-of-bounds on part 2, but didn't bother. I just construct `max(w, h)` points in either direction from each pair and filter to what's out of bounds. Very inefficient, but trivially correct and fast enough for today.
+
+## Day 9
+
+Oh man would this be easier with an array.
+
+Interesting that a default value for a parameter can't refer to previous parameters.
+
+6300701398615 is too low.
+6346871685398
+
+```elixir
+def repeat(x, n) do
+    for _ <- 1..n, do: x
+end
+
+>>> repeat(nil, 0)
+[nil, nil]
+```
