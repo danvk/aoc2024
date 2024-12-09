@@ -94,14 +94,10 @@ defmodule Day9 do
     x |> Enum.at(0)
   end
 
-  def shift2(m, -1) do
-    m
-  end
-
   def shift2(n, m) do
     # Util.inspect(m, n)
     k = key_for(m, n)
-    # Util.inspect(k)
+    # Util.inspect(n, k)
     a..b//_ = k
 
     cond do
@@ -116,12 +112,15 @@ defmodule Day9 do
           nil ->
             m
 
-          {ga..gb//_, nil} ->
+          {ga..gb//_, nil} when ga < a ->
             m
             |> Map.drop([k, ga..gb])
             |> Map.put(ga..(ga + b - a), n)
             # todo: this might be empty
             |> Map.put((ga + b - a)..gb, nil)
+
+          _ ->
+            m
         end
     end
   end
@@ -175,6 +174,7 @@ defmodule Day9 do
     # Util.inspect(m2)
     # Util.inspect(shift2(m2, n))
     p2 = part2(m2, n)
+    # Util.inspect(p2)
     Util.inspect(checksum2(p2))
   end
 end

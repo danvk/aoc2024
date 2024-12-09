@@ -128,9 +128,6 @@ Oh man would this be easier with an array.
 
 Interesting that a default value for a parameter can't refer to previous parameters.
 
-6300701398615 is too low.
-6346871685398
-
 ```elixir
 def repeat(x, n) do
     for _ <- 1..n, do: x
@@ -141,16 +138,5 @@ end
 ```
 
 Why isn't a `do..end` block allowed after a `->` in a `case`? I guess you don't need it, it's fine to put multiple statements in there.
-
-```elixir
-    case xs do
-      [used | [free | rest]] ->
-        do
-          nil
-        end
-```
-
-part 2: 8546756871770 is too high.
-6373055193464
 
 In Elixir, `None > 0`.

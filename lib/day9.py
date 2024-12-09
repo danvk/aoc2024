@@ -87,7 +87,7 @@ def main():
     # print(compacted)
     print(checksum(compacted))
     compacted = compact2(disk)
-    # print(compacted)
+    print(compacted)
     print(checksum(compacted))
 
 
