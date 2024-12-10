@@ -80,4 +80,10 @@ defmodule Util do
   def read_ints(txt, delim) do
     txt |> String.split(delim) |> Enum.map(&String.to_integer/1)
   end
+
+  # Like Map.get_and_update, but with a more sane type signature.
+  def get_and_update(m, k, f) do
+    {_, new_m} = Map.get_and_update(m, k, fn v -> {v, f.(v)} end)
+    new_m
+  end
 end

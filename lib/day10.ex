@@ -55,10 +55,8 @@ defmodule Day10 do
   def bfs2_help(graph, queue, visit_counts) do
     [p | rest] = queue
 
-    {_, visit_counts} =
-      Map.get_and_update(visit_counts, p, fn v ->
-        {v, (v || 0) + 1}
-      end)
+    visit_counts =
+      Util.get_and_update(visit_counts, p, &((&1 || 0) + 1))
 
     bfs2_help(graph, rest ++ graph[p], visit_counts)
   end
