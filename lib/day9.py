@@ -46,7 +46,7 @@ def compact2(xs: list[int|None]):
     xs = [*xs]
     print(m)
     while m >= 0:
-        if m % 100 == 0:
+        if m % 1000 == 0:
             print(m)
         idxs = [i for i, x in enumerate(xs) if x == m]
         if not idxs:
@@ -87,7 +87,7 @@ def main():
     # print(compacted)
     print(checksum(compacted))
     compacted = compact2(disk)
-    print(compacted)
+    # print(compacted)
     print(checksum(compacted))
 
 

@@ -1,9 +1,5 @@
 # https://adventofcode.com/2024/day/9
 defmodule Day9 do
-  # def first_free(xs, start_idx \\ 0) do
-  #   # Enum.find_index(xs, &is_nil/1, start_idx)
-  # end
-
   def part1(xs) do
     n = Enum.filter(xs, &(&1 != nil)) |> Enum.count()
     result = shift(xs, Enum.reverse(xs))
@@ -11,8 +7,6 @@ defmodule Day9 do
   end
 
   def shift(xs, rev_xs) do
-    # Util.inspect(xs, rev_xs)
-
     case {xs, rev_xs} do
       {_, [nil | rest]} ->
         shift(xs, rest)
@@ -32,6 +26,7 @@ defmodule Day9 do
   end
 
   def repeat(_, 0) do
+    # 🤦
     []
   end
 
@@ -95,9 +90,7 @@ defmodule Day9 do
   end
 
   def shift2(n, m) do
-    # Util.inspect(m, n)
     k = key_for(m, n)
-    # Util.inspect(n, k)
     a..b//_ = k
 
     cond do
@@ -106,7 +99,6 @@ defmodule Day9 do
 
       true ->
         gap = find_gap(m, b - a)
-        # Util.inspect(gap)
 
         case gap do
           nil ->
@@ -150,31 +142,14 @@ defmodule Day9 do
       |> String.graphemes()
       |> Enum.map(&String.to_integer/1)
 
-    Util.inspect(repeat(nil, 0))
-
-    Util.inspect(range_sum(1..1))
-    Util.inspect(range_sum(1..2))
-    Util.inspect(range_sum(5..7))
-
     disk = expand(input)
-    # Util.inspect(disk)
-    # Util.inspect(disk |> Enum.count())
-    # IO.inspect(disk, charlists: false, limit: 1_000_000)
-    # Util.inspect(part1(disk))
     compacted = part1(disk)
-    # Util.inspect(compacted)
-    # Util.inspect(compacted |> Enum.count())
-    # Util.inspect(disk |> Enum.max())
-    # Util.inspect(compacted |> Enum.max())
     p1 = checksum(compacted)
     IO.puts("part 1: #{p1}")
 
     n = compacted |> Enum.max()
     m2 = expand2(input)
-    # Util.inspect(m2)
-    # Util.inspect(shift2(m2, n))
     p2 = part2(m2, n)
-    # Util.inspect(p2)
     Util.inspect(checksum2(p2))
   end
 end
