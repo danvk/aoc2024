@@ -153,5 +153,10 @@ So lesson: be really wary of Elixir ranges?
 
 ## Day 10
 
-You can't do `nil or 0` in Elixir.
-`Map.get_and_update` requires you to return a pair with the current value and the new value. Huh?
+Not too bad today, just construct a graph and do a BFS. For part 2, I changed my `visited` set to a map from position -> number of times I visited that node.
+
+A few Elixir notes for the day:
+
+- You can't do `nil or 0` in Elixir.
+- A `MapSet` is Elixir's version of a set.
+- `Map.get_and_update` lets you retrieve the current value and fill in a new value for a map in one pass, but it has a really weird contract. It requires you to return a pair with the current value and the new value. Huh? Why does it need to old value? Another surprise: it returns a tuple with the new value and the map, not just the map. Maybe I should just write a wrapper for this.
