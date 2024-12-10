@@ -33,13 +33,50 @@ defmodule Day10 do
 
       true ->
         visited = MapSet.put(visited, p)
-        bfs_help(graph, queue ++ graph[p], visited)
+        bfs_help(graph, rest ++ graph[p], visited)
     end
   end
 
   def peaks_for_start(map, graph, start) do
     visited = bfs(graph, start)
     visited |> Enum.filter(fn p -> map[p] == 9 end)
+  end
+
+  def bfs2(graph, start) do
+    queue = [start]
+    visit_counts = %{}
+    bfs2_help(graph, queue, visit_counts)
+  end
+
+  def bfs2_help(_, [], visit_counts) do
+    visit_counts
+  end
+
+  def bfs2_help(graph, queue, visit_counts) do
+    [p | rest] = queue
+
+    {_, visit_counts} =
+      Map.get_and_update(visit_counts, p, fn v ->
+        {v,
+         if v do
+           v
+         else
+           0
+         end + 1}
+      end)
+
+    # Util.inspect(visit_counts)
+
+    bfs2_help(graph, rest ++ graph[p], visit_counts)
+  end
+
+  def rating_for_start(map, graph, start) do
+    visited = bfs2(graph, start)
+
+    visited
+    |> Enum.filter(fn {p, _c} -> map[p] == 9 end)
+    |> Enum.map(&Util.second/1)
+    |> Enum.sum()
   end
 
   def main(input_file) do
@@ -56,5 +93,12 @@ defmodule Day10 do
       starts |> Enum.map(fn p -> peaks_for_start(map, graph, p) |> Enum.count() end) |> Enum.sum()
 
     Util.inspect(part1)
+
+    part2 =
+      starts
+      |> Enum.map(fn p -> rating_for_start(map, graph, p) end)
+      |> Enum.sum()
+
+    Util.inspect(part2)
   end
 end

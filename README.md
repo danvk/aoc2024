@@ -150,3 +150,8 @@ For part two, I switched to using a Map. I think I set this up backwards from wh
 So once again, I re-implemented a solution in Python. Part 2 was much more challenging and a lot slower, but a brute force solution still worked and showed the difference. I had a bug in my Python code: I'd find the lowest gap and swap into it, but you only want to do that if the gap is before the span that you're considering. It turned out that my Elixir code had the same bug (it must have been slightly more subtle since I got the right answer on the sample input). Fixing it got me the correct answer (and it's faster than Python!).
 
 So lesson: be really wary of Elixir ranges?
+
+## Day 10
+
+You can't do `nil or 0` in Elixir.
+`Map.get_and_update` requires you to return a pair with the current value and the new value. Huh?
