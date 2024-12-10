@@ -57,15 +57,8 @@ defmodule Day10 do
 
     {_, visit_counts} =
       Map.get_and_update(visit_counts, p, fn v ->
-        {v,
-         if v do
-           v
-         else
-           0
-         end + 1}
+        {v, (v || 0) + 1}
       end)
-
-    # Util.inspect(visit_counts)
 
     bfs2_help(graph, rest ++ graph[p], visit_counts)
   end
@@ -83,9 +76,6 @@ defmodule Day10 do
     {map, _wh} = Util.read_grid(input_file)
     map = Map.new(map, fn {k, v} -> {k, v - ?0} end)
     graph = make_graph(map)
-    # Util.inspect(wh, map)
-    # Util.inspect(graph)
-    # Util.inspect(bfs(graph, {0, 0}))
 
     starts = map |> Enum.filter(fn {_p, v} -> v == 0 end) |> Enum.map(&Util.first/1)
 

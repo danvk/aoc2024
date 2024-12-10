@@ -157,6 +157,9 @@ Not too bad today, just construct a graph and do a BFS. For part 2, I changed my
 
 A few Elixir notes for the day:
 
-- You can't do `nil or 0` in Elixir.
+- ~You can't do `nil or 0` in Elixir.~ You do `nil || 0` instead.
+  - https://stackoverflow.com/q/34605325/388951
+  - `or` and `and` require a boolean, `||` and `&&` do not.
+  - `or` and `and` short-circuit, `||` and `&&` do not.
 - A `MapSet` is Elixir's version of a set.
 - `Map.get_and_update` lets you retrieve the current value and fill in a new value for a map in one pass, but it has a really weird contract. It requires you to return a pair with the current value and the new value. Huh? Why does it need to old value? Another surprise: it returns a tuple with the new value and the map, not just the map. Maybe I should just write a wrapper for this.
