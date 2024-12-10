@@ -41,8 +41,7 @@ defmodule Util do
   def print_grid(grid, {w, h}) do
     for y <- 0..h do
       for x <- 0..w do
-        # XXX any simpler way to print a single char?
-        IO.write(List.to_string([Map.get(grid, {x, y}, ?.)]))
+        IO.write([Map.get(grid, {x, y}, ?.)])
       end
 
       IO.puts("")
