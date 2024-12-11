@@ -163,3 +163,10 @@ A few Elixir notes for the day:
   - `or` and `and` short-circuit, `||` and `&&` do not.
 - A `MapSet` is Elixir's version of a set.
 - `Map.get_and_update` lets you retrieve the current value and fill in a new value for a map in one pass, but it has a really weird contract. It requires you to return a pair with the current value and the new value. Huh? Why does it need to old value? Another surprise: it returns a tuple with the new value and the map, not just the map. Maybe I should just write a wrapper for this.
+
+I'm going to try installing Elixir 1.18, which hit RC today. It has significant improvements to "set-theoretic types" and language services. It's on the `v1.18.0-rc.0` branch, but unclear to me how to install this with homebrew. Instead, I'm using
+
+    brew unlink elixir
+    brew install --HEAD elixir
+
+No new type errors, no obvious difference in language service.
