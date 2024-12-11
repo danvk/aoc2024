@@ -170,3 +170,10 @@ I'm going to try installing Elixir 1.18, which hit RC today. It has significant 
     brew install --HEAD elixir
 
 No new type errors, no obvious difference in language service.
+
+## Day 11
+
+Part 2 ideas:
+
+- Fit a curve, it's clearly very close to an exponential. Maybe a Fibonacci-like sequence?
+- Since the stones position is irrelevant, just track counts of each number?

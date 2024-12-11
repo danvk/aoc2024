@@ -19,14 +19,26 @@ defmodule Day11 do
   end
 
   def blink(stones) do
+    IO.puts("blink! #{stones |> Enum.count()}")
     Enum.flat_map(stones, &blink1/1)
+  end
+
+  def blink_map(stones) do
+    news = stones |> Enum.flat_map(fn {v, count} -> blink1(v) |> Enum.map(&{&1, count}) end)
+
+    news
+    |> Enum.reduce(%{}, fn {v, count}, acc ->
+      Util.get_and_update(acc, v, fn old -> (old || 0) + count end)
+    end)
   end
 
   def main(input_file) do
     stones = File.read!(input_file) |> String.trim_trailing() |> Util.read_ints(" ")
 
-    new_stones = 1..25 |> Enum.reduce(stones, fn _, acc -> blink(acc) end)
+    # new_stones = 1..25 |> Enum.reduce(stones, fn _, acc -> blink(acc) end)
     # Util.inspect(new_stones)
-    Util.inspect(new_stones |> Enum.count())
+    stone_map = for stone <- stones, into: %{}, do: {stone, 1}
+    new_stones = 1..75 |> Enum.reduce(stone_map, fn _, acc -> blink_map(acc) end)
+    Util.inspect(new_stones |> Enum.map(&Util.second/1) |> Enum.sum())
   end
 end
