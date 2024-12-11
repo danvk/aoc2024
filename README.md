@@ -173,7 +173,10 @@ No new type errors, no obvious difference in language service.
 
 ## Day 11
 
-Part 2 ideas:
+This was a fun one. I had about 25 minutes between breakfast and our departure for a hike (Sendero Pre-Hispánico). I did manage to get both stars, but it was a nail-biter!
 
-- Fit a curve, it's clearly very close to an exponential. Maybe a Fibonacci-like sequence?
-- Since the stones position is irrelevant, just track counts of each number?
+Part 1 was straightforward. Part 2 obviously wasn't going to work. My first instinct was to fit a curve to the number of stones per blink. It's very close to an exponential, but not exactly. I thought it might be some kind of Fibonacci-like sequence, but I wasn't going to get that to work quickly enough.
+
+I decided to give up and quickly wrote down some ideas for what to do next in this doc. My second idea was to track just the count for each number, since the position of the stones doesn't matter. Wait, that might just work! I raced furiously to code it up and got my second star just as we had to leave.
+
+I did not notice any difference from the new version of Elixir today, so I'm not entirely confident I have it set up correctly.
