@@ -18,29 +18,12 @@ defmodule Day12 do
     {x, y} = xy
     at = fn nx, ny -> Map.get(grid, {nx, ny}) end
 
-    # ...
-    # .x.
-    # ...
-    # Util.inspect(c)
-    # Util.inspect(at.(x, y - 1))
-    # Util.inspect(at.(x - 1, y))
-    # Util.inspect(at.(x, y + 1))
-    # Util.inspect(at.(x + 1, y))
-    # ....
-    # ..C.
-    # ..CC
-    # ...C
-
-    sides = [
+    [
       at.(x, y - 1) != c && !(at.(x - 1, y) == c && at.(x - 1, y - 1) != c),
       at.(x, y + 1) != c && !(at.(x + 1, y) == c && at.(x + 1, y + 1) != c),
       at.(x - 1, y) != c && !(at.(x, y - 1) == c && at.(x - 1, y - 1) != c),
       at.(x + 1, y) != c && !(at.(x, y + 1) == c && at.(x + 1, y + 1) != c)
     ]
-
-    # Util.inspect(sides)
-
-    sides
     |> Enum.filter(& &1)
     |> Enum.count()
   end
@@ -89,11 +72,11 @@ defmodule Day12 do
 
   def main(input_file) do
     {grid, wh} = Util.read_grid(input_file)
-    Util.print_grid(grid, wh)
+    # Util.print_grid(grid, wh)
 
-    IO.puts("---")
+    # IO.puts("---")
     grid = relabel(grid, wh)
-    Util.print_grid(grid, wh)
+    # Util.print_grid(grid, wh)
 
     by_crop =
       Enum.group_by(Map.to_list(grid), &Util.second(&1))
@@ -110,8 +93,7 @@ defmodule Day12 do
       end)
 
     # Util.inspect(perims)
-
-    Util.inspect(Map.new(areas, fn {k, area} -> {List.to_string([k]), {area, perims[k]}} end))
+    # Util.inspect(Map.new(areas, fn {k, area} -> {List.to_string([k]), {area, perims[k]}} end))
 
     part1 = areas |> Enum.map(fn {k, area} -> area * perims[k] end) |> Enum.sum()
     IO.puts("part 1: #{part1}")
@@ -121,13 +103,8 @@ defmodule Day12 do
         pts |> Enum.map(&perim2(grid, &1)) |> Enum.sum()
       end)
 
-    Util.inspect(Map.new(areas, fn {k, area} -> {List.to_string([k]), {area, perims2[k]}} end))
+    # Util.inspect(Map.new(areas, fn {k, area} -> {List.to_string([k]), {area, perims2[k]}} end))
     part2 = areas |> Enum.map(fn {k, area} -> area * perims2[k] end) |> Enum.sum()
     IO.puts("part 2: #{part2}")
-
-    Util.inspect(perim2(grid, {2, 1}))
-    Util.inspect(perim2(grid, {2, 2}))
-    Util.inspect(perim2(grid, {3, 2}))
-    Util.inspect(perim2(grid, {3, 3}))
   end
 end
