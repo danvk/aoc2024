@@ -180,3 +180,7 @@ Part 1 was straightforward. Part 2 obviously wasn't going to work. My first inst
 I decided to give up and quickly wrote down some ideas for what to do next in this doc. My second idea was to track just the count for each number, since the position of the stones doesn't matter. Wait, that might just work! I raced furiously to code it up and got my second star just as we had to leave.
 
 I did not notice any difference from the new version of Elixir today, so I'm not entirely confident I have it set up correctly.
+
+## Day 12
+
+The lack of type checking really is a disaster for Elixir. I'm constantly making type errors with enum methods on maps.
