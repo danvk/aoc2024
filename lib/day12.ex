@@ -13,6 +13,38 @@ defmodule Day12 do
     Enum.filter(@dirs, fn {dx, dy} -> Map.get(grid, {x + dx, y + dy}) != c end) |> Enum.count()
   end
 
+  def perim2(grid, xy) do
+    c = Map.get(grid, xy)
+    {x, y} = xy
+    at = fn nx, ny -> Map.get(grid, {nx, ny}) end
+
+    # ...
+    # .x.
+    # ...
+    # Util.inspect(c)
+    # Util.inspect(at.(x, y - 1))
+    # Util.inspect(at.(x - 1, y))
+    # Util.inspect(at.(x, y + 1))
+    # Util.inspect(at.(x + 1, y))
+    # ....
+    # ..C.
+    # ..CC
+    # ...C
+
+    sides = [
+      at.(x, y - 1) != c && !(at.(x - 1, y) == c && at.(x - 1, y - 1) != c),
+      at.(x, y + 1) != c && !(at.(x + 1, y) == c && at.(x + 1, y + 1) != c),
+      at.(x - 1, y) != c && !(at.(x, y - 1) == c && at.(x - 1, y - 1) != c),
+      at.(x + 1, y) != c && !(at.(x, y + 1) == c && at.(x + 1, y + 1) != c)
+    ]
+
+    # Util.inspect(sides)
+
+    sides
+    |> Enum.filter(& &1)
+    |> Enum.count()
+  end
+
   def relabel_help(_grid, [], new_grid, _n) do
     new_grid
   end
@@ -83,5 +115,19 @@ defmodule Day12 do
 
     part1 = areas |> Enum.map(fn {k, area} -> area * perims[k] end) |> Enum.sum()
     IO.puts("part 1: #{part1}")
+
+    perims2 =
+      Util.map_values(by_crop, fn _c, pts ->
+        pts |> Enum.map(&perim2(grid, &1)) |> Enum.sum()
+      end)
+
+    Util.inspect(Map.new(areas, fn {k, area} -> {List.to_string([k]), {area, perims2[k]}} end))
+    part2 = areas |> Enum.map(fn {k, area} -> area * perims2[k] end) |> Enum.sum()
+    IO.puts("part 2: #{part2}")
+
+    Util.inspect(perim2(grid, {2, 1}))
+    Util.inspect(perim2(grid, {2, 2}))
+    Util.inspect(perim2(grid, {3, 2}))
+    Util.inspect(perim2(grid, {3, 3}))
   end
 end
