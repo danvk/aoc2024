@@ -183,4 +183,15 @@ I did not notice any difference from the new version of Elixir today, so I'm not
 
 ## Day 12
 
+Today was a bit of a strugglefest. I spent most of the time for part 1 writing code to relabel the grid so that all components were contiguous. This was harder than I expected -- you can't just iterate over the grid, you really need a DFS. Otherwise you risk splitting components in half.
+
+For part 2 I checked if the next segment clockwise was a fence segment of the same type. It's a little ugly but it worked!
+
 The lack of type checking really is a disaster for Elixir. I'm constantly making type errors with enum methods on maps.
+
+```
+- Map.get(grid, x, y)
++ Map.get(grid, {x, y})
+```
+
+Discussion on RC's #elixir suggests this may never be a thing type checking can help with. So maybe the better solution for me is to make a `Grid` module with stricter methods.
