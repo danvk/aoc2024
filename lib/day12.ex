@@ -13,13 +13,17 @@ defmodule Day12 do
     Enum.filter(@dirs, fn {dx, dy} -> Map.get(grid, {x + dx, y + dy}) != c end) |> Enum.count()
   end
 
-  def relabel(grid) do
-    grid
-    |> Enum.reduce({?A, %{}}, fn {pt, v}, {n, new_grid} ->
+  def relabel(grid, {w, h}) do
+    keys = for x <- 0..w, y <- 0..h, do: {x, y}
+
+    keys
+    |> Enum.reduce({?A, %{}}, fn pt, {n, new_grid} ->
+      pv = Map.get(new_grid, pt)
+
       {new_grid, v, next_n} =
-        cond do
-          Map.get(new_grid, pt) != nil -> {new_grid, v, n}
-          true -> {Map.put(new_grid, pt, n), n, n + 1}
+        case pv do
+          nil -> {Map.put(new_grid, pt, n), n, n + 1}
+          _ -> {new_grid, pv, n}
         end
 
       c = Map.get(grid, pt)
@@ -43,11 +47,12 @@ defmodule Day12 do
   end
 
   def main(input_file) do
-    {grid, _wh} = Util.read_grid(input_file)
-    # Util.print_grid(grid, wh)
+    {grid, wh} = Util.read_grid(input_file)
+    Util.print_grid(grid, wh)
 
-    grid = relabel(grid)
-    # Util.print_grid(grid, wh)
+    IO.puts("---")
+    grid = relabel(grid, wh)
+    Util.print_grid(grid, wh)
 
     by_crop =
       Enum.group_by(Map.to_list(grid), &Util.second(&1))
@@ -56,14 +61,16 @@ defmodule Day12 do
     # Util.inspect(by_crop)
 
     areas = Util.map_values(by_crop, fn _k, v -> Enum.count(v) end)
-    Util.inspect(areas)
+    # Util.inspect(areas)
 
     perims =
       Util.map_values(by_crop, fn _c, pts ->
         pts |> Enum.map(&perim(grid, &1)) |> Enum.sum()
       end)
 
-    Util.inspect(perims)
+    # Util.inspect(perims)
+
+    Util.inspect(Map.new(areas, fn {k, area} -> {List.to_string([k]), {area, perims[k]}} end))
 
     part1 = areas |> Enum.map(fn {k, area} -> area * perims[k] end) |> Enum.sum()
     IO.puts("part 1: #{part1}")
