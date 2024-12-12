@@ -9,6 +9,7 @@
         "editor.snippetSuggestions": "inline",
         "files.trimTrailingWhitespace": true,
         "files.insertFinalNewline": true,
-        "files.trimFinalNewlines": true
-    }
+        "files.trimFinalNewlines": true,
+    },
+    "elixirLS.suggestSpecs": false
 }

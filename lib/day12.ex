@@ -13,37 +13,46 @@ defmodule Day12 do
     Enum.filter(@dirs, fn {dx, dy} -> Map.get(grid, {x + dx, y + dy}) != c end) |> Enum.count()
   end
 
-  def relabel(grid, {w, h}) do
-    keys = for x <- 0..w, y <- 0..h, do: {x, y}
+  def relabel_help(_grid, [], new_grid, _n) do
+    new_grid
+  end
 
-    keys
-    |> Enum.reduce({?A, %{}}, fn pt, {n, new_grid} ->
-      pv = Map.get(new_grid, pt)
+  def relabel_help(grid, [pt | rest], new_grid, n) do
+    pv = Map.get(new_grid, pt)
 
-      {new_grid, v, next_n} =
-        case pv do
-          nil -> {Map.put(new_grid, pt, n), n, n + 1}
-          _ -> {new_grid, pv, n}
+    {new_grid, v, next_n} =
+      case pv do
+        nil -> {Map.put(new_grid, pt, n), n, n + 1}
+        _ -> {new_grid, pv, n}
+      end
+
+    c = Map.get(grid, pt)
+    {x, y} = pt
+
+    {new_pts, new_grid} =
+      @dirs
+      |> Enum.reduce({[], new_grid}, fn {dx, dy}, {pts, new_grid} ->
+        npt = {x + dx, y + dy}
+        gridv = Map.get(grid, npt)
+        new_gridv = Map.get(new_grid, npt)
+
+        if c == gridv && new_gridv != nil && new_gridv != v do
+          raise("Created new plot!")
         end
 
-      c = Map.get(grid, pt)
-      {x, y} = pt
+        if new_gridv == nil && gridv == c do
+          {[npt | pts], Map.put(new_grid, npt, v)}
+        else
+          {pts, new_grid}
+        end
+      end)
 
-      new_grid =
-        @dirs
-        |> Enum.reduce(new_grid, fn {dx, dy}, new_grid ->
-          npt = {x + dx, y + dy}
+    relabel_help(grid, new_pts ++ rest, new_grid, next_n)
+  end
 
-          if Map.get(grid, npt) == c do
-            Map.put(new_grid, npt, v)
-          else
-            new_grid
-          end
-        end)
-
-      {next_n, new_grid}
-    end)
-    |> Util.second()
+  def relabel(grid, {w, h}) do
+    keys = for x <- 0..w, y <- 0..h, do: {x, y}
+    relabel_help(grid, keys, %{}, ?A)
   end
 
   def main(input_file) do
