@@ -85,4 +85,8 @@ defmodule Util do
     {_, new_m} = Map.get_and_update(m, k, fn v -> {v, f.(v)} end)
     new_m
   end
+
+  def map_values(m, f) do
+    Map.new(m, fn {k, v} -> {k, f.(k, v)} end)
+  end
 end
