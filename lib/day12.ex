@@ -10,24 +10,30 @@ defmodule Day12 do
   def perim(grid, xy) do
     c = Map.get(grid, xy)
     {x, y} = xy
-    edges = Enum.filter(@dirs, fn {dx, dy} -> Map.get(grid, x + dx, y + dy) != c end)
+    Enum.filter(@dirs, fn {dx, dy} -> Map.get(grid, {x + dx, y + dy}) != c end) |> Enum.count()
   end
 
   def main(input_file) do
     {grid, wh} = Util.read_grid(input_file)
     Util.print_grid(grid, wh)
 
-    by_crop = Enum.group_by(Map.to_list(grid), &Util.second(&1))
+    by_crop =
+      Enum.group_by(Map.to_list(grid), &Util.second(&1))
+      |> Util.map_values(fn _k, v -> v |> Enum.map(&Util.first/1) end)
 
-    areas =
-      by_crop |> Map.new(fn {k, v} -> {k, Enum.count(v)} end)
+    Util.inspect(by_crop)
+
+    areas = Util.map_values(by_crop, fn _k, v -> Enum.count(v) end)
+    Util.inspect(areas)
 
     perims =
       Util.map_values(by_crop, fn _c, pts ->
-        pts |> Enum.map(&perim(grid, &1)) |> Enum.map(&Enum.sum/1)
+        pts |> Enum.map(&perim(grid, &1)) |> Enum.sum()
       end)
 
-    Util.inspect(areas)
     Util.inspect(perims)
+
+    part1 = areas |> Enum.map(fn {k, area} -> area * perims[k] end) |> Enum.sum()
+    IO.puts("part 1: #{part1}")
   end
 end
