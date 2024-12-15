@@ -19,6 +19,10 @@ defmodule Util do
     {a, b}
   end
 
+  def split_on(enumerable, value) do
+    enumerable |> Enum.chunk_by(&(&1 == value)) |> Enum.filter(&(&1 != [value]))
+  end
+
   def enumerate(xs) do
     Enum.zip(0..Enum.count(xs), xs)
   end
