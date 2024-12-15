@@ -84,6 +84,14 @@ defmodule Util do
     txt |> String.split(delim) |> Enum.map(&String.to_integer/1)
   end
 
+  def extract_ints(txt) do
+    txt
+    |> String.to_charlist()
+    |> Enum.chunk_by(fn x -> x >= ?0 && x <= ?9 end)
+    |> Enum.filter(fn part -> hd(part) >= ?0 && hd(part) <= ?9 end)
+    |> Enum.map(fn part -> String.to_integer("#{part}") end)
+  end
+
   # Like Map.get_and_update, but with a more sane type signature.
   def get_and_update(m, k, f) do
     {_, new_m} = Map.get_and_update(m, k, fn v -> {v, f.(v)} end)
