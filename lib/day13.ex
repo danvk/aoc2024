@@ -61,5 +61,7 @@ defmodule Day13 do
     # Util.inspect("Button A: X+94, Y+34" |> Util.extract_ints())
     part1 = instrs |> Enum.map(&solve1/1) |> Enum.sum()
     IO.inspect(part1)
+    trouble = instrs |> Enum.filter(fn {{ax, ay}, {bx, by}, _} -> ax * by == ay * bx end)
+    IO.inspect(trouble |> Enum.count())
   end
 end
