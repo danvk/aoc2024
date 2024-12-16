@@ -209,3 +209,19 @@ The Elixir language service is constantly crashing without internet. It's compla
 ## Day 14
 
 You can write `String.slice(2..-1//1)` to read until the end of the string.
+
+Part 1 is (hopefully) not too bad. I assume part 2 will ask us to do a trillion steps, in which case my guess is that this all repeats after 103*101 steps. Or if not, then at least each individual robot will repeat with some cycle.
+
+## Day 15
+
+Part 1: (hopefully) not as bad as I'd thought, shoving is just a matter of finding the next open square in that direction and swapping two cells.
+
+I honestly have no clue what part 2 will be. Iterate a lot longer? Do it with several robots? One of the moves spawns a new robot? There's gravity?
+
+## Day 16
+
+I copy/pasted the text from the problem page that I'd loaded on my phone. This works surprisingly well!
+
+I don't think Elixir has a built-in Heap module, which will make implementing A* hard.
+
+I don't think I like putting destructuring patterns in function signatures. It feels like it exposes some of the implementation and prevents you from giving the parameters meaningful names.

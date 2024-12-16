@@ -1,6 +1,37 @@
 defmodule Day16 do
-  def parse_line(line) do
-    String.split(line)
+  def a_star(starts, target, neighbors_fn) do
+    queue = starts |> Enum.map(&{0, &1})
+    a_star_help(queue, target, %{}, neighbors_fn)
+  end
+
+  def a_star_help([], _, _, _) do
+    nil
+  end
+
+  def a_star_help(queue, target, visited, n_fn) do
+    # TODO: heap pop
+    [{d, v} | rest] = queue
+
+    cond do
+      v == target ->
+        d
+
+      Map.get(visited, v) ->
+        a_star_help(rest, target, visited, n_fn)
+
+      true ->
+        nexts = n_fn.(v)
+        d_nexts = nexts |> Enum.map(fn {nd, nv} -> {d + nd, nv} end)
+        # TODO: heap push
+        next_queue = (d_nexts ++ queue) |> Enum.sort(fn {d1, _}, {d2, _} -> d1 < d2 end)
+        next_visited = Map.put(visited, v, d)
+        a_star_help(rest, next_queue, next_visited, n_fn)
+    end
+  end
+
+  def moves(grid, {p, dir}) do
+    # (maybe) move one step in dir at a cost of 1
+    # (definitely) try all turns at a cost of 1000
   end
 
   def main(input_file) do
