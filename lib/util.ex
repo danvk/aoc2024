@@ -30,8 +30,12 @@ defmodule Util do
   # Read a file into an {x, y} -> char Map.
   # Returns the grid and its max x & y coordinates
   def read_grid(input_file) do
+    Util.read_lines(input_file) |> read_grid_from_lines()
+  end
+
+  def read_grid_from_lines(lines) do
     grid =
-      for {y, line} <- Util.read_lines(input_file) |> Util.enumerate(),
+      for {y, line} <- lines |> Util.enumerate(),
           {x, char} <- line |> String.to_charlist() |> Util.enumerate(),
           into: %{},
           do: {{x, y}, char}
