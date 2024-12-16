@@ -52,6 +52,17 @@ defmodule Day15 do
     end
   end
 
+  def score(grid) do
+    Enum.map(grid, fn {{x, y}, v} ->
+      case v do
+        ?O -> 100 * y + x
+        ?. -> 0
+        ?# -> 0
+      end
+    end)
+    |> Enum.sum()
+  end
+
   def main(input_file) do
     {grid_str, moves} = Util.read_lines(input_file) |> Util.split_on_blank()
     {grid, wh} = Util.read_grid_from_lines(grid_str)
@@ -68,5 +79,6 @@ defmodule Day15 do
 
     Util.print_grid(grid, wh)
     Util.inspect(pos)
+    Util.inspect(score(grid))
   end
 end
