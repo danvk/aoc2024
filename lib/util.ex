@@ -101,4 +101,8 @@ defmodule Util do
   def map_values(m, f) do
     Map.new(m, fn {k, v} -> {k, f.(k, v)} end)
   end
+
+  def count_by(enum, f) do
+    enum |> Enum.group_by(f) |> Util.map_values(fn _k, v -> Enum.count(v) end)
+  end
 end

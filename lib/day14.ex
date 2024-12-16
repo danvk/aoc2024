@@ -56,7 +56,7 @@ defmodule Day14 do
     after100 = for {p, v} <- robots, do: step100(p, v)
 
     quadrants =
-      after100 |> Enum.group_by(&quadrant/1) |> Util.map_values(fn _k, v -> Enum.count(v) end)
+      after100 |> Util.count_by(&quadrant/1)
 
     part1 = 1..4 |> Enum.map(&quadrants[&1]) |> Enum.product()
 
