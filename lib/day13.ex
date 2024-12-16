@@ -40,17 +40,32 @@ defmodule Day13 do
     |> Enum.min(&<=/2, fn -> 0 end)
   end
 
-  def solve_eq(machine) do
-    {{ax, ay}, {bx, by}, {px, py}} = machine
+  def solve_eq({{ax, ay}, {bx, by}, {px, py}}) do
     # B = (px - ax * A) / bx
     # by * ax * A + by * bx * B = by * px
     # bx * ay * A + bx * by * B = bx * py
     # ay * ax * A + ay * bx * B = ay * px
     # ax * ay * A + ax * by * B = ax * py
     # B = (ay * px - ax * py) / (ay * bx - ax * by)
-    A = (by * px - bx * py) / (by * ax - bx * ay)
-    B = (ay * px - ax * py) / (ay * bx - ax * by)
-    {A, B}
+    a = (by * px - bx * py) / (by * ax - bx * ay)
+    b = (ay * px - ax * py) / (ay * bx - ax * by)
+    {a, b}
+  end
+
+  def filter1({a, b}) do
+    filter2({a, b}) && a <= 100 && b <= 100
+  end
+
+  def filter2({a, b}) do
+    a >= 0 && b >= 0 && is_int(a) && is_int(b)
+  end
+
+  def score({a, b}) do
+    3 * a + b
+  end
+
+  def is_int(x) do
+    floor(x) == x
   end
 
   def parse_line(lines) do
@@ -72,12 +87,27 @@ defmodule Day13 do
     # Util.inspect(instrs)
 
     # Util.inspect("Button A: X+94, Y+34" |> Util.extract_ints())
-    part1 = instrs |> Enum.map(&solve1/1) |> Enum.sum()
-    IO.inspect(part1)
+    # part1 = instrs |> Enum.map(&solve1/1) |> Enum.sum()
+    # IO.inspect(part1)
     trouble = instrs |> Enum.filter(fn {{ax, ay}, {bx, by}, _} -> ax * by == ay * bx end)
     IO.inspect(trouble |> Enum.count())
 
-    part2 = instrs |> Enum.map(&solve_eq/1)
-    IO.inspect(part2)
+    part1 = instrs |> Enum.map(&solve_eq/1)
+    # IO.inspect(part1)
+    IO.inspect(part1 |> Enum.filter(&filter1/1) |> Enum.map(&score/1) |> Enum.sum())
+
+    machines2 =
+      instrs
+      |> Enum.map(fn {a, b, {px, py}} ->
+        {a, b, {10_000_000_000_000 + px, 10_000_000_000_000 + py}}
+      end)
+
+    IO.inspect(
+      machines2
+      |> Enum.map(&solve_eq/1)
+      |> Enum.filter(&filter2/1)
+      |> Enum.map(&score/1)
+      |> Enum.sum()
+    )
   end
 end

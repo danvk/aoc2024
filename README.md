@@ -201,3 +201,4 @@ Discussion on RC's #elixir suggests this may never be a thing type checking can 
 First thought: A*, priority search! Second thought: you only need to scan in one dimension since the number of A presses uniquely determines the number of B presses. It's like a line with a bend. Upon seeing part 2: oh wait, this really is just a system of equations. And fortunately none of the inputs have A & B parallel to each other, which would be a _much_ harder problem.
 
 Since we didn't have internet at Rio Claro, or in the room at El Paujil, this is reminding me a lot of 2019's AoC, where I was always catching up.
+
