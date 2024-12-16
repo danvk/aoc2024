@@ -40,6 +40,19 @@ defmodule Day13 do
     |> Enum.min(&<=/2, fn -> 0 end)
   end
 
+  def solve_eq(machine) do
+    {{ax, ay}, {bx, by}, {px, py}} = machine
+    # B = (px - ax * A) / bx
+    # by * ax * A + by * bx * B = by * px
+    # bx * ay * A + bx * by * B = bx * py
+    # ay * ax * A + ay * bx * B = ay * px
+    # ax * ay * A + ax * by * B = ax * py
+    # B = (ay * px - ax * py) / (ay * bx - ax * by)
+    A = (by * px - bx * py) / (by * ax - bx * ay)
+    B = (ay * px - ax * py) / (ay * bx - ax * by)
+    {A, B}
+  end
+
   def parse_line(lines) do
     # case lines do
     #   ["Button A: X+#{ax}, Y+#{ay}", "Button B: X+#{bx}, Y+#{by}", "Prize: X=#{px}, Y=#{py}"] ->
@@ -63,5 +76,8 @@ defmodule Day13 do
     IO.inspect(part1)
     trouble = instrs |> Enum.filter(fn {{ax, ay}, {bx, by}, _} -> ax * by == ay * bx end)
     IO.inspect(trouble |> Enum.count())
+
+    part2 = instrs |> Enum.map(&solve_eq/1)
+    IO.inspect(part2)
   end
 end
