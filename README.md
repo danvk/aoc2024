@@ -205,3 +205,7 @@ Since we didn't have internet at Rio Claro, or in the room at El Paujil, this is
 I want to be able to pattern match on strings to extract numbers, e.g. `"a=#{a}" = txt`.
 
 The Elixir language service is constantly crashing without internet. It's complaining about Elixir 1.19 not being supported. Since I'm getting no value out of the new version, I should probably downgrade when I get better wifi.
+
+## Day 14
+
+You can write `String.slice(2..-1//1)` to read until the end of the string.
