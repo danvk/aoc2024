@@ -56,6 +56,20 @@ defmodule Util do
     end
   end
 
+  def find_and_replace_char_in_grid(grid, target, replacement) do
+    for(
+      {p, v} <- grid,
+      do:
+        if(v == target) do
+          {Map.put(grid, p, replacement), p}
+        else
+          nil
+        end
+    )
+    |> Enum.filter(& &1)
+    |> hd()
+  end
+
   def pairs(xs) do
     for {x, i} <- Enum.with_index(xs), y <- Enum.drop(xs, i), do: {x, y}
   end
