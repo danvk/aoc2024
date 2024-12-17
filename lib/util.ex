@@ -123,4 +123,26 @@ defmodule Util do
   def count_by(enum, f) do
     enum |> Enum.group_by(f) |> Util.map_values(fn _k, v -> Enum.count(v) end)
   end
+
+  def move({x, y}, dir, d \\ 1) do
+    case dir do
+      :E -> {x + d, y}
+      :W -> {x - d, y}
+      :N -> {x, y - d}
+      :S -> {x, y + d}
+    end
+  end
+
+  def turn(dir, turn) do
+    case {dir, turn} do
+      {:E, :R} -> :S
+      {:E, :L} -> :N
+      {:W, :R} -> :N
+      {:W, :L} -> :S
+      {:N, :R} -> :E
+      {:N, :L} -> :W
+      {:S, :R} -> :W
+      {:S, :L} -> :E
+    end
+  end
 end

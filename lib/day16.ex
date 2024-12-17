@@ -32,6 +32,21 @@ defmodule Day16 do
   def moves(grid, {p, dir}) do
     # (maybe) move one step in dir at a cost of 1
     # (definitely) try all turns at a cost of 1000
+    next = Util.move(p, dir)
+    next_cell = grid[next]
+
+    step_moves =
+      case next_cell do
+        ?. -> [{1, next}]
+        ?# -> []
+      end
+
+    turn_moves = [
+      {1000, Util.turn(dir, :L)},
+      {1000, Util.turn(dir, :R)}
+    ]
+
+    step_moves ++ turn_moves
   end
 
   def main(input_file) do
@@ -41,5 +56,7 @@ defmodule Day16 do
 
     Util.print_grid(grid, wh)
     Util.inspect(start, finish)
+
+    cost = a_star([{start, :E}], finish, fn n -> moves(grid, n) end)
   end
 end

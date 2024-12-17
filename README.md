@@ -218,6 +218,8 @@ Part 1: (hopefully) not as bad as I'd thought, shoving is just a matter of findi
 
 I honestly have no clue what part 2 will be. Iterate a lot longer? Do it with several robots? One of the moves spawns a new robot? There's gravity?
 
+It's kind of Eric to put a boundary wall around his grids. It means you don't need any bounds checking.
+
 ## Day 16
 
 I copy/pasted the text from the problem page that I'd loaded on my phone. This works surprisingly well!
