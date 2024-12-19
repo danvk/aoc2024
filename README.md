@@ -232,8 +232,18 @@ A* search always feels like a bit of a miracle when it works. But after many yea
 
 ## Day 17
 
-This seems tedious to implement.
+This seems tedious to implement. Probably a good first opportunity to use an Elixir struct.
+
+There are a lot of silly, annoying things in Elixir's VS Code setup. For example, typing a ":" anywhere in a comment autocompletes to ":application". If you end a line with a ":" (as I often do!) then you'll hit enter and accept the autocomplete.
+
+Defining a struct feels pretty funny without types. You just specify the field names. I wrote `ip: integer` without even thinking about it.
 
 ## Day 18
 
 Easy application of search. I expected part 2 to be a time-based search (position X, Y becomes blocked at time T). This seems easier.
+
+## Day 19
+
+Part 1: I'll create a graph of allowed letter transitions. Wait, isn't that how grep works? Uh, this is just grep?
+
+Of course that won't work for part 2.
