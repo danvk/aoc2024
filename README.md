@@ -251,6 +251,8 @@ Only the last six bits of A affect the next output.
 4 and 6 have unique last six bits that produce them.
 There are two 4s and one 6 in the input.
 
+… I couldn't get that to work. Instead I implemented the machine encoded by my input in Python, then did brute force search digit-by-digit. I don't think you can do one digit at a time since the last six digits matter. So I tried 8*8 possibilities and then allowed the top oct to vary on the next round.
+
 ## Day 18
 
 Easy application of search. I expected part 2 to be a time-based search (position X, Y becomes blocked at time T). This seems easier.
