@@ -227,3 +227,5 @@ I copy/pasted the text from the problem page that I'd loaded on my phone. This w
 I don't think Elixir has a built-in Heap module, which will make implementing A* hard.
 
 I don't think I like putting destructuring patterns in function signatures. It feels like it exposes some of the implementation and prevents you from giving the parameters meaningful names.
+
+A* search always feels like a bit of a miracle when it works. But after many years of AoC, I feel pretty confident about implementing it!
