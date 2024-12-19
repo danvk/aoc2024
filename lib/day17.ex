@@ -5,8 +5,7 @@ defmodule Day17 do
   # Registers A, B, C
 
   defmodule State do
-    @enforce_keys [:ip, :a, :b, :c, :out]
-    defstruct [:ip, :a, :b, :c, :out, halted: false]
+    defstruct ip: 0, a: 0, b: 0, c: 0, out: [], halted: false
   end
 
   # Opcodes:
@@ -68,7 +67,7 @@ defmodule Day17 do
   end
 
   def run_op(@out, operand, state) do
-    %{state | out: state.out ++ [Integer.mod(operand, 8)]}
+    %{state | out: state.out ++ [Integer.mod(combo(operand, state), 8)]}
   end
 
   def combo(operand, state) do
@@ -105,6 +104,12 @@ defmodule Day17 do
     Util.inspect(state)
     Util.inspect(nums)
 
-    Util.inspect(run_program(nums, state))
+    new_state = run_program(nums, state)
+    Util.inspect(new_state)
+
+    # Util.inspect(run_program([2, 6], %State{c: 9}))
+    # Util.inspect(run_program([5, 0, 5, 1, 5, 4], %State{a: 10}))
+
+    IO.puts(new_state.out |> Enum.map(&to_string/1) |> Enum.join(","))
   end
 end
