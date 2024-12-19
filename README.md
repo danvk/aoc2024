@@ -229,3 +229,11 @@ I don't think Elixir has a built-in Heap module, which will make implementing A*
 I don't think I like putting destructuring patterns in function signatures. It feels like it exposes some of the implementation and prevents you from giving the parameters meaningful names.
 
 A* search always feels like a bit of a miracle when it works. But after many years of AoC, I feel pretty confident about implementing it!
+
+## Day 17
+
+This seems tedious to implement.
+
+## Day 18
+
+Easy application of search. I expected part 2 to be a time-based search (position X, Y becomes blocked at time T). This seems easier.
