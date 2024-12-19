@@ -247,6 +247,10 @@ Elixir LSP crashloops if there are any errors when you start it.
 
 "No such function foo/2 exists" feels like a misleading message when you've just passed the wrong number of arguments.
 
+Only the last six bits of A affect the next output.
+4 and 6 have unique last six bits that produce them.
+There are two 4s and one 6 in the input.
+
 ## Day 18
 
 Easy application of search. I expected part 2 to be a time-based search (position X, Y becomes blocked at time T). This seems easier.
