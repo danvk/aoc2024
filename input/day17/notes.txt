@@ -1,0 +1,36 @@
+ 0: 2,4 = bst = B=A%8
+ 2: 1,5 = bxl = B = B^5 
+ 4: 7,5 = cdv = C = floor(A / 2**B)
+ 6: 1,6 = bxl = B = B^6
+ 8: 0,3 = adv = A = floor(A / 2**3)
+10: 4,3 = bxc = B = B ^ C
+12: 5,5 = out = output(B % 8)
+14: 3,0 = jnz = if A != 0 goto 0 else terminate
+
+A = 34615120
+{
+  B = A
+  B = B ^ 5
+  C = floor(A / 2**B)
+  B = B ^ 6
+  A = floor(A / 2**3)
+  B = B ^ C
+  output(B % 8)
+} while (A != 0)
+
+# 0=adv/combo:   floor(A / 2**operand) -> A
+# 1=bxl/literal: B ^ operand -> B
+# 2=bst/combo:   operand % 8 -> B
+# 3=jnz/literal: if A != 0 then jump to operand
+# 4=bxc/ignore:  B ^ C -> B
+# 5=out/combo:   output(operand % 8)
+# 6=bdv/combo:   floor(A / 2**operand) -> B
+# 7=cdv/combo:   floor(A / 2**operand) -> C
+
+      0 -> operand
+      1 -> operand
+      2 -> operand
+      3 -> operand
+      4 -> state.a
+      5 -> state.b
+      6 -> state.c

@@ -251,6 +251,8 @@ Elixir LSP crashloops if there are any errors when you start it.
 
 Easy application of search. I expected part 2 to be a time-based search (position X, Y becomes blocked at time T). This seems easier.
 
+For part 2, I did a manual binary search, then a linear search.
+
 ## Day 19
 
 Part 1: I'll create a graph of allowed letter transitions. Wait, isn't that how grep works? Uh, this is just grep?
