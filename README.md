@@ -238,6 +238,15 @@ There are a lot of silly, annoying things in Elixir's VS Code setup. For example
 
 Defining a struct feels pretty funny without types. You just specify the field names. I wrote `ip: integer` without even thinking about it.
 
+Early exit is not a thing, they recommend helper functions:
+https://elixirforum.com/t/how-to-return-or-break-from-an-action-early/20904/4
+
+This is something I've observed, too. And I don't like it.
+
+Elixir LSP crashloops if there are any errors when you start it.
+
+"No such function foo/2 exists" feels like a misleading message when you've just passed the wrong number of arguments.
+
 ## Day 18
 
 Easy application of search. I expected part 2 to be a time-based search (position X, Y becomes blocked at time T). This seems easier.
