@@ -312,3 +312,11 @@ Second thought worked great. Took ~1 minute to run, trying 9336 candidate cheats
 Part 2: now the ambiguity in the question is more front-and-center. He never shows a cheat passing over open track and back into a wall, but I don't see why you couldn't do that. I think I do want to go back to my first thought.
 
 I think the A* search will be too slow for part 2. I need a different approach.
+
+I can calculate the (non-cheating) distance from the finish to every open square.
+Then, for every cheat_start (9336 candidates), look at all the cheat_ends within d=20 (~200). This will form a diamond pattern. For each of these, check:
+
+1. Does it save enough distance?
+2. Is there a neighboring `#` within d=19 of the cheat_start?
+
+This should be very fast.
