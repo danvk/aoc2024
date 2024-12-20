@@ -17,10 +17,14 @@ defmodule Day20 do
   end
 
   def wall_neighbors({x, y}, grid, {maxx, maxy}) do
+    all_wall_neighbors({x, y}, grid)
+    |> Enum.filter(fn {x, y} -> x > 0 && y > 0 && x < maxx && y < maxy end)
+  end
+
+  def all_wall_neighbors({x, y}, grid) do
     nexts = for {dx, dy} <- @dirs, do: {x + dx, y + dy}
 
     nexts
-    |> Enum.filter(fn {x, y} -> x > 0 && y > 0 && x < maxx && y < maxy end)
     |> Enum.filter(fn p -> Map.get(grid, p) == ?# end)
   end
 
@@ -50,7 +54,8 @@ defmodule Day20 do
     |> Enum.flat_map(fn e -> for {1, ne} <- neighbors(e, grid), do: ne end)
     |> Enum.uniq()
     |> Enum.map(fn cheat_end ->
-      {d_from_start + l1_dist(cheat_start, cheat_end) +
+      {d_from_start + 1 +
+         Enum.min(for n <- all_wall_neighbors(cheat_end, grid), do: l1_dist(cheat_start, n)) +
          Map.get(d_to_finish, cheat_end, 140 * 140), cheat_start, cheat_end}
     end)
     |> Enum.filter(fn {d, _, _} -> d <= max_d end)
@@ -73,6 +78,12 @@ defmodule Day20 do
 
     cheat_starts = find_cheat_candidates(path, grid, wh)
 
+    # cheats =
+    #   cheat_starts
+    #   |> Enum.flat_map(fn cs ->
+    #     find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 10, 1)
+    #   end)
+
     cheats =
       cheat_starts
       |> Enum.flat_map(fn cs ->
@@ -80,6 +91,7 @@ defmodule Day20 do
       end)
 
     Util.inspect(for({d, _cs, _ce} <- cheats, do: cost - d) |> Enum.frequencies())
+    Util.inspect(for({8, cs, ce} <- cheats, do: {8, cs, ce}))
 
     # IO.puts("0")
     # Util.inspect(diamond({0, 0}, 0))

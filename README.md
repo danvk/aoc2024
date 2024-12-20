@@ -320,3 +320,5 @@ Then, for every cheat_start (9336 candidates), look at all the cheat_ends within
 2. Is there a neighboring `#` within d=19 of the cheat_start?
 
 This should be very fast.
+
+… this is surprisingly annoying to implement. The "cheat start" for uniqueness purposes is the position _before_ the first wall, not the position of the first wall.
