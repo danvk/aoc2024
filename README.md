@@ -229,6 +229,8 @@ It's kind of Eric to put a boundary wall around his grids. It means you don't ne
 
 OK, that was definitely not what I was expecting! I think this is just going to be annoying. My swapping trick won't work. Instead, I need two recursive functions: one to check if shoving is feasible, and one to actually do it.
 
+… I'm actually reasonably happy with this solution. My one significant bug not setting the old location of a block to `.` after you shoved it. Printing the grid on every step helped debug this.
+
 ## Day 16
 
 I copy/pasted the text from the problem page that I'd loaded on my phone. This works surprisingly well!
