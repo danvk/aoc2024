@@ -52,4 +52,39 @@ defmodule Search do
     {_, prev_prev, prev_state} = prev
     [state] ++ reconstruct_path(prev_state, prev_prev)
   end
+
+  def flood_fill(starts, neighbors_fn) do
+    # The heap contains {distance, state} tuples.
+    queue =
+      starts
+      |> Enum.map(fn start -> {0, start} end)
+      |> Enum.into(Heap.new(fn {d1, _}, {d2, _} -> d1 < d2 end))
+
+    flood_fill_help(queue, %{}, neighbors_fn)
+  end
+
+  def flood_fill_help(queue, visited, n_fn) do
+    cond do
+      Heap.empty?(queue) -> visited
+      true -> flood_fill_help2(queue, visited, n_fn)
+    end
+  end
+
+  def flood_fill_help2(queue, visited, n_fn) do
+    {head, rest} = Heap.split(queue)
+    {d, v} = head
+    prev_cost = Map.get(visited, v)
+
+    cond do
+      prev_cost != nil and d > prev_cost ->
+        flood_fill_help(rest, visited, n_fn)
+
+      true ->
+        nexts = n_fn.(v)
+        d_nexts = nexts |> Enum.map(fn {nd, nv} -> {d + nd, nv} end)
+        next_queue = d_nexts |> Enum.reduce(rest, fn next, h -> Heap.push(h, next) end)
+        next_visited = Map.put(visited, v, d)
+        flood_fill_help(next_queue, next_visited, n_fn)
+    end
+  end
 end

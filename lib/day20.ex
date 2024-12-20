@@ -44,15 +44,18 @@ defmodule Day20 do
     {cost, path} = Search.a_star([start], &(&1 == finish), fn p -> neighbors(p, grid) end)
     IO.inspect(cost)
 
-    candidates = find_cheat_candidates(path, grid, wh)
+    distance_to_finish = Search.flood_fill([finish], fn p -> neighbors(p, grid) end)
+    IO.inspect(Map.new(for {p, d} <- distance_to_finish, d < 10, do: {p, d}))
 
-    Util.inspect(
-      for(
-        cheat_pos <- candidates,
-        do: {cheat_distance(grid, cheat_pos, start, finish), cheat_pos}
-      )
-      |> Enum.filter(fn {d, _pos} -> cost - d >= 100 end)
-      |> Enum.count()
-    )
+    # candidates = find_cheat_candidates(path, grid, wh)
+
+    # Util.inspect(
+    #   for(
+    #     cheat_pos <- candidates,
+    #     do: {cheat_distance(grid, cheat_pos, start, finish), cheat_pos}
+    #   )
+    #   |> Enum.filter(fn {d, _pos} -> cost - d >= 100 end)
+    #   |> Enum.count()
+    # )
   end
 end
