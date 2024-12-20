@@ -41,7 +41,8 @@ defmodule Search16 do
 
       target.(v) ->
         [
-          {d, Search.reconstruct_path(v, prev)}
+          # {d, Search.reconstruct_path(v, prev)}
+          {d, nil}
           | do_next.()
         ]
 
