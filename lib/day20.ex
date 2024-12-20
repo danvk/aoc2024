@@ -51,9 +51,8 @@ defmodule Day20 do
         cheat_pos <- candidates,
         do: {cheat_distance(grid, cheat_pos, start, finish), cheat_pos}
       )
-      |> Enum.filter(fn {d, _pos} -> d < cost end)
-      |> Enum.map(fn {d, _pos} -> cost - d end)
-      |> Enum.sort()
+      |> Enum.filter(fn {d, _pos} -> cost - d >= 100 end)
+      |> Enum.count()
     )
   end
 end
