@@ -270,4 +270,6 @@ For part 2, I did a manual binary search, then a linear search.
 
 Part 1: I'll create a graph of allowed letter transitions. Wait, isn't that how grep works? Uh, this is just grep?
 
-Of course that won't work for part 2.
+Of course that won't work for part 2. My first thought was that I might need to create the graph. But then I had a better thought: dynamic programming from the end of the string. For the last N characters, try matching each pattern against the start. Then you already know the number of ways to make the rest.
+
+I wound up implementing this in Python, but I'll go back and port it to Elixir later.

@@ -12,7 +12,6 @@ def num_ways(line, pats):
             if target.startswith(pat):
                 w = ways[i - len(pat)]
                 this_ways += w
-                # print(f'{target=} {pat=} {w=}')
         ways.append(this_ways)
         # print(ways)
     return ways[-1]
@@ -23,10 +22,13 @@ def main():
     pats = lines.pop(0).split(', ')
     assert lines.pop(0) == ''
     num_total = 0
+    num_possible = 0
     for line in lines:
         ways = num_ways(line, pats)
-        # print(line, ways)
         num_total += ways
+        if ways > 0:
+            num_possible += 1
+    print(num_possible)
     print(num_total)
 
 
