@@ -41,18 +41,18 @@ defmodule Day20 do
     Util.print_grid(grid, wh)
     Util.inspect(start, finish)
 
-    {cost, path} = Search.a_star([start], &(&1 == finish), fn p -> neighbors(p, grid) end)
+    {cost, _path} = Search.a_star([start], &(&1 == finish), fn p -> neighbors(p, grid) end)
     IO.inspect(cost)
 
-    candidates = find_cheat_candidates(path, grid, wh)
+    # candidates = find_cheat_candidates(path, grid, wh)
 
-    Util.inspect(
-      for(
-        cheat_pos <- candidates,
-        do: {cheat_distance(grid, cheat_pos, start, finish), cheat_pos}
-      )
-      |> Enum.filter(fn {d, _pos} -> cost - d >= 100 end)
-      |> Enum.count()
-    )
+    # Util.inspect(
+    #   for(
+    #     cheat_pos <- candidates,
+    #     do: {cheat_distance(grid, cheat_pos, start, finish), cheat_pos}
+    #   )
+    #   |> Enum.filter(fn {d, _pos} -> cost - d >= 100 end)
+    #   |> Enum.count()
+    # )
   end
 end
