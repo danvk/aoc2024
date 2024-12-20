@@ -51,7 +51,7 @@ defmodule Day18 do
     Util.print_grid(grid, {@maxval, @maxval})
 
     target = {@maxval, @maxval}
-    cost = Search.a_star([{0, 0}], &(&1 == target), fn p -> neighbors(p, grid) end)
+    {cost, _path} = Search.a_star([{0, 0}], &(&1 == target), fn p -> neighbors(p, grid) end)
     IO.puts(cost)
 
     # IO.puts("750: #{can_solve(instrs, 750)}")

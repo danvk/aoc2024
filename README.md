@@ -231,6 +231,9 @@ OK, that was definitely not what I was expecting! I think this is just going to 
 
 … I'm actually reasonably happy with this solution. My one significant bug not setting the old location of a block to `.` after you shoved it. Printing the grid on every step helped debug this.
 
+There's no way to do either/or matches in Elixir:
+https://stackoverflow.com/q/39139814/388951
+
 ## Day 16
 
 I copy/pasted the text from the problem page that I'd loaded on my phone. This works surprisingly well!
@@ -287,3 +290,19 @@ Part 1: I'll create a graph of allowed letter transitions. Wait, isn't that how 
 Of course that won't work for part 2. My first thought was that I might need to create the graph. But then I had a better thought: dynamic programming from the end of the string. For the last N characters, try matching each pattern against the start. Then you already know the number of ways to make the rest.
 
 I wound up implementing this in Python, but I'll go back and port it to Elixir later.
+
+## Day 20
+
+My first thought was to add `hasCheated` to the search state, but that's not quite what you want since we're not just looking for the optimal cheat. I'd need to adapt my Day 16 search to really have a `maxDistance` option.
+
+Second thought is to try adding cheats to each `#` adjacent to the optimal path and re-run the plain-vanilla shortest path search for each. I think you can only go through a single `#`, not `##`.
+
+I think these are equivalent but I don't really understand why:
+
+```elixir
+defp parse_line(line), do: String.split(line)
+
+defp parse_line(line) do
+    String.split(line)
+end
+```

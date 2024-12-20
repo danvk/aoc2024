@@ -114,7 +114,7 @@ defmodule Day15 do
     case {c, dy == 0} do
       {?., _} -> true
       {?#, _} -> false
-      # Any way to consolidate these cases?
+      # TODO: Any way to consolidate these cases?
       {?[, true} -> can_shove2(grid, n, d)
       {?], true} -> can_shove2(grid, n, d)
       {?[, false} -> can_shove2(grid, n, d) and can_shove2(grid, {x + dx + 1, y + dy}, d)
@@ -131,7 +131,7 @@ defmodule Day15 do
     case {c, dy == 0} do
       {?., _} -> grid
       {?#, _} -> raise("can/do mismatch #{x}, #{y}, #{dx}, #{dy}")
-      # Any way to consolidate these cases?
+      # TODO: Any way to consolidate these cases?
       {?[, true} -> do_shove2(grid, n, d)
       {?], true} -> do_shove2(grid, n, d)
       {?[, false} -> do_shove2(grid, n, d) |> do_shove2({x + dx + 1, y + dy}, d)

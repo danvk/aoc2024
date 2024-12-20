@@ -23,6 +23,7 @@ defmodule Main do
       17 -> Day17.main(file)
       18 -> Day18.main(file)
       19 -> Day19.main(file)
+      20 -> Day20.main(file)
       # -- next day here --
       _ -> IO.puts("Unknown day: #{day}")
     end

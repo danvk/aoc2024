@@ -11,5 +11,8 @@
         "files.insertFinalNewline": true,
         "files.trimFinalNewlines": true,
     },
-    "elixirLS.suggestSpecs": false
+    "elixirLS.suggestSpecs": false,
+    "markdownlint.config": {
+        "MD046": false,  // code block style
+    }
 }
