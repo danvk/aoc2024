@@ -50,8 +50,8 @@ defmodule Day20 do
     |> Enum.flat_map(fn e -> for {1, ne} <- neighbors(e, grid), do: ne end)
     |> Enum.uniq()
     |> Enum.map(fn cheat_end ->
-      {d_from_start + l1_dist(cheat_start, cheat_end) + d_to_finish[cheat_end], cheat_start,
-       cheat_end}
+      {d_from_start + l1_dist(cheat_start, cheat_end) +
+         Map.get(d_to_finish, cheat_end, 140 * 140), cheat_start, cheat_end}
     end)
     |> Enum.filter(fn {d, _, _} -> d <= max_d end)
   end
@@ -76,10 +76,10 @@ defmodule Day20 do
     cheats =
       cheat_starts
       |> Enum.flat_map(fn cs ->
-        find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 10, 1)
+        find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 50, 20)
       end)
 
-    Util.inspect(for {d, cs, ce} <- cheats, do: {cost - d, cs, ce})
+    Util.inspect(for({d, _cs, _ce} <- cheats, do: cost - d) |> Enum.frequencies())
 
     # IO.puts("0")
     # Util.inspect(diamond({0, 0}, 0))
