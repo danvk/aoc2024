@@ -46,6 +46,7 @@ defmodule Day20 do
       state
 
     nexts = for {dx, dy} <- @dirs, do: {x + dx, y + dy}
+    cur = Map.get(grid, {x, y})
 
     nexts
     |> Enum.filter(fn {x, y} -> x > 0 && y > 0 && x < maxx && y < maxy end)
@@ -58,7 +59,7 @@ defmodule Day20 do
           [%State{state | pos: p}]
 
         # optional end of the cheat
-        {?., _, nil} when cheat_count < max_cheat - 1 ->
+        {?., _, nil} when cheat_count < max_cheat - 1 and cur == ?# ->
           [
             %State{state | pos: p, cheat_count: cheat_count + 1},
             %State{state | pos: p, cheat_end: p, cheat_count: nil}
@@ -95,8 +96,10 @@ defmodule Day20 do
     {full_cost, _path} = Search.a_star([start], &(&1 == finish), fn p -> neighbors(p, grid) end)
     IO.inspect(full_cost)
 
+    IO.puts("Searching through max_d=#{full_cost - 100}")
+
     cost_paths =
-      Search16.a_star([%State{pos: start}], &(&1.pos == finish), full_cost - 50, fn state ->
+      Search16.a_star([%State{pos: start}], &(&1.pos == finish), full_cost - 100, fn state ->
         cheat_neighbors(grid, state, wh, 20)
       end)
 

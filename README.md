@@ -310,3 +310,5 @@ end
 Second thought worked great. Took ~1 minute to run, trying 9336 candidate cheats. An optimization might be to not reconstruct the path for the second pass (where you only care about distance).
 
 Part 2: now the ambiguity in the question is more front-and-center. He never shows a cheat passing over open track and back into a wall, but I don't see why you couldn't do that. I think I do want to go back to my first thought.
+
+I think the A* search will be too slow for part 2. I need a different approach.

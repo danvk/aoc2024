@@ -24,6 +24,14 @@ defmodule Search16 do
     {d, prev, v} = head
     prev_cost = Map.get(visited, v)
 
+    if !Heap.empty?(rest) do
+      {next_d, _, _} = Heap.root(rest)
+
+      if next_d > d do
+        IO.puts("Completed d=#{d}")
+      end
+    end
+
     do_next = fn ->
       nexts = n_fn.(v)
       d_nexts = nexts |> Enum.map(fn {nd, nv} -> {d + nd, head, nv} end)
