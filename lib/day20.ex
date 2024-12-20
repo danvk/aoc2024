@@ -89,15 +89,23 @@ defmodule Day20 do
     #   end)
     #   |> Enum.uniq()
 
+    # cheats =
+    #   cheat_starts
+    #   |> Enum.flat_map(fn cs ->
+    #     find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 50, 20)
+    #   end)
+    #   |> Enum.uniq()
+
     cheats =
       cheat_starts
       |> Enum.flat_map(fn cs ->
-        find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 50, 20)
+        find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 100, 20)
       end)
       |> Enum.uniq()
 
-    Util.inspect(for({d, _cs, _ce} <- cheats, do: cost - d) |> Enum.frequencies())
-    Util.inspect(for({8, cs, ce} <- cheats, do: {8, cs, ce}))
+    # Util.inspect(for({d, _cs, _ce} <- cheats, do: cost - d) |> Enum.frequencies())
+    # Util.inspect(for({8, cs, ce} <- cheats, do: {8, cs, ce}))
+    Util.inspect(cheats |> Enum.count())
 
     # IO.puts("0")
     # Util.inspect(diamond({0, 0}, 0))
