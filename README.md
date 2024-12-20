@@ -212,6 +212,13 @@ You can write `String.slice(2..-1//1)` to read until the end of the string.
 
 Part 1 is (hopefully) not too bad. I assume part 2 will ask us to do a trillion steps, in which case my guess is that this all repeats after 103*101 steps. Or if not, then at least each individual robot will repeat with some cycle.
 
+… wow was that ever not what I expected. Things I tried:
+
+- Symmetric (according to quadrants) -- too many
+- Symmetric (truly) -- none
+- Look at first 100 -- nope
+- Look for states where an unusual number of robots have neighbors. Bingo!
+
 ## Day 15
 
 Part 1: (hopefully) not as bad as I'd thought, shoving is just a matter of finding the next open square in that direction and swapping two cells.
