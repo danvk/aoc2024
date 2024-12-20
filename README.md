@@ -335,3 +335,9 @@ Ah, maybe I'm not allowing you to cheat via the outer perimeter?
 That was definitely a part of it. The other part was that cheats don't need to start right before you cross a wall. They can start anywhere. So the quote about "just before the first move" was extremely misleading.
 
 I found today's puzzle super frustrating. The most frustrating so far. Mostly because part 2 was so contrived and ambiguous.
+
+You _can_ use a `when` clause in a comprehension, it just doesn't go where I expected:
+
+```elixir
+for x when x >= 0 <- [1, -2, 3, -4], do: x
+```
