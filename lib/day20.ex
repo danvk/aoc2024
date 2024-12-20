@@ -7,7 +7,7 @@ defmodule Day20 do
     {0, -1}
   ]
 
-  def neighbors(pos, grid) do
+  defp neighbors(pos, grid) do
     {x, y} = pos
     nexts = for {dx, dy} <- @dirs, do: {x + dx, y + dy}
 
@@ -16,42 +16,38 @@ defmodule Day20 do
     |> Enum.map(&{1, &1})
   end
 
-  def wall_neighbors({x, y}, grid, {maxx, maxy}) do
-    all_wall_neighbors({x, y}, grid)
-    |> Enum.filter(fn {x, y} -> x > 0 && y > 0 && x < maxx && y < maxy end)
-  end
+  # defp wall_neighbors({x, y}, grid, {maxx, maxy}) do
+  #   all_wall_neighbors({x, y}, grid)
+  #   |> Enum.filter(fn {x, y} -> x > 0 && y > 0 && x < maxx && y < maxy end)
+  # end
 
-  def all_wall_neighbors({x, y}, grid) do
+  defp all_wall_neighbors({x, y}, grid) do
     nexts = for {dx, dy} <- @dirs, do: {x + dx, y + dy}
 
     nexts
     |> Enum.filter(fn p -> Map.get(grid, p) == ?# end)
   end
 
-  def find_cheat_starts(grid) do
+  defp find_cheat_starts(grid) do
     for(
       {{x, y}, ?.} <- grid,
       do: {x, y}
     )
   end
 
-  def cheat_distance(grid, cheat_pos, start, finish) do
-    cheat_grid = Map.put(grid, cheat_pos, ?.)
-    {cost, _path} = Search.a_star([start], &(&1 == finish), fn p -> neighbors(p, cheat_grid) end)
-    cost
-  end
+  defp l1_dist({x1, y1}, {x2, y2}), do: abs(x2 - x1) + abs(y2 - y1)
 
-  def l1_dist({x1, y1}, {x2, y2}), do: abs(x2 - x1) + abs(y2 - y1)
-
-  def diamond({x, y}, d) do
+  defp diamond({x, y}, d) do
     for dy <- -d..d,
         dx <- (-d + abs(dy))..(d - abs(dy)),
         do: {x + dx, y + dy}
   end
 
-  def find_cheat_ends(grid, cheat_start, d_to_start, d_to_finish, max_d, max_cheat) do
+  defp find_cheat_ends(grid, cheat_start, d_to_start, d_to_finish, max_d, max_cheat) do
     d = d_to_start[cheat_start]
-    walls = all_wall_neighbors(cheat_start, grid)
+    # walls = all_wall_neighbors(cheat_start, grid)
+    {x, y} = cheat_start
+    walls = for {dx, dy} <- @dirs, do: {x + dx, y + dy}
 
     walls
     |> Enum.flat_map(fn wall ->
@@ -63,8 +59,9 @@ defmodule Day20 do
       end)
     end)
     |> Enum.filter(fn {d, _, _} -> d <= max_d end)
-
-    # Might need to unique by end here.
+    |> Enum.group_by(fn {_d, cs, ce} -> {cs, ce} end, fn {d, _cs, _ce} -> d end)
+    |> Util.map_values(fn _cheat, ds -> Enum.min(ds) end)
+    |> Enum.map(fn {{cs, ce}, d} -> {d, cs, ce} end)
   end
 
   def main(input_file) do
