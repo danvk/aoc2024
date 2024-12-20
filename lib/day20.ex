@@ -42,38 +42,47 @@ defmodule Day20 do
   end
 
   def cheat_neighbors(grid, state, {maxx, maxy}, max_cheat) do
-    %State{pos: {x, y}, cheat_start: cheat_start, cheat_end: cheat_end} = state
+    %State{pos: {x, y}, cheat_start: cheat_start, cheat_end: cheat_end, cheat_count: cheat_count} =
+      state
+
     nexts = for {dx, dy} <- @dirs, do: {x + dx, y + dy}
 
     nexts
     |> Enum.filter(fn {x, y} -> x > 0 && y > 0 && x < maxx && y < maxy end)
-    |> Enum.map(fn p ->
+    |> Enum.flat_map(fn p ->
       c = Map.get(grid, p)
 
       # TODO: factor out the {1, }
       case {c, cheat_start, cheat_end} do
         {?., nil, nil} ->
-          {1, %State{state | pos: p}}
+          [%State{state | pos: p}]
+
+        # optional end of the cheat
+        {?., _, nil} when cheat_count < max_cheat - 1 ->
+          [
+            %State{state | pos: p, cheat_count: cheat_count + 1},
+            %State{state | pos: p, cheat_end: p, cheat_count: nil}
+          ]
 
         # end of the cheat
         {?., _, nil} ->
-          {1, %State{pos: p, cheat_end: p, cheat_count: nil}}
+          [%State{state | pos: p, cheat_end: p, cheat_count: nil}]
 
         {?., _, _} ->
-          {1, %State{state | pos: p}}
+          [%State{state | pos: p}]
 
         # start the cheat
         {?#, nil, nil} ->
-          {1, %State{pos: p, cheat_start: p, cheat_count: 1}}
+          [%State{pos: p, cheat_start: p, cheat_count: 1}]
 
-        {?#, _, nil} when state.cheat_count < max_cheat - 1 ->
-          {1, %State{pos: p, cheat_count: state.cheat_count + 1}}
+        {?#, _, nil} when cheat_count < max_cheat - 1 ->
+          [%State{state | pos: p, cheat_count: cheat_count + 1}]
 
         {?#, _, _} ->
-          nil
+          []
       end
     end)
-    |> Enum.filter(&(&1 != nil))
+    |> Enum.map(&{1, &1})
   end
 
   def main(input_file) do
@@ -87,11 +96,13 @@ defmodule Day20 do
     IO.inspect(full_cost)
 
     cost_paths =
-      Search16.a_star([%State{pos: start}], &(&1.pos == finish), full_cost - 11, fn state ->
-        cheat_neighbors(grid, state, wh, 2)
+      Search16.a_star([%State{pos: start}], &(&1.pos == finish), full_cost - 50, fn state ->
+        cheat_neighbors(grid, state, wh, 20)
       end)
 
-    Util.inspect(for {cost, _p} <- cost_paths, do: full_cost - cost)
+    Util.inspect(for({cost, _p} <- cost_paths, do: full_cost - cost) |> Enum.frequencies())
+
+    Util.inspect(for {c, p} <- cost_paths |> Enum.take(10), do: {c, hd(p)})
 
     # candidates = find_cheat_candidates(path, grid, wh)
 

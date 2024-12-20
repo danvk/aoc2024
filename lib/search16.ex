@@ -36,13 +36,14 @@ defmodule Search16 do
       d > max_d ->
         []
 
-      prev_cost != nil and d > prev_cost ->
+      # and d > prev_cost ->
+      prev_cost != nil ->
         a_star_help(rest, target, max_d, visited, n_fn)
 
       target.(v) ->
         [
-          # {d, Search.reconstruct_path(v, prev)}
-          {d, nil}
+          {d, Search.reconstruct_path(v, prev)}
+          # {d, nil}
           | do_next.()
         ]
 
