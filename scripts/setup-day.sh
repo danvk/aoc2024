@@ -11,7 +11,7 @@ url="https://adventofcode.com/2024/day/$day"
 cat <<END > $ex_file
 # $url
 defmodule Day$day do
-  def parse_line(line) do
+  defp parse_line(line) do
     String.split(line)
   end
 

@@ -1,9 +1,5 @@
 # https://adventofcode.com/2024/day/15
 defmodule Day15 do
-  def parse_line(line) do
-    String.split(line)
-  end
-
   def delta_for_dir(d) do
     case d do
       ?v -> {0, 1}
@@ -63,22 +59,48 @@ defmodule Day15 do
     |> Enum.sum()
   end
 
+  # If the tile is #, the new map contains ## instead.
+  # If the tile is O, the new map contains [] instead.
+  # If the tile is ., the new map contains .. instead.
+  # If the tile is @, the new map contains @. instead.
+
+  def widen(grid) do
+    for {{x, y}, c} <- grid, reduce: %{} do
+      g ->
+        case c do
+          ?# -> ~c'##'
+          ?O -> ~c'[]'
+          ?. -> ~c'..'
+          ?@ -> ~c'@.'
+        end
+        |> Enum.with_index()
+        |> Enum.reduce(g, fn {c, i}, g -> Map.put(g, {2 * x + i, y}, c) end)
+    end
+  end
+
   def main(input_file) do
     {grid_str, moves} = Util.read_lines(input_file) |> Util.split_on_blank()
-    {grid, wh} = Util.read_grid_from_lines(grid_str)
+    {raw_grid, wh} = Util.read_grid_from_lines(grid_str)
     moves = moves |> Enum.join()
-    {grid, start} = Util.find_and_replace_char_in_grid(grid, ?@, ?.)
+    {grid, start} = Util.find_and_replace_char_in_grid(raw_grid, ?@, ?.)
     Util.print_grid(grid, wh)
     Util.inspect(start)
     Util.inspect(moves)
 
-    {grid, pos} =
+    {shoved_grid, pos} =
       Enum.reduce(String.to_charlist(moves), {grid, start}, fn move, {g, p} ->
         move1(g, p, move)
       end)
 
-    Util.print_grid(grid, wh)
+    Util.print_grid(shoved_grid, wh)
     Util.inspect(pos)
-    Util.inspect(score(grid))
+    Util.inspect(score(shoved_grid))
+
+    raw_grid2 = widen(raw_grid)
+    wh2 = {elem(wh, 0) * 2, elem(wh, 1)}
+    {grid2, start2} = Util.find_and_replace_char_in_grid(raw_grid2, ?@, ?.)
+
+    Util.print_grid(grid2, wh2)
+    Util.inspect(start2)
   end
 end
