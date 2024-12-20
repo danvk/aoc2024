@@ -227,6 +227,8 @@ I honestly have no clue what part 2 will be. Iterate a lot longer? Do it with se
 
 It's kind of Eric to put a boundary wall around his grids. It means you don't need any bounds checking.
 
+OK, that was definitely not what I was expecting! I think this is just going to be annoying. My swapping trick won't work. Instead, I need two recursive functions: one to check if shoving is feasible, and one to actually do it.
+
 ## Day 16
 
 I copy/pasted the text from the problem page that I'd loaded on my phone. This works surprisingly well!
