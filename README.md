@@ -332,3 +332,6 @@ Do I need to consider non-optimal paths between cheat_start and cheat_end? I don
 "Each cheat has a distinct start position (the position where the cheat is activated, just before the first move that is allowed to go through walls)" -> this implies to me that a cheat must start just before you move onto a `#`.
 
 Ah, maybe I'm not allowing you to cheat via the outer perimeter?
+That was definitely a part of it. The other part was that cheats don't need to start right before you cross a wall. They can start anywhere. So the quote about "just before the first move" was extremely misleading.
+
+I found today's puzzle super frustrating. The most frustrating so far. Mostly because part 2 was so contrived and ambiguous.
