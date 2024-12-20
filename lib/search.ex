@@ -1,9 +1,10 @@
 defmodule Search do
   def a_star(starts, target, neighbors_fn) do
+    # The heap contains {distance, prev tuple, state} tuples.
     queue =
       starts
-      |> Enum.map(fn start -> {0, start} end)
-      |> Enum.into(Heap.new(fn {d1, _}, {d2, _} -> d1 < d2 end))
+      |> Enum.map(fn start -> {0, nil, start} end)
+      |> Enum.into(Heap.new(fn {d1, _, _}, {d2, _, _} -> d1 < d2 end))
 
     a_star_help(queue, target, %{}, neighbors_fn)
   end
@@ -18,12 +19,13 @@ defmodule Search do
   end
 
   def a_star_help2(queue, target, visited, n_fn) do
-    {{d, v}, rest} = Heap.split(queue)
+    {head, rest} = Heap.split(queue)
+    {d, prev, v} = head
     # Util.inspect(d, v)
 
     cond do
       target.(v) ->
-        d
+        {d, reconstruct_path(v, prev)}
 
       Map.get(visited, v) ->
         a_star_help(rest, target, visited, n_fn)
@@ -31,7 +33,7 @@ defmodule Search do
       true ->
         nexts = n_fn.(v)
         # IO.inspect(nexts)
-        d_nexts = nexts |> Enum.map(fn {nd, nv} -> {d + nd, nv} end)
+        d_nexts = nexts |> Enum.map(fn {nd, nv} -> {d + nd, head, nv} end)
         # IO.inspect(d_nexts)
         next_queue = d_nexts |> Enum.reduce(rest, fn next, h -> Heap.push(h, next) end)
         # IO.puts("next heap")
@@ -39,5 +41,14 @@ defmodule Search do
         next_visited = Map.put(visited, v, d)
         a_star_help(next_queue, target, next_visited, n_fn)
     end
+  end
+
+  def reconstruct_path(state, nil) do
+    [state]
+  end
+
+  def reconstruct_path(state, prev) do
+    {_, prev_prev, prev_state} = prev
+    [state] ++ reconstruct_path(prev_state, prev_prev)
   end
 end

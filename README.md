@@ -237,6 +237,14 @@ I don't think I like putting destructuring patterns in function signatures. It f
 
 A* search always feels like a bit of a miracle when it works. But after many years of AoC, I feel pretty confident about implementing it!
 
+Part 2: I need to modify the search in three ways:
+
+1. To return paths
+2. To consider all optimal paths
+3. To not prune identical-scoring paths to the same state.
+
+I think I'll make it unconditionally return paths. Then maybe I'll have a variation that returns all paths to the target with a given length. I'm not sure how to implement the third one. Maybe I can't prune at all?
+
 ## Day 17
 
 This seems tedious to implement. Probably a good first opportunity to use an Elixir struct.

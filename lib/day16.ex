@@ -19,6 +19,12 @@ defmodule Day16 do
     step_moves ++ turn_moves
   end
 
+  def trace(grid, path) do
+    for {p, _} <- path, reduce: grid do
+      g -> Map.put(g, p, ?@)
+    end
+  end
+
   def main(input_file) do
     {grid, wh} = Util.read_grid(input_file)
     {grid, start} = Util.find_and_replace_char_in_grid(grid, ?S, ?.)
@@ -33,9 +39,13 @@ defmodule Day16 do
     # |> Heap.root()
     # |> IO.inspect()
 
-    cost =
+    {cost, path} =
       Search.a_star([{start, :E}], fn {p, _dir} -> p == finish end, fn n -> moves(grid, n) end)
 
     IO.inspect(cost)
+    traced = trace(grid, path)
+    Util.print_grid(traced, wh)
+
+    IO.puts(for({p, ?@} <- traced, do: p) |> Enum.count())
   end
 end
