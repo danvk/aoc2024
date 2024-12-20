@@ -245,6 +245,8 @@ Part 2: I need to modify the search in three ways:
 
 I think I'll make it unconditionally return paths. Then maybe I'll have a variation that returns all paths to the target with a given length. I'm not sure how to implement the third one. Maybe I can't prune at all?
 
+OK, in retrospect I must prune. But I can prune only if the previous distance is strictly less than the current distance. Part 2 didn't wind up being as bad as I'd feared, though I did have to copy/paste `search.ex` for the day 16 variation, which is kinda gross.
+
 ## Day 17
 
 This seems tedious to implement. Probably a good first opportunity to use an Elixir struct.
