@@ -22,12 +22,13 @@ defmodule Search do
     {head, rest} = Heap.split(queue)
     {d, prev, v} = head
     # Util.inspect(d, v)
+    prev_cost = Map.get(visited, v)
 
     cond do
       target.(v) ->
         {d, reconstruct_path(v, prev)}
 
-      Map.get(visited, v) ->
+      prev_cost != nil and d > prev_cost ->
         a_star_help(rest, target, visited, n_fn)
 
       true ->
