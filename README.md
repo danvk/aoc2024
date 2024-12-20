@@ -295,7 +295,7 @@ I wound up implementing this in Python, but I'll go back and port it to Elixir l
 
 My first thought was to add `hasCheated` to the search state, but that's not quite what you want since we're not just looking for the optimal cheat. I'd need to adapt my Day 16 search to really have a `maxDistance` option.
 
-Second thought is to try adding cheats to each `#` adjacent to the optimal path and re-run the plain-vanilla shortest path search for each. I think you can only go through a single `#`, not `##`.
+Second thought is to try adding cheats to each `#` adjacent to the optimal path and re-run the plain-vanilla shortest path search for each. I think you can only go through a single `#`, not `##`. Interestingly there are no walls with a width of exactly two. So I guess he specifically doesn't want to consider this case.
 
 I think these are equivalent but I don't really understand why:
 
