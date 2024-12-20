@@ -16,25 +16,6 @@ defmodule Day20 do
     |> Enum.map(&{1, &1})
   end
 
-  # defp wall_neighbors({x, y}, grid, {maxx, maxy}) do
-  #   all_wall_neighbors({x, y}, grid)
-  #   |> Enum.filter(fn {x, y} -> x > 0 && y > 0 && x < maxx && y < maxy end)
-  # end
-
-  defp all_wall_neighbors({x, y}, grid) do
-    nexts = for {dx, dy} <- @dirs, do: {x + dx, y + dy}
-
-    nexts
-    |> Enum.filter(fn p -> Map.get(grid, p) == ?# end)
-  end
-
-  defp find_cheat_starts(grid) do
-    for(
-      {{x, y}, ?.} <- grid,
-      do: {x, y}
-    )
-  end
-
   defp l1_dist({x1, y1}, {x2, y2}), do: abs(x2 - x1) + abs(y2 - y1)
 
   defp diamond({x, y}, d) do
@@ -65,68 +46,36 @@ defmodule Day20 do
   end
 
   def main(input_file) do
-    {raw_grid, wh} = Util.read_grid(input_file)
+    {raw_grid, _wh} = Util.read_grid(input_file)
     {grid, start} = Util.find_and_replace_char_in_grid(raw_grid, ?S, ?.)
     {grid, finish} = Util.find_and_replace_char_in_grid(grid, ?E, ?.)
-    Util.print_grid(grid, wh)
-    Util.inspect(start, finish)
 
-    {cost, _path} = Search.a_star([start], &(&1 == finish), fn p -> neighbors(p, grid) end)
-    IO.inspect(cost)
+    {cost, path} = Search.a_star([start], &(&1 == finish), fn p -> neighbors(p, grid) end)
+    IO.puts("Full time: #{cost} picoseconds")
 
     d_to_start = Search.flood_fill([start], fn p -> neighbors(p, grid) end)
     d_to_finish = Search.flood_fill([finish], fn p -> neighbors(p, grid) end)
-    # IO.inspect(Map.new(for {p, d} <- d_to_start, d < 10, do: {p, d}))
-    # IO.inspect(d_to_finish[start])
-
-    cheat_starts = find_cheat_starts(grid)
+    cheat_starts = path
     IO.puts("Num cheat starts: #{Enum.count(cheat_starts)}")
 
-    # cheats =
-    #   cheat_starts
-    #   |> Enum.flat_map(fn cs ->
-    #     find_cheat_ends(grid, wh, cs, d_to_start, d_to_finish, cost - 2, 2)
-    #   end)
-    #   |> Enum.uniq()
+    part1 =
+      cheat_starts
+      |> Enum.flat_map(fn cs ->
+        find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 100, 2)
+      end)
+      |> Enum.uniq()
+      |> Enum.count()
 
-    # cheats =
-    #   cheat_starts
-    #   |> Enum.flat_map(fn cs ->
-    #     find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 50, 20)
-    #   end)
-    #   |> Enum.uniq()
+    IO.puts("Part 1: #{part1}")
 
-    cheats =
+    part2 =
       cheat_starts
       |> Enum.flat_map(fn cs ->
         find_cheat_ends(grid, cs, d_to_start, d_to_finish, cost - 100, 20)
       end)
       |> Enum.uniq()
+      |> Enum.count()
 
-    # Util.inspect(for({d, _cs, _ce} <- cheats, do: cost - d) |> Enum.frequencies())
-    # Util.inspect(for({8, cs, ce} <- cheats, do: {8, cs, ce}))
-    Util.inspect(cheats |> Enum.count())
-
-    # IO.puts("0")
-    # Util.inspect(diamond({0, 0}, 0))
-    # IO.puts("1")
-    # Util.inspect(diamond({0, 0}, 1))
-    # IO.puts("2")
-    # Util.inspect(diamond({0, 0}, 2))
-    # IO.puts("3")
-    # Util.inspect(diamond({0, 0}, 3))
-
-    # cheats =
-    #   cheat_starts
-    #   |> Enum.flat_map(&find_cheat_ends(grid, &1, distance_to_finish, cost))
-
-    # Util.inspect(
-    #   for(
-    #     cheat_pos <- candidates,
-    #     do: {cheat_distance(grid, cheat_pos, start, finish), cheat_pos}
-    #   )
-    #   |> Enum.filter(fn {d, _pos} -> cost - d >= 100 end)
-    #   |> Enum.count()
-    # )
+    IO.puts("Part 2: #{part2}")
   end
 end
