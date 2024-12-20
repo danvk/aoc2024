@@ -322,3 +322,11 @@ Then, for every cheat_start (9336 candidates), look at all the cheat_ends within
 This should be very fast.
 
 … this is surprisingly annoying to implement. The "cheat start" for uniqueness purposes is the position _before_ the first wall, not the position of the first wall.
+
+Also, with max_cheat=20, the first wall you bust through might not be adjacent to the shortest non-cheaty path. I need to consider _all_ walls.
+
+On second thought, I may have completely made up the constraint that the cheat ends immediately after going onto a `.` square.
+
+Do I need to consider non-optimal paths between cheat_start and cheat_end? I don't think so, the phrasing is "this cheat saves X picosecond," which to me implies optimality.
+
+"Each cheat has a distinct start position (the position where the cheat is activated, just before the first move that is allowed to go through walls)" -> this implies to me that a cheat must start just before you move onto a `#`.
