@@ -46,6 +46,7 @@ defmodule Day20 do
 
     distance_to_finish = Search.flood_fill([finish], fn p -> neighbors(p, grid) end)
     IO.inspect(Map.new(for {p, d} <- distance_to_finish, d < 10, do: {p, d}))
+    IO.inspect(distance_to_finish[start])
 
     # candidates = find_cheat_candidates(path, grid, wh)
 
