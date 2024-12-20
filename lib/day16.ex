@@ -39,13 +39,25 @@ defmodule Day16 do
     # |> Heap.root()
     # |> IO.inspect()
 
-    {cost, path} =
+    {cost, _path} =
       Search.a_star([{start, :E}], fn {p, _dir} -> p == finish end, fn n -> moves(grid, n) end)
 
     IO.inspect(cost)
-    traced = trace(grid, path)
-    Util.print_grid(traced, wh)
+    # traced = trace(grid, path)
 
+    cost_paths =
+      Search16.a_star([{start, :E}], fn {p, _dir} -> p == finish end, cost, fn n ->
+        moves(grid, n)
+      end)
+
+    IO.puts(cost_paths |> Enum.count())
+
+    traced =
+      for {_cost, path} <- cost_paths, reduce: grid do
+        g -> trace(g, path)
+      end
+
+    Util.print_grid(traced, wh)
     IO.puts(for({p, ?@} <- traced, do: p) |> Enum.count())
   end
 end
