@@ -330,3 +330,5 @@ On second thought, I may have completely made up the constraint that the cheat e
 Do I need to consider non-optimal paths between cheat_start and cheat_end? I don't think so, the phrasing is "this cheat saves X picosecond," which to me implies optimality.
 
 "Each cheat has a distinct start position (the position where the cheat is activated, just before the first move that is allowed to go through walls)" -> this implies to me that a cheat must start just before you move onto a `#`.
+
+Ah, maybe I'm not allowing you to cheat via the outer perimeter?
