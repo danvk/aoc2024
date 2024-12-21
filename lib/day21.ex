@@ -62,13 +62,42 @@ defmodule Day21 do
     for a <- seqs, b <- rest_seqs, do: a ++ ~c"A" ++ b
   end
 
+  @dirpad %{
+    ?^ => {1, 0},
+    ?A => {2, 0},
+    ?< => {0, 1},
+    ?v => {1, 1},
+    ?> => {2, 1}
+  }
+
+  def cost_for_press(dirkey) do
+    # You have to go from A to the key and then back.
+    # Plus 1 to press the target button.
+    {ax, ay} = @dirpad[?A]
+    {tx, ty} = @dirpad[dirkey]
+    2 * (abs(ax - tx) + abs(ay - ty)) + 1
+  end
+
+  def cost_for_seq(dirkeys) do
+    IO.inspect(dirkeys)
+    dirkeys |> Enum.map(&cost_for_press/1) |> Enum.sum()
+  end
+
+  def cost1(num_seq) do
+    seqs = keypad_sequences(?A, num_seq)
+    seqs |> Enum.map(&cost_for_seq/1)
+  end
+
   def main(input_file) do
-    # instrs = Util.read_lines(input_file) |> Enum.map(&String.to_charlist/1)
+    numpad_seqs = Util.read_lines(input_file) |> Enum.map(&String.to_charlist/1)
     # Util.inspect(instrs)
 
     # IO.inspect(numpad_sequences(?A, ?2))
     # IO.inspect(numpad_sequences(?A, ?7))
     # IO.inspect(numpad_sequences(?0, ?1))
-    IO.inspect(keypad_sequences(?A, ~c"029A"))
+    Util.inspect(
+      numpad_seqs
+      |> Enum.map(fn seq -> {"#{seq}", cost1(seq)} end)
+    )
   end
 end
