@@ -103,19 +103,37 @@ defmodule Day21 do
     for a <- seqs, b <- rest_seqs, do: a ++ ~c"A" ++ b
   end
 
-  def dir_for_dir(dirkeys) do
-    IO.inspect(dirkeys)
-    seqs = dirpad_sequences(?A, dirkeys)
-    # TODO: is this filter actually necessary?
+  def pick_shortest(seqs) do
+    shortest = Enum.min(seqs |> Enum.map(&(&1 |> Enum.count())))
+    seqs |> Enum.find(&(Enum.count(&1) == shortest))
+  end
+
+  def all_shortest(seqs) do
     shortest = Enum.min(seqs |> Enum.map(&(&1 |> Enum.count())))
     seqs |> Enum.filter(&(Enum.count(&1) == shortest))
+  end
+
+  def dir_for_dir(dirkeys) do
+    # IO.inspect(dirkeys)
+    seqs = dirpad_sequences(?A, dirkeys)
+    all_shortest(seqs)
   end
 
   def cost1(num_seq) do
     seqs = keypad_sequences(?A, num_seq)
     dir_seqs = seqs |> Enum.flat_map(&dir_for_dir/1)
-    IO.inspect(dir_seqs)
-    Enum.min(dir_seqs |> Enum.map(&(&1 |> Enum.count())))
+    all_shortest(dir_seqs)
+  end
+
+  def cost2(num_seq) do
+    seqs = cost1(num_seq)
+    dir_seqs = seqs |> Enum.flat_map(&dir_for_dir/1)
+    pick_shortest(dir_seqs) |> Enum.count()
+  end
+
+  def complexity({numseq, cost}) do
+    [numpart] = Util.extract_ints(numseq)
+    numpart * cost
   end
 
   def main(input_file) do
@@ -125,9 +143,11 @@ defmodule Day21 do
     # IO.inspect(numpad_sequences(?A, ?2))
     # IO.inspect(numpad_sequences(?A, ?7))
     # IO.inspect(numpad_sequences(?0, ?1))
-    Util.inspect(
+    results =
       numpad_seqs
-      |> Enum.map(fn seq -> {"#{seq}", cost1(seq)} end)
-    )
+      |> Enum.map(fn seq -> {"#{seq}", cost2(seq)} end)
+
+    Util.inspect(results)
+    Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
   end
 end
