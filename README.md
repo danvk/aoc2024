@@ -351,3 +351,5 @@ My assumptions are:
 3. It probably doesn't matter how you handle the directional keypads since you keep having to go back to the "A" button.
 
 Typing out explicit types in Elixir might actually be really annoying in practice since it pushes you to write so many tiny, external helper functions.
+
+It seems that the sequence of dirpad presses _does_ matter, ever so slightly. I have to keep a pool of all the shortest sequences, I can't just pick one. This makes the problem blow up.

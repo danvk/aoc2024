@@ -132,19 +132,19 @@ defmodule Day21 do
   end
 
   def cost_n(num_seq, n) do
-    cost_n_help(num_seq, n) |> pick_shortest() |> Enum.count()
+    cost_n_help(num_seq, n - 1)
+    |> Enum.map(fn seq -> dir_for_dir(seq) |> pick_shortest() end)
+    |> pick_shortest()
+    |> Enum.count()
   end
 
-  def cost_n_help(num_seq, 1) do
-    seqs = keypad_sequences(?A, num_seq)
-    dir_seqs = seqs |> Enum.flat_map(&dir_for_dir/1)
-    all_shortest(dir_seqs)
+  def cost_n_help(num_seq, 0) do
+    keypad_sequences(?A, num_seq) |> all_shortest()
   end
 
   def cost_n_help(num_seq, n) do
     seqs = cost_n_help(num_seq, n - 1)
-    dir_seqs = seqs |> Enum.flat_map(&dir_for_dir/1)
-    all_shortest(dir_seqs)
+    seqs |> Enum.flat_map(fn seq -> dir_for_dir(seq) |> all_shortest() end)
   end
 
   def complexity({numseq, cost}) do
