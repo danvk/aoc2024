@@ -376,3 +376,48 @@ Or that won't quite work. It'll still blow up. But it does feel like there's som
 cost(dirkey1, dirkey2, depth) = best path from dirkey1 -> dirkey2 * cost of each transition at depth-1.
 
 That was basically right. It just took a lot of fiddling to get the costs perfectly correct.
+
+## Things to try in Elixir before this is done
+
+- Learn about macros.
+- Read the PDF about the type system.
+- Write a unit test
+
+## Misc Elixir notes
+
+Parentheses are optional around function calls:
+
+```elixir
+> xs = [1, 2, 3]
+> Enum.sum(xs)
+6
+> Enum.sum xs
+6
+```
+
+Elixir makes a big deal of its built-in constructs being possible to implement in the language itself, and I guess this is part of what makes that work. For example:
+
+```elixir
+iex(4)> quote do
+...(4)>   for x <- xs, x * x
+...(4)> end
+{:for, [],
+ [
+   {:<-, [], [{:x, [], Elixir}, {:xs, [], Elixir}]},
+   {:*, [context: Elixir, imports: [{2, Kernel}]],
+    [{:x, [], Elixir}, {:x, [], Elixir}]}
+ ]}
+```
+
+Can `|>` be implemented via a macro?
+
+```elixir
+iex(1)> quote do
+...(1)>   [1, 2, 3] |> Enum.sum()
+...(1)> end
+{:|>, [context: Elixir, imports: [{2, Kernel}]],
+ [
+   [1, 2, 3],
+   {{:., [], [{:__aliases__, [alias: false], [:Enum]}, :sum]}, [], []}
+ ]}
+ ```
