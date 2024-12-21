@@ -341,3 +341,12 @@ You _can_ use a `when` clause in a comprehension, it just doesn't go where I exp
 ```elixir
 for x when x >= 0 <- [1, -2, 3, -4], do: x
 ```
+
+## Day 21
+
+My assumptions are:
+
+1. It's not computationally feasible to treat this all as one big search problem.
+2. You need to take _an_ optimal path through the numeric keypad. Presumably there's a reason the problem mentions (and shows) the three optimal paths.
+3. It probably doesn't matter how you handle the directional keypads since you keep having to go back to the "A" button.
+
