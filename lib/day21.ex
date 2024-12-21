@@ -131,6 +131,22 @@ defmodule Day21 do
     pick_shortest(dir_seqs) |> Enum.count()
   end
 
+  def cost_n(num_seq, n) do
+    cost_n_help(num_seq, n) |> pick_shortest() |> Enum.count()
+  end
+
+  def cost_n_help(num_seq, 1) do
+    seqs = keypad_sequences(?A, num_seq)
+    dir_seqs = seqs |> Enum.flat_map(&dir_for_dir/1)
+    all_shortest(dir_seqs)
+  end
+
+  def cost_n_help(num_seq, n) do
+    seqs = cost_n_help(num_seq, n - 1)
+    dir_seqs = seqs |> Enum.flat_map(&dir_for_dir/1)
+    all_shortest(dir_seqs)
+  end
+
   def complexity({numseq, cost}) do
     [numpart] = Util.extract_ints(numseq)
     numpart * cost
@@ -145,7 +161,7 @@ defmodule Day21 do
     # IO.inspect(numpad_sequences(?0, ?1))
     results =
       numpad_seqs
-      |> Enum.map(fn seq -> {"#{seq}", cost2(seq)} end)
+      |> Enum.map(fn seq -> {"#{seq}", cost_n(seq, 2)} end)
 
     Util.inspect(results)
     Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
