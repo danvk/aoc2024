@@ -103,7 +103,11 @@ defmodule Day21 do
   def dirpad_sequences(start, [next | rest]) do
     seqs = dirpad_sequence(start, next)
     rest_seqs = dirpad_sequences(next, rest)
-    for a <- seqs, b <- rest_seqs, do: a ++ ~c"A" ++ b
+
+    [
+      for(a <- seqs, b <- rest_seqs, do: a ++ ~c"A" ++ b)
+      |> Enum.min_by(&dirpad_cost/1)
+    ]
   end
 
   # Rough cost of tracing out this sequence on the direction pad
@@ -128,7 +132,9 @@ defmodule Day21 do
   def dir_for_dir(dirkeys) do
     # IO.inspect(dirkeys)
     seqs = dirpad_sequences(?A, dirkeys)
-    all_shortest(seqs)
+    # Util.inspect(seqs |> Enum.count())
+    seqs |> Enum.min_by(&dirpad_cost/1)
+    # all_shortest(seqs)
   end
 
   def cost1(num_seq) do
@@ -163,7 +169,7 @@ defmodule Day21 do
 
     r =
       seqs
-      |> Enum.map(fn seq -> dir_for_dir(seq) |> Enum.min_by(&dirpad_cost/1) end)
+      |> Enum.map(fn seq -> dir_for_dir(seq) end)
       |> Enum.min_by(&dirpad_cost/1)
 
     # IO.puts("n=#{n}, num_seqs=#{r |> Enum.count()}")
@@ -227,5 +233,12 @@ defmodule Day21 do
 
     # IO.inspect(dirpad_cost(~c"v<<A>>^A<A>AvA<^AA>A<vAAA>^A"))
     # IO.inspect(dirpad_cost(~c"<v<A>>^A<A>AvA<^AA>A<vAAA>^A"))
+
+    results25 =
+      numpad_seqs
+      |> Enum.map(fn seq -> {"#{seq}", cost_n(seq, 8)} end)
+
+    Util.inspect(results25)
+    Util.inspect(results25 |> Enum.map(&complexity/1) |> Enum.sum())
   end
 end

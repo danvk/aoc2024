@@ -365,3 +365,5 @@ This is the difference between the optimal and non-optimal sequences:
 
 Since you start on `A`, the bad one travels a greater distance from `A`->`<` unnecessarily.
 I can calculate this cost cheaply and sort by it.
+
+I'm _still_ blowing up. The next culprit was `dir_for_dir`, which calculates all direction sequences for a direction sequences. Throwing a `min_by` there lets me run instantly up to ~n=5. I'm still blowing up somewhere, though.
