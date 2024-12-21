@@ -367,3 +367,10 @@ Since you start on `A`, the bad one travels a greater distance from `A`->`<` unn
 I can calculate this cost cheaply and sort by it.
 
 I'm _still_ blowing up. The next culprit was `dir_for_dir`, which calculates all direction sequences for a direction sequences. Throwing a `min_by` there lets me run instantly up to ~n=5. I'm still blowing up somewhere, though.
+
+All places where I'm generating a list of sequences are suspect. There's also just some blowup in the sequence itself. Each sequence is ~2.5x the length of the previous one. So even storing the full sequence is too much. (It would be ~100B key presses.)
+
+Maybe I can do memoization / dynamic programming on `(dirkey1, dirkey2, depth)`.
+Or that won't quite work. It'll still blow up. But it does feel like there's some recurrence relation I can find here.
+
+cost(dirkey1, dirkey2, depth) = best path from dirkey1 -> dirkey2 * cost of each transition at depth-1.
