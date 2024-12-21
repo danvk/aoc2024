@@ -132,10 +132,11 @@ defmodule Day21 do
   end
 
   def cost_n(num_seq, n) do
-    cost_n_help(num_seq, n - 1)
-    |> Enum.map(fn seq -> dir_for_dir(seq) |> pick_shortest() end)
-    |> pick_shortest()
-    |> Enum.count()
+    cost_n_help(num_seq, n) |> pick_shortest() |> Enum.count()
+    # cost_n_help(num_seq, n - 1)
+    # |> Enum.map(fn seq -> dir_for_dir(seq) |> pick_shortest() end)
+    # |> pick_shortest()
+    # |> Enum.count()
   end
 
   def cost_n_help(num_seq, 0) do
