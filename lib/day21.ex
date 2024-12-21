@@ -26,11 +26,11 @@ defmodule Day21 do
   end
 
   def valid_sequence(start, chars) do
-    for c <- chars, reduce: start do
-      {x, y} ->
-        {dx, dy} = @dirs[c]
-        {x + dx, y + dy}
-    end
+    chars
+    |> Enum.scan(start, fn c, {x, y} ->
+      {dx, dy} = @dirs[c]
+      {x + dx, y + dy}
+    end)
     |> Enum.all?(&valid_numpad/1)
   end
 
@@ -62,5 +62,6 @@ defmodule Day21 do
 
     IO.inspect(numpad_sequences(?A, ?2))
     IO.inspect(numpad_sequences(?A, ?7))
+    IO.inspect(numpad_sequences(?0, ?1))
   end
 end
