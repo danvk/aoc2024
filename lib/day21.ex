@@ -216,7 +216,7 @@ defmodule Day21 do
     for a <- ~c"^<v>A",
         b <- ~c"^<v>A",
         into: %{},
-        do: {{a, b}, Util.l1_dist(@dirpad[a], @dirpad[b])}
+        do: {{a, b}, 1}
   end
 
   # does there need to be a +1 in here somewhere?
@@ -224,30 +224,27 @@ defmodule Day21 do
     cost_table = build_cost_table(n - 1)
 
     for a <- ~c"^<v>A", b <- ~c"^<v>A", into: %{} do
-      seqs = dirpad_sequence(a, b)
+      seqs = for seq <- dirpad_sequence(a, b), do: seq ++ [?A]
 
       cost =
         seqs
         |> Enum.map(fn
-          [] ->
-            0
-
           seq ->
-            Enum.zip(seq, seq |> tl())
+            Enum.zip([?A | seq], seq)
             |> Enum.map(fn {a, b} -> cost_table[{a, b}] end)
             |> Enum.sum()
         end)
         |> Enum.min()
 
-      {{a, b}, cost + 1}
+      {{a, b}, cost}
     end
   end
 
   def cost_for_numpad_seq(num_seq, cost_table) do
     keypad_sequences(?A, num_seq)
     |> Enum.map(fn seq ->
-      Enum.zip(seq, seq |> tl())
-      |> Enum.map(fn {a, b} -> 1 + cost_table[{a, b}] end)
+      Enum.zip([?A | seq], seq)
+      |> Enum.map(fn {a, b} -> cost_table[{a, b}] end)
       |> Enum.sum()
     end)
     |> Enum.min()
@@ -264,12 +261,25 @@ defmodule Day21 do
     # IO.inspect(numpad_sequences(?A, ?2))
     # IO.inspect(numpad_sequences(?A, ?7))
     # IO.inspect(numpad_sequences(?0, ?1))
-    IO.inspect(format_table(build_cost_table(0)))
+    # IO.inspect(build_cost_table(1)[{?A, ?<}])
+    # IO.inspect(build_cost_table(2)[{?A, ?<}])
     table2 = build_cost_table(2)
 
     results =
       numpad_seqs
       |> Enum.map(fn seq -> {"#{seq}", cost_for_numpad_seq(seq, table2)} end)
+
+    Util.inspect(results)
+    Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
+
+    table25 = build_cost_table(25)
+
+    results =
+      numpad_seqs
+      |> Enum.map(fn seq -> {"#{seq}", cost_for_numpad_seq(seq, table25)} end)
+
+    Util.inspect(results)
+    Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
 
     # npseq = numpad_seqs |> hd()
     # path = cost_n(npseq, 2)
@@ -278,11 +288,10 @@ defmodule Day21 do
     # IO.inspect(dir_to_dir(dir_to_dir(path)))
     # IO.inspect(dir_to_num(dir_to_dir(dir_to_dir(path))))
 
-    Util.inspect(results)
-    Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
-
     # IO.inspect(dirpad_cost(~c"v<<A>>^A<A>AvA<^AA>A<vAAA>^A"))
     # IO.inspect(dirpad_cost(~c"<v<A>>^A<A>AvA<^AA>A<vAAA>^A"))
+
+    # IO.inspect(dirpad_sequence(?A, ?v))
 
     # results25 =
     #   numpad_seqs
