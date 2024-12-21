@@ -374,3 +374,5 @@ Maybe I can do memoization / dynamic programming on `(dirkey1, dirkey2, depth)`.
 Or that won't quite work. It'll still blow up. But it does feel like there's some recurrence relation I can find here.
 
 cost(dirkey1, dirkey2, depth) = best path from dirkey1 -> dirkey2 * cost of each transition at depth-1.
+
+That was basically right. It just took a lot of fiddling to get the costs perfectly correct.
