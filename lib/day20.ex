@@ -16,8 +16,6 @@ defmodule Day20 do
     |> Enum.map(&{1, &1})
   end
 
-  defp l1_dist({x1, y1}, {x2, y2}), do: abs(x2 - x1) + abs(y2 - y1)
-
   defp diamond({x, y}, d) do
     for dy <- -d..d,
         dx <- (-d + abs(dy))..(d - abs(dy)),
@@ -35,7 +33,7 @@ defmodule Day20 do
       diamond(wall, max_cheat - 1)
       |> Enum.filter(fn e -> Map.get(grid, e) == ?. end)
       |> Enum.map(fn cheat_end ->
-        {1 + d + l1_dist(wall, cheat_end) +
+        {1 + d + Util.l1_dist(wall, cheat_end) +
            Map.get(d_to_finish, cheat_end, 140 * 140), cheat_start, cheat_end}
       end)
     end)

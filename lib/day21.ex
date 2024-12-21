@@ -106,6 +106,15 @@ defmodule Day21 do
     for a <- seqs, b <- rest_seqs, do: a ++ ~c"A" ++ b
   end
 
+  # Rough cost of tracing out this sequence on the direction pad
+  def dirpad_cost(seq) do
+    Enum.zip([?A | seq], seq)
+    |> Enum.map(fn {a, b} ->
+      Util.l1_dist(@dirpad[a], @dirpad[b])
+    end)
+    |> Enum.sum()
+  end
+
   def pick_shortest(seqs) do
     shortest = Enum.min(seqs |> Enum.map(&(&1 |> Enum.count())))
     seqs |> Enum.find(&(Enum.count(&1) == shortest))
@@ -136,11 +145,13 @@ defmodule Day21 do
 
   def cost_n(num_seq, n) do
     # |> Enum.count()
-    cost_n_help(num_seq, n) |> pick_shortest()
+    # |> pick_shortest()
+    # cost_n_help(num_seq, n) |> pick_shortest()
     # cost_n_help(num_seq, n - 1)
     # |> Enum.map(fn seq -> dir_for_dir(seq) |> pick_shortest() end)
     # |> pick_shortest()
     # |> Enum.count()
+    cost_n_help(num_seq, n) |> pick_shortest() |> Enum.count()
   end
 
   def cost_n_help(num_seq, 0) do
@@ -152,11 +163,11 @@ defmodule Day21 do
 
     r =
       seqs
-      |> Enum.flat_map(fn seq -> dir_for_dir(seq) |> all_shortest() end)
-      |> all_shortest()
+      |> Enum.map(fn seq -> dir_for_dir(seq) |> Enum.min_by(&dirpad_cost/1) end)
+      |> Enum.min_by(&dirpad_cost/1)
 
-    IO.puts("n=#{n}, num_seqs=#{r |> Enum.count()}")
-    r
+    # IO.puts("n=#{n}, num_seqs=#{r |> Enum.count()}")
+    [r]
     # seqs |> Enum.map(fn seq -> dir_for_dir(seq) |> pick_shortest() end)
   end
 
@@ -200,18 +211,21 @@ defmodule Day21 do
     # IO.inspect(numpad_sequences(?A, ?2))
     # IO.inspect(numpad_sequences(?A, ?7))
     # IO.inspect(numpad_sequences(?0, ?1))
-    # results =
-    #   numpad_seqs
-    #   |> Enum.map(fn seq -> {"#{seq}", cost_n(seq, 2)} end)
+    results =
+      numpad_seqs
+      |> Enum.map(fn seq -> {"#{seq}", cost_n(seq, 2)} end)
 
-    npseq = numpad_seqs |> hd()
-    path = cost_n(npseq, 2)
-    IO.inspect(path)
-    IO.inspect(dir_to_dir(path))
-    IO.inspect(dir_to_dir(dir_to_dir(path)))
-    IO.inspect(dir_to_num(dir_to_dir(dir_to_dir(path))))
+    # npseq = numpad_seqs |> hd()
+    # path = cost_n(npseq, 2)
+    # IO.inspect(path)
+    # IO.inspect(dir_to_dir(path))
+    # IO.inspect(dir_to_dir(dir_to_dir(path)))
+    # IO.inspect(dir_to_num(dir_to_dir(dir_to_dir(path))))
 
-    # Util.inspect(results)
-    # Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
+    Util.inspect(results)
+    Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
+
+    # IO.inspect(dirpad_cost(~c"v<<A>>^A<A>AvA<^AA>A<vAAA>^A"))
+    # IO.inspect(dirpad_cost(~c"<v<A>>^A<A>AvA<^AA>A<vAAA>^A"))
   end
 end
