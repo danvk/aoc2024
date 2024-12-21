@@ -350,3 +350,4 @@ My assumptions are:
 2. You need to take _an_ optimal path through the numeric keypad. Presumably there's a reason the problem mentions (and shows) the three optimal paths.
 3. It probably doesn't matter how you handle the directional keypads since you keep having to go back to the "A" button.
 
+Typing out explicit types in Elixir might actually be really annoying in practice since it pushes you to write so many tiny, external helper functions.

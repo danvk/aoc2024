@@ -51,17 +51,24 @@ defmodule Day21 do
     yc = if dy <= 0, do: ?^, else: ?v
     nx = abs(dx)
     ny = abs(dy)
-    # IO.inspect({[xc], nx, [yc], ny})
     all_seqs(xc, nx, yc, ny) |> Enum.filter(&valid_sequence({x1, y1}, &1))
-    # todo: filter to just sequences that stay on the keypad
+  end
+
+  def keypad_sequences(_, []), do: [[]]
+
+  def keypad_sequences(start, [next | rest]) do
+    seqs = numpad_sequences(start, next)
+    rest_seqs = keypad_sequences(next, rest)
+    for a <- seqs, b <- rest_seqs, do: a ++ ~c"A" ++ b
   end
 
   def main(input_file) do
     # instrs = Util.read_lines(input_file) |> Enum.map(&String.to_charlist/1)
     # Util.inspect(instrs)
 
-    IO.inspect(numpad_sequences(?A, ?2))
-    IO.inspect(numpad_sequences(?A, ?7))
-    IO.inspect(numpad_sequences(?0, ?1))
+    # IO.inspect(numpad_sequences(?A, ?2))
+    # IO.inspect(numpad_sequences(?A, ?7))
+    # IO.inspect(numpad_sequences(?0, ?1))
+    IO.inspect(keypad_sequences(?A, ~c"029A"))
   end
 end
