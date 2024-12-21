@@ -70,22 +70,52 @@ defmodule Day21 do
     ?> => {2, 1}
   }
 
-  def cost_for_press(dirkey) do
-    # You have to go from A to the key and then back.
-    # Plus 1 to press the target button.
-    {ax, ay} = @dirpad[?A]
-    {tx, ty} = @dirpad[dirkey]
-    2 * (abs(ax - tx) + abs(ay - ty)) + 1
+  def valid_dirpad({x, y}) do
+    x >= 0 and x <= 2 and (y == 1 or (y == 0 and x >= 1))
   end
 
-  def cost_for_seq(dirkeys) do
+  def valid_dirpad_sequence(start, chars) do
+    chars
+    |> Enum.scan(start, fn c, {x, y} ->
+      {dx, dy} = @dirs[c]
+      {x + dx, y + dy}
+    end)
+    |> Enum.all?(&valid_dirpad/1)
+  end
+
+  def dirpad_sequence(start, stop) do
+    {x1, y1} = @dirpad[start]
+    {x2, y2} = @dirpad[stop]
+    dx = x2 - x1
+    dy = y2 - y1
+    xc = if dx <= 0, do: ?<, else: ?>
+    yc = if dy <= 0, do: ?^, else: ?v
+    nx = abs(dx)
+    ny = abs(dy)
+    all_seqs(xc, nx, yc, ny) |> Enum.filter(&valid_dirpad_sequence({x1, y1}, &1))
+  end
+
+  def dirpad_sequences(_, []), do: [[]]
+
+  def dirpad_sequences(start, [next | rest]) do
+    seqs = dirpad_sequence(start, next)
+    rest_seqs = dirpad_sequences(next, rest)
+    for a <- seqs, b <- rest_seqs, do: a ++ ~c"A" ++ b
+  end
+
+  def dir_for_dir(dirkeys) do
     IO.inspect(dirkeys)
-    dirkeys |> Enum.map(&cost_for_press/1) |> Enum.sum()
+    seqs = dirpad_sequences(?A, dirkeys)
+    # TODO: is this filter actually necessary?
+    shortest = Enum.min(seqs |> Enum.map(&(&1 |> Enum.count())))
+    seqs |> Enum.filter(&(Enum.count(&1) == shortest))
   end
 
   def cost1(num_seq) do
     seqs = keypad_sequences(?A, num_seq)
-    seqs |> Enum.map(&cost_for_seq/1)
+    dir_seqs = seqs |> Enum.flat_map(&dir_for_dir/1)
+    IO.inspect(dir_seqs)
+    Enum.min(dir_seqs |> Enum.map(&(&1 |> Enum.count())))
   end
 
   def main(input_file) do
