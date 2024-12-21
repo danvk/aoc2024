@@ -116,8 +116,13 @@ defmodule Util do
     new_m
   end
 
+  # TODO: most uses of this don't care about the key
   def map_values(m, f) do
     Map.new(m, fn {k, v} -> {k, f.(k, v)} end)
+  end
+
+  def invert_map(m) do
+    for {k, v} <- m, into: %{}, do: {v, k}
   end
 
   def count_by(enum, f) do

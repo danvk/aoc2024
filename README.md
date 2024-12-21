@@ -352,4 +352,6 @@ My assumptions are:
 
 Typing out explicit types in Elixir might actually be really annoying in practice since it pushes you to write so many tiny, external helper functions.
 
-It seems that the sequence of dirpad presses _does_ matter, ever so slightly. I have to keep a pool of all the shortest sequences, I can't just pick one. This makes the problem blow up.
+It seems that the sequence of dirpad presses _does_ matter, ever so slightly. I have to keep a pool of all the shortest sequences, I can't just pick one. This makes the problem blow up. For `029A` after the first robot, I have 128 optimal sequences. After the second, I have 589824 optimal sequences.
+
+It might be interesting to see exactly why picking one shortest dirpad sequence doesn't give the optimal result. This only seems to be an issue with 2+ robot dirpads in the middle. For `029A`, I get a sequence with length 70 instead of 68.

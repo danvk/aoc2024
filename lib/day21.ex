@@ -13,6 +13,7 @@ defmodule Day21 do
     ?0 => {1, 3},
     ?A => {2, 3}
   }
+  @pos_to_num Util.invert_map(@numpad)
 
   @dirs %{
     ?> => {1, 0},
@@ -69,6 +70,8 @@ defmodule Day21 do
     ?v => {1, 1},
     ?> => {2, 1}
   }
+
+  @pos_to_dir Util.invert_map(@dirpad)
 
   def valid_dirpad({x, y}) do
     x >= 0 and x <= 2 and (y == 1 or (y == 0 and x >= 1))
@@ -132,7 +135,8 @@ defmodule Day21 do
   end
 
   def cost_n(num_seq, n) do
-    cost_n_help(num_seq, n) |> pick_shortest() |> Enum.count()
+    # |> Enum.count()
+    cost_n_help(num_seq, n) |> pick_shortest()
     # cost_n_help(num_seq, n - 1)
     # |> Enum.map(fn seq -> dir_for_dir(seq) |> pick_shortest() end)
     # |> pick_shortest()
@@ -145,12 +149,48 @@ defmodule Day21 do
 
   def cost_n_help(num_seq, n) do
     seqs = cost_n_help(num_seq, n - 1)
-    seqs |> Enum.flat_map(fn seq -> dir_for_dir(seq) |> all_shortest() end)
+
+    r =
+      seqs
+      |> Enum.flat_map(fn seq -> dir_for_dir(seq) |> all_shortest() end)
+      |> all_shortest()
+
+    IO.puts("n=#{n}, num_seqs=#{r |> Enum.count()}")
+    r
+    # seqs |> Enum.map(fn seq -> dir_for_dir(seq) |> pick_shortest() end)
   end
 
   def complexity({numseq, cost}) do
     [numpart] = Util.extract_ints(numseq)
     numpart * cost
+  end
+
+  def dir_to_dir(dirseq) do
+    dirseq
+    |> Enum.reduce({@dirpad[?A], []}, fn c, {p, out} ->
+      if c == ?A do
+        {p, out ++ [@pos_to_dir[p]]}
+      else
+        {x, y} = p
+        {dx, dy} = @dirs[c]
+        {{x + dx, y + dy}, out}
+      end
+    end)
+    |> elem(1)
+  end
+
+  def dir_to_num(dirseq) do
+    dirseq
+    |> Enum.reduce({@numpad[?A], []}, fn c, {p, out} ->
+      if c == ?A do
+        {p, out ++ [@pos_to_num[p]]}
+      else
+        {x, y} = p
+        {dx, dy} = @dirs[c]
+        {{x + dx, y + dy}, out}
+      end
+    end)
+    |> elem(1)
   end
 
   def main(input_file) do
@@ -160,11 +200,18 @@ defmodule Day21 do
     # IO.inspect(numpad_sequences(?A, ?2))
     # IO.inspect(numpad_sequences(?A, ?7))
     # IO.inspect(numpad_sequences(?0, ?1))
-    results =
-      numpad_seqs
-      |> Enum.map(fn seq -> {"#{seq}", cost_n(seq, 2)} end)
+    # results =
+    #   numpad_seqs
+    #   |> Enum.map(fn seq -> {"#{seq}", cost_n(seq, 2)} end)
 
-    Util.inspect(results)
-    Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
+    npseq = numpad_seqs |> hd()
+    path = cost_n(npseq, 2)
+    IO.inspect(path)
+    IO.inspect(dir_to_dir(path))
+    IO.inspect(dir_to_dir(dir_to_dir(path)))
+    IO.inspect(dir_to_num(dir_to_dir(dir_to_dir(path))))
+
+    # Util.inspect(results)
+    # Util.inspect(results |> Enum.map(&complexity/1) |> Enum.sum())
   end
 end
