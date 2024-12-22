@@ -381,7 +381,7 @@ That was basically right. It just took a lot of fiddling to get the costs perfec
 
 This felt way too easy for day 22. After foibles the last few days, I moved very deliberately through the examples, making sure I didn't have any off-by-ones. Searching through the "quads" was too slow for my input, but making an index from quad -> price resolved that. I just do brute force search across `(-9..9)*4` and, after a few hundred million map lookups, I have my answer.
 
-I did get a wrong answer for part 2 -- the example shows 10 secrets _including_ the initial secret, but then the problem asks for 2000 secrets _after_ the initial secret. Fortunately this was not to hard to spot.
+I did get a wrong answer for part 2 -- the example shows 10 secrets _including_ the initial secret, but then the problem asks for 2000 secrets _after_ the initial secret. Fortunately this was not too hard to spot.
 
 Ryan pointed out a big speedup: you can merge the indexes and take the max value across them. Doing this sped up part 2 from ~45s -> ~4.5s. I guess there are a lot of "quads" that never occur.
 
