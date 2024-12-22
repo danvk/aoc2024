@@ -53,7 +53,7 @@ defmodule Day22 do
     part1 = after2000 |> Enum.sum()
     IO.puts("part 1: #{part1}")
 
-    seqs = for seed <- seeds, do: steps(seed, 2000)
+    seqs = for seed <- seeds, do: steps(seed, 2001)
     # Util.inspect(seqs)
 
     quads =
