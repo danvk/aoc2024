@@ -33,11 +33,6 @@ defmodule Day22 do
     for {head, tail} <- Enum.zip(seq, sliding_window(tl(seq), n - 1)), do: [head | tail]
   end
 
-  # defp buy_bananas(quads, seq) do
-  #   {bananas, _} = Enum.find(quads, {0, nil}, fn {_, q} -> q == seq end)
-  #   bananas
-  # end
-
   defp index_quad(quads) do
     for {bananas, quad} <- quads, reduce: %{} do
       acc ->
@@ -66,13 +61,22 @@ defmodule Day22 do
 
     # Util.inspect(for quad <- quads, do: buy_bananas(quad, [-2, 1, -1, 3]))
 
+    # part2 =
+    #   Enum.max(
+    #     for a <- -9..9,
+    #         b <- -9..9,
+    #         c <- -9..9,
+    #         d <- -9..9,
+    #         do: Enum.sum(for q <- indexed, do: Map.get(q, [a, b, c, d], 0))
+    #   )
+
     part2 =
       Enum.max(
-        for a <- -9..9,
-            b <- -9..9,
-            c <- -9..9,
-            d <- -9..9,
-            do: Enum.sum(for q <- indexed, do: Map.get(q, [a, b, c, d], 0))
+        Map.values(
+          for q <- indexed, reduce: %{} do
+            m -> Map.merge(m, q, fn _, v1, v2 -> v1 + v2 end)
+          end
+        )
       )
 
     # Util.inspect(for q <- indexed, do: q[[-2, 1, -1, 3]])

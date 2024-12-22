@@ -379,7 +379,34 @@ That was basically right. It just took a lot of fiddling to get the costs perfec
 
 ## Day 22
 
-1923 is too low for part 2.
+This felt way too easy for day 22. After foibles the last few days, I moved very deliberately through the examples, making sure I didn't have any off-by-ones. Searching through the "quads" was too slow for my input, but making an index from quad -> price resolved that. I just do brute force search across `(-9..9)*4` and, after a few hundred million map lookups, I have my answer.
+
+I did get a wrong answer for part 2 -- the example shows 10 secrets _including_ the initial secret, but then the problem asks for 2000 secrets _after_ the initial secret. Fortunately this was not to hard to spot.
+
+This is an interesting example of typing going differently than in TS:
+
+```elixir
+def get_tail(list), do: tl(list)
+
+def main(input_file) do
+  IO.puts(get_tail(1..10))
+end
+```
+
+I get this error on the `IO.puts` line:
+
+```
+The function call will not succeed.
+
+Day22.get_tail(%Range{:first => 1, :last => 10, :step => 1})
+
+will never return since the 1st arguments differ
+from the success typing arguments:
+
+(nonempty_maybe_improper_list())
+```
+
+This comes from Dialyzer, not the new type checker. TS would make you put a type signature on `get_tail`, which would force the error to be either in the caller or the implementation.
 
 ## Things to try in Elixir before this is done
 
