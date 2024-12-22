@@ -55,13 +55,11 @@ defmodule Day22 do
     indexed = quads |> Enum.map(&index_quad/1)
 
     part2 =
-      Enum.max(
-        Map.values(
-          for q <- indexed, reduce: %{} do
-            m -> Map.merge(m, q, fn _, v1, v2 -> v1 + v2 end)
-          end
-        )
-      )
+      for q <- indexed, reduce: %{} do
+        m -> Map.merge(m, q, fn _, v1, v2 -> v1 + v2 end)
+      end
+      |> Map.values()
+      |> Enum.max()
 
     IO.puts("part 2: #{part2}")
   end
