@@ -377,6 +377,10 @@ cost(dirkey1, dirkey2, depth) = best path from dirkey1 -> dirkey2 * cost of each
 
 That was basically right. It just took a lot of fiddling to get the costs perfectly correct.
 
+## Day 22
+
+1923 is too low for part 2.
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.
