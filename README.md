@@ -383,6 +383,8 @@ This felt way too easy for day 22. After foibles the last few days, I moved very
 
 I did get a wrong answer for part 2 -- the example shows 10 secrets _including_ the initial secret, but then the problem asks for 2000 secrets _after_ the initial secret. Fortunately this was not to hard to spot.
 
+Ryan pointed out a big speedup: you can merge the indexes and take the max value across them. Doing this sped up part 2 from ~45s -> ~4.5s. I guess there are a lot of "quads" that never occur.
+
 This is an interesting example of typing going differently than in TS:
 
 ```elixir

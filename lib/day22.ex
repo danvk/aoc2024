@@ -42,33 +42,17 @@ defmodule Day22 do
 
   def main(input_file) do
     seeds = Util.read_lines(input_file) |> Enum.map(&String.to_integer/1)
-    # Util.inspect(instrs)
     after2000 = Enum.map(seeds, &secret_after(&1, 2000))
-    # Util.inspect(instrs |> Enum.zip(after2000))
     part1 = after2000 |> Enum.sum()
     IO.puts("part 1: #{part1}")
 
     seqs = for seed <- seeds, do: steps(seed, 2001)
-    # Util.inspect(seqs)
 
     quads =
       for {bananas, deltas} <- seqs,
           do: Enum.zip(Enum.drop(bananas, 3), sliding_window(deltas, 4))
 
     indexed = quads |> Enum.map(&index_quad/1)
-
-    # Util.inspect(indexed)
-
-    # Util.inspect(for quad <- quads, do: buy_bananas(quad, [-2, 1, -1, 3]))
-
-    # part2 =
-    #   Enum.max(
-    #     for a <- -9..9,
-    #         b <- -9..9,
-    #         c <- -9..9,
-    #         d <- -9..9,
-    #         do: Enum.sum(for q <- indexed, do: Map.get(q, [a, b, c, d], 0))
-    #   )
 
     part2 =
       Enum.max(
@@ -79,21 +63,6 @@ defmodule Day22 do
         )
       )
 
-    # Util.inspect(for q <- indexed, do: q[[-2, 1, -1, 3]])
-
     IO.puts("part 2: #{part2}")
-
-    # Util.inspect(quads)
-
-    # Util.inspect(sliding_window(Enum.to_list(1..10), 4))
-
-    # Util.inspect(mix(42, 15))
-    # Util.inspect(prune(100_000_000))
-    # for _ <- 1..10, reduce: 123 do
-    #   secret ->
-    #     secret = step(secret)
-    #     Util.inspect(secret)
-    #     secret
-    # end
   end
 end
