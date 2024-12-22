@@ -421,3 +421,9 @@ iex(1)> quote do
    {{:., [], [{:__aliases__, [alias: false], [:Enum]}, :sum]}, [], []}
  ]}
  ```
+
+I think it is:
+https://github.com/elixir-lang/elixir/blob/v1.18.0/lib/elixir/lib/kernel.ex#L4357
+
+This is an interesting example of a macro for `regex_case`:
+https://stackoverflow.com/a/34692927/388951
