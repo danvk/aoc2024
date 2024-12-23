@@ -412,7 +412,7 @@ This comes from Dialyzer, not the new type checker. TS would make you put a type
 
 ## Day 23
 
-2376 is too high.
+Had a wrong answer because it needs to _start_ with `t`, not just _contain_ a `t`.
 
 ## Things to try in Elixir before this is done
 
