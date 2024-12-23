@@ -27,15 +27,14 @@ defmodule Day23 do
     |> Enum.reject(&(&1 == nil))
   end
 
+  def is_t(a, b, c) do
+    String.starts_with?(a, "t") or String.starts_with?(b, "t") or String.starts_with?(c, "t")
+  end
+
   def with_t(triples) do
-    for (
-      {a, b, c} <- triples,
-      do:
-        if(String.contains?(a, "t") or String.contains?(b, "t") or String.contains?(c, "t")) do
-          {a, b, c}
-        else
-          nil
-        end
+    for(
+      {a, b, c} when a < b and b < c <- triples,
+      do: if(is_t(a, b, c), do: "#{a}-#{b}-#{c}", else: nil)
     )
     |> Enum.reject(&(&1 == nil))
   end
@@ -44,7 +43,9 @@ defmodule Day23 do
     graph = Util.read_lines(input_file) |> Enum.map(&parse_line/1) |> Enum.into(MapSet.new())
     nodes = for {a, b} <- graph, n <- [a, b], do: n, uniq: true
     triples = find_triples(graph, nodes)
-    Util.inspect(triples)
+    # Util.inspect(triples)
+    with_t(triples) |> Enum.map(&IO.puts(&1))
     # Util.inspect(nodes)
+    Util.inspect(with_t(triples) |> Enum.count())
   end
 end

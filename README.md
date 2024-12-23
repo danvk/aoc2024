@@ -410,6 +410,10 @@ from the success typing arguments:
 
 This comes from Dialyzer, not the new type checker. TS would make you put a type signature on `get_tail`, which would force the error to be either in the caller or the implementation.
 
+## Day 23
+
+2376 is too high.
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.
