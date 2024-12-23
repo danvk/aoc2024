@@ -19,12 +19,13 @@ defmodule Day23 do
 
   defp expand_clusters(graph, nodes, clusters) do
     # clusters is a list of sorted lists of fully-connected nodes
-    for cluster <- clusters, n when n < hd(cluster) <- nodes do
-      if fully_connected_to_cluster(graph, cluster, n) do
-        [n | cluster]
-      else
-        nil
-      end
+    for cluster <- clusters, n when n < hd(cluster) <- nodes, reduce: [] do
+      acc ->
+        if fully_connected_to_cluster(graph, cluster, n) do
+          [[n | cluster] | acc]
+        else
+          acc
+        end
     end
     |> Enum.reject(&(&1 == nil))
   end
