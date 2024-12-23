@@ -58,9 +58,5 @@ defmodule Day23 do
     [biggest] = keep_expanding(graph, nodes, 2, two_clusters)
     part2 = biggest |> Enum.join(",")
     IO.puts("part 2: #{part2}")
-    # three_clusters = expand_clusters(graph, nodes, two_clusters)
-    # four_clusters = expand_clusters(graph, nodes, three_clusters)
-    # Util.inspect(four_clusters)
-    # Util.inspect(Enum.count(four_clusters))
   end
 end
