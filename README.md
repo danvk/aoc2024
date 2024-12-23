@@ -412,7 +412,24 @@ This comes from Dialyzer, not the new type checker. TS would make you put a type
 
 ## Day 23
 
+Another surprisingly easy one.
+
 Had a wrong answer because it needs to _start_ with `t`, not just _contain_ a `t`.
+
+For part 2, trying to add single nodes to each fully-connected cluster works fine. Fully-connected is a pretty strong constraint, so the number of clusters doesn't blow up too much before it shrinks again:
+
+n: 2, num: 3380
+n: 3, num: 11011
+n: 4, num: 26455
+n: 5, num: 45045
+n: 6, num: 55770
+n: 7, num: 50622
+n: 8, num: 33462
+n: 9, num: 15730
+n: 10, num: 5005
+n: 11, num: 975
+n: 12, num: 91
+n: 13, num: 1
 
 ## Things to try in Elixir before this is done
 
