@@ -13,10 +13,14 @@ defmodule Day23 do
     MapSet.member?(graph, ordered(link))
   end
 
+  defp fully_connected_to_cluster(graph, cluster, node) do
+    Enum.all?(cluster |> Enum.map(&contains?(graph, {&1, node})))
+  end
+
   defp expand_clusters(graph, nodes, clusters) do
     # clusters is a list of sorted lists of fully-connected nodes
     for cluster <- clusters, n when n < hd(cluster) <- nodes do
-      if Enum.all?(cluster |> Enum.map(&contains?(graph, {&1, n}))) do
+      if fully_connected_to_cluster(graph, cluster, n) do
         [n | cluster]
       else
         nil

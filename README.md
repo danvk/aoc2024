@@ -431,6 +431,8 @@ n: 11, num: 975
 n: 12, num: 91
 n: 13, num: 1
 
+It's kind of weird how restricted "when" clauses are in comprehensions in Elixir.
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.
