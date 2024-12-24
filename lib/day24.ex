@@ -223,7 +223,12 @@ defmodule Day24 do
     # for z <- 0..44, do: Util.inspect(z, graph["z" <> two_digits(z)])
     # for z <- 0..44, do: check_z_xor(graph, z)
 
-    graph = graph |> swap("z10", "mkk") |> swap("z14", "qbw") |> swap("cvp", "wjb")
+    graph =
+      graph
+      |> swap("z10", "mkk")
+      |> swap("z14", "qbw")
+      |> swap("cvp", "wjb")
+      |> swap("z34", "wcb")
 
     carry0 = get_carry_candidate(graph, 1)
     IO.puts("carry0 candidate: #{carry0}")
@@ -254,5 +259,11 @@ defmodule Day24 do
     # Util.inspect(has_only_inputs(graph, "sgv", MapSet.new(["x00", "y00"])))
     # Util.inspect(has_only_inputs(graph, "vbb", MapSet.new(["x01", "y01", "sgv"])))
     # Util.inspect(has_only_inputs(graph, "jmc", MapSet.new(["x02", "y02", "vbb"])))
+
+    IO.puts(
+      ["z10", "mkk", "z14", "qbw", "cvp", "wjb", "z34", "wcb"]
+      |> Enum.sort()
+      |> Enum.join(",")
+    )
   end
 end
