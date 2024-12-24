@@ -223,7 +223,7 @@ defmodule Day24 do
     # for z <- 0..44, do: Util.inspect(z, graph["z" <> two_digits(z)])
     # for z <- 0..44, do: check_z_xor(graph, z)
 
-    graph = graph |> swap("z10", "mkk") |> swap("z14", "qbw")
+    graph = graph |> swap("z10", "mkk") |> swap("z14", "qbw") |> swap("cvp", "wjb")
 
     carry0 = get_carry_candidate(graph, 1)
     IO.puts("carry0 candidate: #{carry0}")

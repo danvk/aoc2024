@@ -532,6 +532,16 @@ vjh OR fhq -> z14
 x14 XOR y14 -> tsp
 ndm XOR tsp -> qbw
 
+z25 is wrong. And this one is going to be harder to fix.
+
+cvp XOR fqv -> z25
+x25 AND y25 -> cvp
+jfm OR mcr -> fqv
+x25 XOR y25 -> wjb
+qcn OR wjb -> fdg
+
+The swap is one level down: cvp <-> wjb
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.
