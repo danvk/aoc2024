@@ -437,6 +437,39 @@ It's kind of weird how restricted "when" clauses are in comprehensions in Elixir
 
 Part 1 doesn't seem too bad. First instinct was to push forward but on second thought maybe I'll work backwards from the outputs and memoize. My guess is that part 2 is going to ask for the smallest input that produces 2024 as an output.
 
+… as it turns out, the memoize was not necessary.
+
+221 output wires.
+
+    221 * 220 * 219 * 218 * 217 * 216 * 215 * 214 / (2^4) ~= 2^58
+
+so brute force search isn't going to cut it.
+
+One constraint is that z00 should only depend on x00 and y00. I have this in my input:
+
+    x00 XOR y00 -> z00
+
+So that rule is perfect and should not be swapped. One down!
+
+There are 45 x and y wires, so this needs to work for all values between 0 and 2^45-1.
+
+Binary addition is pretty simple. We should have:
+
+    z(N) = (x(N) XOR y(N)) XOR (carry from N-1)
+    carry(N) = (x(N) and y(N)) OR (carry(N-1) and (x(N) or Y(N)))
+
+x00 AND y00 -> sgv
+y01 XOR x01 -> ntn
+sgv XOR ntn -> z01
+
+So z01 is also correct. I guess it's still possible that these could be involved in a swap, so long as it has no effect?
+
+It should also be the case that z(N) does not depend on any x(M) or y(M) where M > N. At least not in a way that's consequential. This might be hard to enforce in practice since there are expressions like X XOR X = 0.
+
+No z wire appears on the RHS of a circuit. Swapping could potentially create a cycle.
+
+I could find the first z that's not correct.
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.

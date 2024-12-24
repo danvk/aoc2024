@@ -50,22 +50,64 @@ defmodule Day24 do
     Integer.pow(2, n) + to_num(rest)
   end
 
+  defp inputs_for(graph, wire, acc \\ MapSet.new()) do
+    case graph[wire] do
+      {_, left, right} ->
+        inputs_for(graph, left, inputs_for(graph, right, acc))
+
+      nil ->
+        MapSet.put(acc, wire)
+    end
+  end
+
+  def two_digits(n), do: n |> Integer.to_string() |> String.pad_leading(2, "0")
+
+  def check_inputs(graph, z) do
+    z_wire = "z" <> two_digits(z)
+    inputs = inputs_for(graph, z_wire)
+    expected = for let <- ["x", "y"], n <- 0..z, into: MapSet.new(), do: let <> two_digits(n)
+
+    missing = MapSet.difference(expected, inputs)
+
+    if !Enum.empty?(missing) do
+      ms = missing |> MapSet.to_list() |> Enum.join(", ")
+      IO.puts("#{z_wire} is missing expected inputs: #{ms}")
+    end
+
+    extra = MapSet.difference(inputs, expected)
+
+    if !Enum.empty?(extra) do
+      ms = extra |> MapSet.to_list() |> Enum.join(", ")
+      IO.puts("#{z_wire} has unexpected inputs: #{ms}")
+    end
+  end
+
   def main(input_file) do
     {wire_lines, circuit_lines} = Util.read_lines(input_file) |> Util.split_on_blank()
 
     wires = wire_lines |> Enum.map(&parse_wire/1)
     circuits = circuit_lines |> Enum.map(&parse_circuit/1)
 
-    graph = Enum.into(wires ++ circuits, %{})
-    Util.inspect(graph)
+    graph1 = Enum.into(wires ++ circuits, %{})
+    # Util.inspect(graph1)
 
     outs =
-      Map.keys(graph)
+      Map.keys(graph1)
       |> Enum.filter(&String.starts_with?(&1, "z"))
-      |> Enum.map(&{&1, evaluate(graph, &1)})
+      |> Enum.map(&{&1, evaluate(graph1, &1)})
       |> Enum.sort()
 
-    Util.inspect(outs)
-    Util.inspect(to_num(outs))
+    # Util.inspect(outs)
+    part1 = to_num(outs)
+    IO.puts("part 1: #{part1}")
+
+    graph = Enum.into(circuits, %{})
+    # Util.inspect("z00", inputs_for(graph, "z00"))
+    # Util.inspect("z01", inputs_for(graph, "z01"))
+    # Util.inspect("z02", inputs_for(graph, "z02"))
+    # Util.inspect("z03", inputs_for(graph, "z03"))
+    # Util.inspect("z04", inputs_for(graph, "z04"))
+
+    for z <- 0..44, do: check_inputs(graph, z)
   end
 end
