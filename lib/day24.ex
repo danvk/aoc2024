@@ -178,6 +178,15 @@ defmodule Day24 do
     |> Enum.all?()
   end
 
+  def swap(graph, a, b) do
+    olda = graph[a]
+    oldb = graph[b]
+
+    graph
+    |> Map.put(b, olda)
+    |> Map.put(a, oldb)
+  end
+
   def main(input_file) do
     {wire_lines, circuit_lines} = Util.read_lines(input_file) |> Util.split_on_blank()
 
@@ -214,10 +223,12 @@ defmodule Day24 do
     # for z <- 0..44, do: Util.inspect(z, graph["z" <> two_digits(z)])
     # for z <- 0..44, do: check_z_xor(graph, z)
 
+    graph = swap(graph, "z10", "mkk")
+
     carry0 = get_carry_candidate(graph, 1)
     IO.puts("carry0 candidate: #{carry0}")
 
-    2..10
+    2..44
     |> Enum.reduce(carry0, fn n, carryN1 ->
       carryN = get_carry_candidate(graph, n)
       xN = "x" <> two_digits(n - 1)
