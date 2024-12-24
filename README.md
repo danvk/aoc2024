@@ -546,6 +546,8 @@ y34 AND x34 -> z34
 y34 XOR x34 -> jmq
 jmq XOR mdh -> wcb
 
+And this last one is straightforward. Woo!
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.
