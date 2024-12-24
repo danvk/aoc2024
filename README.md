@@ -524,6 +524,14 @@ jvj XOR mvs -> mkk
 carry(N) should involve only x(N), y(N) and carry(N-1).
 This is a pretty strong constraint! And it's easy to check that it's valid since there are only 8 possibilities to try.
 
+Swap 1: z10 <-> mkk
+
+z14 is wrong.
+
+vjh OR fhq -> z14
+x14 XOR y14 -> tsp
+ndm XOR tsp -> qbw
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.
