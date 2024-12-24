@@ -458,9 +458,9 @@ Binary addition is pretty simple. We should have:
     z(N) = (x(N) XOR y(N)) XOR (carry from N-1)
     carry(N) = (x(N) and y(N)) OR (carry(N-1) and (x(N) or Y(N)))
 
-x00 AND y00 -> sgv
+x00 AND y00 -> sgv = carry(0)
 y01 XOR x01 -> ntn
-sgv XOR ntn -> z01
+sgv XOR ntn -> z01 = (x01 XOR y01) XOR carry(0)
 
 So z01 is also correct. I guess it's still possible that these could be involved in a swap, so long as it has no effect?
 
@@ -469,6 +469,59 @@ It should also be the case that z(N) does not depend on any x(M) or y(M) where M
 No z wire appears on the RHS of a circuit. Swapping could potentially create a cycle.
 
 I could find the first z that's not correct.
+
+The idea about looking for the expected inputs is promising. For my circuit, only one z has the wrong inputs:
+
+z34 is missing expected inputs: y17, y22, y06, y26, x29, x25, y33, x19, x26, y00, x01, x21, x09, x24, x13, x23, x22, y05, x11, y31, x31, x16, x06, y09, x05, y11, x04, x00, y07, y28, x20, y19, x30, x28, y16, y27, y20, x02, y08, x15, y14, x12, y03, y02, x07, y13, y32, x32, x18, x17, x14, x10, x08, y18, x33, y12, x03, y01, y25, y21, y04, y30, y29, y23, y24, y15, y10, x27
+
+So can I assume that the wrong circuits are all in the tree that feeds into z34? That can't be right since swapping those circuits wouldn't introduce any new inputs. But it does feel like this is a pretty big hint! It also doesn't mean that z00..z33 are all wired correctly, just that they have the right inputs.
+
+z02 = [
+  "x00 and y00 -> sgv", carry(0)
+
+  "y01 xor x01 -> ntn"
+  "sgv and ntn -> rsk",
+  "y01 and x01 -> gmn",
+  "rsk or gmn -> vbb",  carry(1)
+
+  "x02 xor y02 -> gcd",
+  "gcd xor vbb -> z02",
+]
+
+If I can figure out what the carry outputs are then maybe I can do this by induction?
+
+z03 = [
+  "x00 and y00 -> sgv",
+  "y01 xor x01 -> ntn",
+  "sgv and ntn -> rsk",
+
+  "y01 and x01 -> gmn",
+  "rsk or gmn -> vbb", carry(1)
+
+  "y02 and x02 -> jtv",
+  "x02 xor y02 -> gcd",
+  "vbb and gcd -> mpg",
+  "mpg or jtv -> jmc", carry(2)
+
+  "y03 xor x03 -> qdj"
+  "jmc xor qdj -> z03",
+]
+
+Each zNN should be a XOR. These are the exceptions:
+
+{10, {:and, "mvs", "jvj"}}
+{14, {:or, "vjh", "fhq"}}
+{34, {:and, "y34", "x34"}}
+
+mqk OR vbs -> mvs
+y10 XOR x10 -> jvj
+mvs AND jvj -> z10
+
+Should this be the z10?
+jvj XOR mvs -> mkk
+
+carry(N) should involve only x(N), y(N) and carry(N-1).
+This is a pretty strong constraint! And it's easy to check that it's valid since there are only 8 possibilities to try.
 
 ## Things to try in Elixir before this is done
 

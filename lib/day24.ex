@@ -82,6 +82,72 @@ defmodule Day24 do
     end
   end
 
+  def subgraph_for(graph, wire) do
+    c = graph[wire]
+
+    case c do
+      {sym, left, right} ->
+        subgraph_for(graph, left)
+        |> MapSet.union(subgraph_for(graph, right))
+        |> MapSet.put("#{left} #{sym} #{right} -> #{wire}")
+
+      nil ->
+        MapSet.new()
+    end
+  end
+
+  defp check_z_xor(graph, z) do
+    xwire = "x" <> two_digits(z)
+    ywire = "y" <> two_digits(z)
+    zwire = "z" <> two_digits(z)
+
+    zw = graph[zwire]
+
+    case zw do
+      {:xor, left, right} ->
+        lw = graph[left]
+        rw = graph[right]
+
+        case {lw, rw} do
+          {{:xor, ^xwire, ^ywire}, _} ->
+            true
+
+          {{:xor, ^ywire, ^xwire}, _} ->
+            true
+
+          {_, {:xor, ^xwire, ^ywire}} ->
+            true
+
+          {_, {:xor, ^ywire, ^xwire}} ->
+            true
+
+          _ ->
+            Util.inspect({"missing child input for #{zwire}", zw, lw, rw})
+        end
+
+      _ ->
+        Util.inspect({"surprise for #{zwire}}", zw})
+    end
+  end
+
+  def has_only_inputs(graph, wire, allowed_inputs) do
+    cond do
+      MapSet.member?(allowed_inputs, wire) ->
+        true
+
+      true ->
+        case graph[wire] do
+          # Must be an invalid input
+          nil ->
+            false
+
+          {_, left, right} ->
+            has_only_inputs(graph, left, allowed_inputs) and
+              has_only_inputs(graph, right, allowed_inputs)
+        end
+    end
+  end
+
   def main(input_file) do
     {wire_lines, circuit_lines} = Util.read_lines(input_file) |> Util.split_on_blank()
 
@@ -109,5 +175,17 @@ defmodule Day24 do
     # Util.inspect("z04", inputs_for(graph, "z04"))
 
     for z <- 0..44, do: check_inputs(graph, z)
+
+    # Util.inspect("z00", subgraph_for(graph, "z00"))
+    # Util.inspect("z01", subgraph_for(graph, "z01"))
+    # Util.inspect("z02", subgraph_for(graph, "z02"))
+    # Util.inspect("z03", subgraph_for(graph, "z03"))
+
+    # for z <- 0..44, do: Util.inspect(z, graph["z" <> two_digits(z)])
+    for z <- 0..44, do: check_z_xor(graph, z)
+
+    Util.inspect(has_only_inputs(graph, "sgv", MapSet.new(["x00", "y00"])))
+    Util.inspect(has_only_inputs(graph, "vbb", MapSet.new(["x01", "y01", "sgv"])))
+    Util.inspect(has_only_inputs(graph, "jmc", MapSet.new(["x02", "y02", "vbb"])))
   end
 end
