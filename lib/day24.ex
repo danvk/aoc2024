@@ -96,7 +96,7 @@ defmodule Day24 do
     end
   end
 
-  defp check_z_xor(graph, z) do
+  defp get_carry_candidate(graph, z) do
     xwire = "x" <> two_digits(z)
     ywire = "y" <> two_digits(z)
     zwire = "z" <> two_digits(z)
@@ -110,16 +110,16 @@ defmodule Day24 do
 
         case {lw, rw} do
           {{:xor, ^xwire, ^ywire}, _} ->
-            true
+            right
 
           {{:xor, ^ywire, ^xwire}, _} ->
-            true
+            right
 
           {_, {:xor, ^xwire, ^ywire}} ->
-            true
+            left
 
           {_, {:xor, ^ywire, ^xwire}} ->
-            true
+            left
 
           _ ->
             Util.inspect({"missing child input for #{zwire}", zw, lw, rw})
@@ -146,6 +146,36 @@ defmodule Day24 do
               has_only_inputs(graph, right, allowed_inputs)
         end
     end
+  end
+
+  def evaluate_with(graph, wire, inputs) do
+    cond do
+      Map.has_key?(inputs, wire) ->
+        inputs[wire]
+
+      true ->
+        case graph[wire] do
+          {:and, left, right} ->
+            evaluate_with(graph, left, inputs) and evaluate_with(graph, right, inputs)
+
+          {:or, left, right} ->
+            evaluate_with(graph, left, inputs) or evaluate_with(graph, right, inputs)
+
+          {:xor, left, right} ->
+            xor(evaluate_with(graph, left, inputs), evaluate_with(graph, right, inputs))
+        end
+    end
+  end
+
+  def confirm_carry(graph, carry1, x1, y1, carry0) do
+    for x1v <- [false, true],
+        y1v <- [false, true],
+        c0v <- [false, true] do
+      expect = (x1v and y1v) or (c0v and (x1v or y1v))
+      actual = evaluate_with(graph, carry1, %{x1 => x1v, y1 => y1v, carry0 => c0v})
+      expect == actual
+    end
+    |> Enum.all?()
   end
 
   def main(input_file) do
@@ -182,10 +212,36 @@ defmodule Day24 do
     # Util.inspect("z03", subgraph_for(graph, "z03"))
 
     # for z <- 0..44, do: Util.inspect(z, graph["z" <> two_digits(z)])
-    for z <- 0..44, do: check_z_xor(graph, z)
+    # for z <- 0..44, do: check_z_xor(graph, z)
 
-    Util.inspect(has_only_inputs(graph, "sgv", MapSet.new(["x00", "y00"])))
-    Util.inspect(has_only_inputs(graph, "vbb", MapSet.new(["x01", "y01", "sgv"])))
-    Util.inspect(has_only_inputs(graph, "jmc", MapSet.new(["x02", "y02", "vbb"])))
+    carry0 = get_carry_candidate(graph, 1)
+    IO.puts("carry0 candidate: #{carry0}")
+
+    2..10
+    |> Enum.reduce(carry0, fn n, carryN1 ->
+      carryN = get_carry_candidate(graph, n)
+      xN = "x" <> two_digits(n - 1)
+      yN = "y" <> two_digits(n - 1)
+
+      if not has_only_inputs(graph, carryN, MapSet.new([xN, yN, carryN1])) do
+        raise "#{n} #{carryN} has unexpected inputs"
+      end
+
+      if not confirm_carry(graph, carryN, xN, yN, carryN1) do
+        raise "#{n} #{carryN} does not behave as expected"
+      end
+
+      IO.puts("carry(#{n}) = #{carryN} confirmed")
+      carryN
+    end)
+
+    # carry1 = get_carry_candidate(graph, 2)
+    # IO.puts("carry1 candidate: #{carry1}")
+    # Util.inspect(has_only_inputs(graph, carry1, MapSet.new(["x01", "y01", carry0])))
+    # Util.inspect(confirm_carry(graph, carry1, "x01", "y01", carry0))
+
+    # Util.inspect(has_only_inputs(graph, "sgv", MapSet.new(["x00", "y00"])))
+    # Util.inspect(has_only_inputs(graph, "vbb", MapSet.new(["x01", "y01", "sgv"])))
+    # Util.inspect(has_only_inputs(graph, "jmc", MapSet.new(["x02", "y02", "vbb"])))
   end
 end

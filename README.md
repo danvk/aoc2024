@@ -483,6 +483,7 @@ z02 = [
   "sgv and ntn -> rsk",
   "y01 and x01 -> gmn",
   "rsk or gmn -> vbb",  carry(1)
+    carry(1) = (x01 and y01) or ((x01 xor y01) and carry(0))
 
   "x02 xor y02 -> gcd",
   "gcd xor vbb -> z02",
