@@ -433,6 +433,10 @@ n: 13, num: 1
 
 It's kind of weird how restricted "when" clauses are in comprehensions in Elixir.
 
+## Day 24
+
+Part 1 doesn't seem too bad. First instinct was to push forward but on second thought maybe I'll work backwards from the outputs and memoize. My guess is that part 2 is going to ask for the smallest input that produces 2024 as an output.
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.
