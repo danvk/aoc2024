@@ -19,6 +19,15 @@ defmodule Util do
     {a, b}
   end
 
+  def split_on_blanks(lines) do
+    parts = lines |> Enum.split_while(&(&1 != ""))
+
+    case parts do
+      {last, []} -> [last]
+      {a, ["" | rest]} -> [a | split_on_blanks(rest)]
+    end
+  end
+
   def split_on(enumerable, value) do
     enumerable |> Enum.chunk_by(&(&1 == value)) |> Enum.filter(&(&1 != [value]))
   end

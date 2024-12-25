@@ -548,6 +548,10 @@ jmq XOR mdh -> wcb
 
 And this last one is straightforward. Woo!
 
+## Day 25
+
+250 keys, 250 locks. Should be straightforward.
+
 ## Things to try in Elixir before this is done
 
 - Learn about macros.
